@@ -1,0 +1,105 @@
+{
+	"common": {
+		"name": "cloudless-homeconnect",
+		"version": "1.0.0",
+		"news": {
+			"1.0.0": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"uk": "Початкова версія",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "Homeconnect Cloudless",
+		"titleLang": {
+			"en": "Homeconnect Cloudless",
+			"de": "Homeconnect Cloudless",
+			"ru": "Homeconnect безоблачный",
+			"pt": "Homeconnect sem nuvem",
+			"nl": "Homeconnect Wolkenloos",
+			"fr": "Homeconnect sans nuage",
+			"it": "Homeconnect senza nuvole",
+			"es": "Homeconnect sin nubes",
+			"pl": "Homeconnect Bezchmurny",
+			"uk": "Homeconnect Безхмарний",
+			"zh-cn": "Homeconnect 无云"
+		},
+		"desc": {
+			"en": "Adapter for cloudless communication with Homeconnect devices",
+			"de": "Adapter für Steuerung von Homeconnect Geräten ohne Cloud",
+			"ru": "Адаптер для безоблачного общения с устройствами Homeconnect",
+			"pt": "Adaptador para comunicação sem nuvens com dispositivos Homeconnect",
+			"nl": "Adapter voor cloudless communicatie met Homeconnect apparaten",
+			"fr": "Adaptateur pour la communication sans nuage avec les appareils Homeconnect",
+			"it": "Adattatore per la comunicazione senza cloud con i dispositivi Homeconnect",
+			"es": "Adaptador para comunicación sin nubes con dispositivos Homeconnect",
+			"pl": "Adapter do bezchmurnej komunikacji z urządzeniami Homecontent",
+			"uk": "Адаптер для хмарного спілкування з пристроями Homeconnect",
+			"zh-cn": "与家用连接设备进行无云通信的适配器"
+		},
+		"authors": ["eifel-tech <hikaso@gmx.net>"],
+		"keywords": ["homeconnect", "BSH", "Bosch", "Siemens", "Neff", "ohne Cloud", "lokal"],
+		"license": "MIT",
+		"licenseInformation": {
+			"link": "https://github.com/eifel-tech/ioBroker.cloudless-homeconnect?tab=MIT-1-ov-file",
+			"type": "free"
+		},
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "cloudless-homeconnect.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/eifel-tech/ioBroker.cloudless-homeconnect/main/admin/cloudless-homeconnect.png",
+		"readme": "https://github.com/eifel-tech/ioBroker.cloudless-homeconnect/blob/main/README.md",
+		"loglevel": "info",
+		"tier": 3,
+		"mode": "daemon",
+		"type": "household",
+		"compact": true,
+		"connectionType": "local",
+		"dataSource": "push",
+		"adminUI": {
+			"config": "json"
+		},
+		"dependencies": [
+			{
+				"js-controller": ">=3.3.22"
+			}
+		],
+		"globalDependencies": [
+			{
+				"admin": ">=5.1.13"
+			}
+		]
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.config",
+			"type": "state",
+			"common": {
+				"role": "json",
+				"name": "Device config",
+				"type": "string",
+				"read": true,
+				"write": true,
+				"def": ""
+			},
+			"native": {}
+		}
+	]
+}

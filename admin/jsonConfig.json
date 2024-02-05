@@ -1,0 +1,24 @@
+{
+	"i18n": true,
+	"type": "panel",
+	"items": {
+		"username": {
+			"sm": 12,
+			"md": 6,
+			"lg": 6,
+			"type": "text",
+			"label": "App Email",
+			"help": "Die in der Homeconnect App verwendete Email eingeben",
+			"newLine": true
+		},
+		"password": {
+			"sm": 12,
+			"md": 6,
+			"lg": 6,
+			"type": "password",
+			"label": "App Password",
+			"help": "Das in der Homeconnect App verwendete Passwort eingeben",
+			"newLine": true
+		}
+	}
+}
