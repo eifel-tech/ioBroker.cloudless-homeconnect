@@ -51,7 +51,6 @@ class Socket {
 				origin: "",
 				ciphers: "ECDHE-PSK-CHACHA20-POLY1305",
 				minVersion: "TLSv1.2",
-				rejectUnauthorized: false,
 				pskCallback: function () {
 					return {
 						identity: "Client_identity",
