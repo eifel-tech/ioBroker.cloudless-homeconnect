@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.0.0",
+		"version": "1.0.1",
 		"news": {
+			"1.0.1": {
+				"en": "increase security at TLS",
+				"de": "Erhöhung der Sicherheit bei TLS",
+				"ru": "повышение безопасности в TLS",
+				"pt": "aumentar a segurança no TLS",
+				"nl": "verhogen van de beveiliging bij TLS",
+				"fr": "renforcer la sécurité chez TLS",
+				"it": "aumentare la sicurezza a TLS",
+				"es": "aumentar la seguridad en TLS",
+				"pl": "zwiększenie bezpieczeństwa w TLS",
+				"uk": "підвищення безпеки на TLS",
+				"zh-cn": "增加 TLS 的安全性"
+			},
 			"1.0.0": {
 				"en": "initial release",
 				"de": "Erstveröffentlichung",
