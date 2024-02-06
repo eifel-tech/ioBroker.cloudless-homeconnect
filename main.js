@@ -197,7 +197,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 		const role = subFolderName && subFolderName.toLowerCase() === "command" ? "button" : "state";
 		const typeStr = feature.type ? feature.type : "string";
 		const common = {
-			name: uid,
+			name: uid.toString(),
 			type: typeStr,
 			role: role,
 			write: (feature.access && feature.access.toLowerCase().includes("write")) || false,
