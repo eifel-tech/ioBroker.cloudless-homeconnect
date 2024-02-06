@@ -61,7 +61,6 @@
 		"keywords": ["homeconnect", "BSH", "Bosch", "Siemens", "Neff", "ohne Cloud", "lokal"],
 		"license": "MIT",
 		"licenseInformation": {
-			"link": "https://github.com/eifel-tech/ioBroker.cloudless-homeconnect?tab=MIT-1-ov-file",
 			"type": "free"
 		},
 		"platform": "Javascript/Node.js",
