@@ -1,6 +1,6 @@
 {
   "name": "iobroker.cloudless-homeconnect",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "Adapter für Homeconnect-Geräte ohne Cloud-Kommunikation",
   "author": {
     "name": "eifel-tech",
