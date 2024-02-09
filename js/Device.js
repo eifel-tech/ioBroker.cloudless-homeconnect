@@ -75,9 +75,9 @@ class Device {
 		//this.send("/ni/info");
 		//this.send("/ni/config", 1, "GET", {"interfaceID": 0})
 		this.send("/ei/deviceReady", 2, "NOTIFY");
+		this.send("/ro/allMandatoryValues");
 		//Über die Änderung mancher Werte (z.B. CurrentTemperature) wird kein Event gefeuert. Daher zyklisch abfragen.
 		setInterval(() => this.send("/ro/allMandatoryValues"), 60 * 1000);
-		//this.send("/ro/allMandatoryValues");
 	}
 
 	/**
