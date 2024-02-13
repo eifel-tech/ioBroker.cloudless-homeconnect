@@ -12,6 +12,7 @@ class Device {
 		this.device_id = "0badcafe";
 
 		this.tx_msg_id = 0;
+		this.mandatoryCounter = 0;
 	}
 
 	handleMessage(msg) {
@@ -32,9 +33,13 @@ class Device {
 		} else if (action === "RESPONSE" || action === "NOTIFY") {
 			if (resource == "/ro/allMandatoryValues" || resource == "/ro/values") {
 				if (msg.data) {
-					Object.values(msg.data).forEach((val) => {
-						values[val.uid] = val.value;
-					});
+					for (const val of msg.data) {
+						//UIDs einzeln aus den MandatoryValues extrahieren und updaten
+						const updateArr = this.ws._this.config.update.split(",").map((val) => val.trim());
+						if (this.mandatoryCounter === 0 || updateArr.includes(val.uid.toString())) {
+							values[val.uid] = val.value;
+						}
+					}
 				}
 			} else if (resource == "/ci/services") {
 				this.services = Object.values(msg.data).map((service) => {
@@ -76,6 +81,13 @@ class Device {
 		//this.send("/ni/config", 1, "GET", {"interfaceID": 0})
 		this.send("/ei/deviceReady", 2, "NOTIFY");
 		this.send("/ro/allMandatoryValues");
+
+		//Manche Werte werden nicht per Event aktualisiert. Daher wird zyklisch abgefragt. Gibt es eine Möglichkeit, nur einzelne UIDs abzufragen?
+		setInterval(() => {
+			this.mandatoryCounter = 0;
+			this.send("/ro/allMandatoryValues");
+			this.mandatoryCounter++;
+		}, 60 * 1000);
 	}
 
 	/**
@@ -114,6 +126,7 @@ class Device {
 			msg.data = [data];
 		}
 
+		//TODO Options bei Programmen werden mit falschen Werten übermittelt
 		this.ws.send(msg);
 		this.tx_msg_id += 1;
 	}

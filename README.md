@@ -42,6 +42,8 @@ In der Adapter-Config muss der Homeconnect App Benutzername und Passwort eingetr
 
 Im Datenpunkt `info.config` wird die geparste Konfiguration gespeichert. Diese sollte nicht verändert werden. Wenn Geräte im Netzwerk hinzukommen oder wegfallen, müssen diese über die Homeconnect-App registriert werden und der Inhalt des o.a. Datenpunktes gelöscht werden. Der Adapter startet daraufhin neu, verbindet sich mit dem konfigurierten Account und liest die Konfiguration neu ein. Danach erfolgt die Kommunikation mit den Geräten wieder rein lokal.
 
+Einzelne Datenpunkte werden aus Gründen nicht vom Gerät aus über Änderungen informiert und aktualisiert sich folglich nur beim Adapterneustart. Stellt man dies für einzelne Datenpunkte fest, kann der Wert aus `name` des Datenpunktes, also die UID, in die Instanzkonfiguration des Adapters kommasepariert eingetragen werden. Im Anschluss wird der betreffende Datenpunkt minütlich beim Gerät abgefragt und aktualisiert.
+
 ## Datenpunkte
 
 Hier werden die wichtigsten Datenpunkte beschrieben. Im Namen ist die UID hinterlegt, wie sie das jeweilige Gerät kennt und verwendet. Wird ein Wert verändert, der für das Gerät in dem Moment unplausibel ist, wird eine Log-Eintrag im Debug-Modus geschrieben. Dies kann vorkommen, wenn z.B. `AbortProgram` verändert wird, obwohl gerade kein Programm aktiv ist. Die Struktur ist z.B. wie folgt aufgebaut:
