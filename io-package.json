@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.0.1",
+		"version": "1.0.2",
 		"news": {
+			"1.0.2": {
+				"en": "update some configurable values cyclical",
+				"de": "Einige konfigurierbare Werte zyklisch aktualisieren",
+				"ru": "обновить некоторые настраиваемые значения циклические",
+				"pt": "atualizar alguns valores configuráveis",
+				"nl": "sommige configureerbare waarden cyclisch bijwerken",
+				"fr": "mettre à jour certaines valeurs configurables cycliques",
+				"it": "aggiornare alcuni valori configurabili ciclici",
+				"es": "actualizar algunos valores configurables cíclicos",
+				"pl": "aktualizacja niektórych konfigurowalnych wartości cyklicznych",
+				"uk": "оновлення деяких конфігураційних значень циклічних",
+				"zh-cn": "更新周期性可配置值"
+			},
 			"1.0.1": {
 				"en": "increase security at TLS",
 				"de": "Erhöhung der Sicherheit bei TLS",
