@@ -17,17 +17,17 @@
 				"zh-cn": "超时后重新连接到设备"
 			},
 			"1.0.2": {
-				"en": "update some configurable values cyclical",
-				"de": "Einige konfigurierbare Werte zyklisch aktualisieren",
-				"ru": "обновить некоторые настраиваемые значения циклические",
-				"pt": "atualizar alguns valores configuráveis",
-				"nl": "sommige configureerbare waarden cyclisch bijwerken",
-				"fr": "mettre à jour certaines valeurs configurables cycliques",
-				"it": "aggiornare alcuni valori configurabili ciclici",
-				"es": "actualizar algunos valores configurables cíclicos",
-				"pl": "aktualizacja niektórych konfigurowalnych wartości cyklicznych",
-				"uk": "оновлення деяких конфігураційних значень циклічних",
-				"zh-cn": "更新周期性可配置值"
+				"en": "stopping running programs first",
+				"de": "Zuerst Stoppen von laufenden Programmen",
+				"ru": "остановить запуск программ",
+				"pt": "parar de executar programas primeiro",
+				"nl": "eerst stoppen met het uitvoeren van programma's",
+				"fr": "arrêter d'exécuter les programmes d'abord",
+				"it": "smettere di eseguire programmi prima",
+				"es": "parar los programas de ejecución primero",
+				"pl": "zaprzestanie uruchamiania programów najpierw",
+				"uk": "пусконалагоджувальні програми",
+				"zh-cn": "首先停止运行程序"
 			},
 			"1.0.1": {
 				"en": "increase security at TLS",
