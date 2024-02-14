@@ -818,6 +818,14 @@ class CloudlessHomeconnect extends utils.Adapter {
 					await util.sleep(1000);
 					device.ws.reconnect();
 					await util.sleep(2000);
+					device.send(resource, 1, "POST", data);
+
+					await util.sleep(4000);
+					//Options später nochmal senden
+					for (const option of data.options) {
+						device.send("/ro/values", 1, "POST", option);
+						await util.sleep(500);
+					}
 				} else {
 					data.uid = uid;
 					let val = state.val;
@@ -828,8 +836,9 @@ class CloudlessHomeconnect extends utils.Adapter {
 						} catch (e) {}
 					}
 					data.value = val;
+
+					device.send(resource, 1, "POST", data);
 				}
-				device.send(resource, 1, "POST", data);
 			}
 		}
 	}
