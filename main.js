@@ -106,6 +106,9 @@ class CloudlessHomeconnect extends utils.Adapter {
 		await util.sleep(5000);
 		this.connectDevices();
 
+		//Alle 3h die Verbindungen zu den Geräten erneuern
+		this.initReconnection();
+
 		this.log.info("Adapter started successfully");
 	}
 
@@ -694,6 +697,23 @@ class CloudlessHomeconnect extends utils.Adapter {
 		this.devMap.forEach((device) => {
 			device.ws.close();
 		});
+	}
+
+	/**
+	 * Initiiert alle 3h eine neue Socketverbindung zu jedem registrierten Gerät. Sollte bereits eine Verbindung bestehen,
+	 * wird diese zuerst geschlossen.
+	 */
+	initReconnection() {
+		setInterval(
+			() => {
+				this.devMap.forEach((device) => {
+					this.log.info("Reconnection initialised after timeout to " + device.id);
+					device.ws.close();
+					device.ws.reconnect();
+				});
+			},
+			3 * 60 * 60 * 1000,
+		);
 	}
 
 	/**

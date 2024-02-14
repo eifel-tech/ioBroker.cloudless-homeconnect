@@ -134,6 +134,10 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 -   Weitere Geräte hinzufügen, die über <ins>keinen</ins> freigeschalteten Port 443 verfügen.
 -   Favoriten in Settings einstellen können
 
+### 1.0.3
+
+-   (eifel-tech) Neue Socketverbindung nach 3 Stunden
+
 ### 1.0.2
 
 -   (eifel-tech) Einzelne konfigurierte Werte durch minütlichen zyklischen Abruf aktualisieren

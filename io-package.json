@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.0.2",
+		"version": "1.0.3",
 		"news": {
+			"1.0.3": {
+				"en": "reconnection to devices after 3 hours",
+				"de": "Wiederverbindung mit Geräten nach 3 Stunden",
+				"ru": "воссоединение к устройствам через 3 часа",
+				"pt": "reconectação a dispositivos após 3 horas",
+				"nl": "na 3 uur opnieuw aansluiten op inrichtingen",
+				"fr": "reconnection aux appareils après 3 heures",
+				"it": "riconnettersi ai dispositivi dopo 3 ore",
+				"es": "reconexión a dispositivos después de 3 horas",
+				"pl": "ponowne podłączenie do urządzeń po 3 godzinach",
+				"uk": "відключення до пристроїв після 3 годин",
+				"zh-cn": "3小时后重新连接设备"
+			},
 			"1.0.2": {
 				"en": "update some configurable values cyclical",
 				"de": "Einige konfigurierbare Werte zyklisch aktualisieren",
