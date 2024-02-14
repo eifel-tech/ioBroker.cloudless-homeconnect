@@ -700,20 +700,17 @@ class CloudlessHomeconnect extends utils.Adapter {
 	}
 
 	/**
-	 * Initiiert stündlich eine neue Socketverbindung zu jedem registrierten Gerät. Sollte bereits eine Verbindung bestehen,
+	 * Initiiert eine neue Socketverbindung zu jedem registrierten Gerät. Sollte bereits eine Verbindung bestehen,
 	 * wird diese zuerst geschlossen.
 	 */
 	initReconnection() {
-		setInterval(
-			() => {
-				this.devMap.forEach((device) => {
-					this.log.info("Reconnection initialised after timeout to " + device.id);
-					device.ws.close();
-					device.ws.reconnect();
-				});
-			},
-			60 * 60 * 1000,
-		);
+		setInterval(() => {
+			this.devMap.forEach((device) => {
+				this.log.info("Reconnection initialised after timeout to " + device.id);
+				device.ws.close();
+				device.ws.reconnect();
+			});
+		}, 60 * 1000);
 	}
 
 	/**
