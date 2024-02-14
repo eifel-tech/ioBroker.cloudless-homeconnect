@@ -762,13 +762,13 @@ class CloudlessHomeconnect extends utils.Adapter {
 			}
 
 			//Keine Optionen direkt an Device senden. Diese werden bei Programmen ausgelesen und mitgesendet.
-			if (
+			/*if (
 				(this.getSubfolderByDp(oid).toLowerCase() === "program" ||
 					this.getSubfolderByDp(oid).toLowerCase() === "option") &&
 				!oid.endsWith("Start")
 			) {
 				return;
-			}
+			}*/
 
 			const devId = oid.split(".")[0];
 			if (!this.devMap.has(devId)) {
