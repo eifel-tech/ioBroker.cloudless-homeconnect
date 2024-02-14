@@ -136,7 +136,7 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 
 ### 1.0.3
 
--   (eifel-tech) Neue Socketverbindung nach 3 Stunden
+-   (eifel-tech) Neue Socketverbindung nach Timeout
 
 ### 1.0.2
 
