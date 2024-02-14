@@ -765,6 +765,18 @@ class CloudlessHomeconnect extends utils.Adapter {
 				let resource = "/ro/values";
 				const data = {};
 				if (this.getSubfolderByDp(oid).toLowerCase() === "program" && oid.endsWith("Start")) {
+					//Wenn ein Programm bereits aktiv ist, dieses zunächst beenden
+					const isAktiv = await this.getStateAsync(devId + ".ActiveProgram");
+					if (isAktiv && isAktiv.val !== "0") {
+						const abortObj = await this.getObjectAsync(devId + ".Command.AbortProgram");
+						device.send(resource, 1, "POST", {
+							// @ts-ignore
+							uid: parseInt(abortObj.common.name),
+							value: true,
+						});
+						await util.sleep(2000);
+					}
+
 					//Programme haben u.U. Optionen, die auch übertragen werden müssen
 					data.program = uid;
 

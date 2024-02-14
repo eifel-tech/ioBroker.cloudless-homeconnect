@@ -137,6 +137,7 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 ### 1.0.2
 
 -   (eifel-tech) Einzelne konfigurierte Werte durch minütlichen zyklischen Abruf aktualisieren
+-   (eifel-tech) Wird ein neues Programm gestartet, wird ein evtl. laufendes zunächst beendet
 
 ### 1.0.1
 
