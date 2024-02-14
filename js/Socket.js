@@ -36,7 +36,7 @@ class Socket {
 	 * @see https://nodejs.org/api/tls.html#tlsconnectoptions-callback
 	 */
 	reconnect() {
-		this._this.log.info("Try to (re)connect to device " + this.deviceID);
+		this._this.log.debug("Try to (re)connect to device " + this.deviceID);
 
 		let options = {
 			origin: "",
@@ -70,14 +70,13 @@ class Socket {
 			this._this.log.error("Connection error for device " + this.deviceID + ": " + e);
 		});
 		ws.on("open", () => {
-			this._this.log.info("Connection to device " + this.deviceID + " established.");
+			this._this.log.debug("Connection to device " + this.deviceID + " established.");
 		});
 		ws.on("close", (event) => {
 			if (event === 1000 || event === 1001 || event === 1005 || event === 1008) {
 				this.reconnect();
 				return;
 			}
-			this._this.log.info("Closed connection to " + this.deviceID);
 			this._this.log.debug("Closed connection to " + this.deviceID + "; reason: " + event);
 		});
 		ws.onmessage = (event) => {
@@ -89,6 +88,10 @@ class Socket {
 
 	handleMessage(msg) {
 		this._this.handleMessage(this.deviceID, msg);
+	}
+
+	isConnected() {
+		return this.ws.readyState !== Websocket.CLOSE;
 	}
 
 	reset() {
@@ -112,7 +115,7 @@ class Socket {
 	}
 
 	close() {
-		this._this.log.info("Closing socket connection gracefully to " + this.deviceID);
+		this._this.log.debug("Closing socket connection gracefully to " + this.deviceID);
 		this.ws.close(3000);
 	}
 }
