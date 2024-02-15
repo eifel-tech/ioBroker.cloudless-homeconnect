@@ -272,13 +272,8 @@ class CloudlessHomeconnect extends utils.Adapter {
 				let value = typeof values[uid] === "object" ? JSON.stringify(values[uid]) : values[uid];
 
 				const oid = this.getDpByUid(device, uid);
+				//Optionen werden nicht aktualisiert
 				if (this.getSubfolderByDp(oid).toLowerCase() === "option" && device.features[uid].access !== "read") {
-					/*const options = await this.getStatesAsync(
-						device.id + ".Program.*" + oid.substring(oid.lastIndexOf(".")),
-					);
-					Object.keys(options).forEach(async (state) => {
-						await this.setStateAsync(state, value, true);
-					});*/
 					return;
 				}
 
@@ -812,12 +807,6 @@ class CloudlessHomeconnect extends utils.Adapter {
 					);
 
 					resource = "/ro/activeProgram";
-
-					this.log.debug("Reconnection initialised for " + device.id);
-					device.ws.close();
-					await util.sleep(1000);
-					device.ws.reconnect();
-					await util.sleep(2000);
 				} else {
 					data.uid = uid;
 					let val = state.val;
