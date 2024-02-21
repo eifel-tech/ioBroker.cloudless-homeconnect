@@ -83,9 +83,8 @@ Hier werden die wichtigsten Datenpunkte beschrieben. Im Namen ist die UID hinter
 │       |       └── BackendConnected
 │       |       └── CurrentTemperature
 │       |       └── ...
-│
-└── ActiveProgram
-└── SelectedProgram
+|       └── ActiveProgram
+|       └── SelectedProgram
 ```
 
 ### info.config
