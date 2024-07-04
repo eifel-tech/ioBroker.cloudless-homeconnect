@@ -351,9 +351,11 @@ class CloudlessHomeconnect extends utils.Adapter {
 						this.log.debug(zipEntry.entryName);
 						if (zipEntry.entryName.includes("_FeatureMapping.xml")) {
 							zips.feature = zip.readAsText(zipEntry);
+							this.log.debug(zips.feature);
 						}
 						if (zipEntry.entryName.includes("_DeviceDescription.xml")) {
 							zips.description = zip.readAsText(zipEntry);
+							this.log.debug(zips.description);
 						}
 					});
 					if (Object.keys(zips).length === 2) {
