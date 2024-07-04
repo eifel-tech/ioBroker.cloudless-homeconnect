@@ -156,23 +156,35 @@ async function xml2json(featuresXml, descriptionXml, typesXml) {
 	parseTypes(types.cidList.contentType);
 
 	joinFeature(description.device.statusList[0].status);
-	Object.values(description.device.statusList[0].statusList).forEach((statusList) => {
-		joinFeature(statusList.status);
-	});
+	//Oven
+	if (description.device.statusList[0].statusList) {
+		Object.values(description.device.statusList[0].statusList).forEach((statusList) => {
+			joinFeature(statusList.status);
+		});
+	}
 
 	joinFeature(description.device.settingList[0].setting);
-	Object.values(description.device.settingList[0].settingList).forEach((settingList) => {
-		joinFeature(settingList.setting);
-	});
+	//Oven
+	if (description.device.settingList[0].settingList) {
+		Object.values(description.device.settingList[0].settingList).forEach((settingList) => {
+			joinFeature(settingList.setting);
+		});
+	}
 
 	joinFeature(description.device.eventList[0].event);
 
 	joinFeature(description.device.commandList[0].command);
 	joinFeature(description.device.optionList[0].option);
 
-	Object.values(description.device.programGroup[0].programGroup).forEach((programGroup) => {
-		joinFeature(programGroup.program);
-	});
+	if (description.device.programGroup[0].programGroup) {
+		//Oven
+		Object.values(description.device.programGroup[0].programGroup).forEach((programGroup) => {
+			joinFeature(programGroup.program);
+		});
+	} else {
+		//Dishwasher
+		joinFeature(description.device.programGroup[0].program);
+	}
 	joinFeature(description.device.activeProgram);
 	joinFeature(description.device.selectedProgram);
 
