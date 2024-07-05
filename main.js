@@ -321,9 +321,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 
 				//Für jedes Gerät wird ein Eintrag im ConfigJsonArray hinzugefügt
 				this.log.info("Found " + account.data.homeAppliances.length + " device(s).");
-				this.log.debug(account);
 				for (const app of account.data.homeAppliances) {
-					this.log.debug(app);
 					const config = {
 						name: app.type.toLowerCase(),
 						id: app.identifier,
