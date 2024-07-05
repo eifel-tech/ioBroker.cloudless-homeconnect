@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.0.3",
+		"version": "1.0.4",
 		"news": {
+			"1.0.4": {
+				"en": "Supporting diswasher",
+				"de": "Unterstützung Geschirrspüler",
+				"ru": "Поддерживающее обезвоживание",
+				"pt": "Suportando deslavagem",
+				"nl": "Ondersteunende diswasher",
+				"fr": "Soutien du lave-vaisselle",
+				"it": "Sostenere il diswasher",
+				"es": "Apoyo al deslavador",
+				"pl": "Wspornik do zmywania",
+				"uk": "Підтримка посудомийної машини",
+				"zh-cn": "支持洗涤器"
+			},
 			"1.0.3": {
 				"en": "reconnection to devices after timeout",
 				"de": "Wiederverbindung mit Geräten nach Timeout",

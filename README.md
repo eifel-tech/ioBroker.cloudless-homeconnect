@@ -15,10 +15,6 @@
 
 Adapter für Homeconnect-Geräte ohne Cloud-Kommunikation
 
-## Developer manual
-
-This section is intended for the developer. It can be deleted later.
-
 ### DISCLAIMER
 
 Please make sure that you consider copyrights and trademarks when you use names or logos of a company and add a disclaimer to your README.
@@ -34,7 +30,11 @@ Die Grundidee zu diesem Adapter stammt von https://github.com/osresearch/hcpy. D
 
 Es muß mindestens Node.js **Version 18** installiert sein.
 
-Für den Adapter wird <ins>keine</ins> ClientID benötigt, lediglich Benutzername und Passwort, welche in der Homeconnect-App verwendet wurden. Geräte müssen einmalig über die Homeconnect-App registriert werden.
+Für den Adapter wird im Gegensatz zur Verwendung der offiziellen API <ins>keine</ins> ClientID benötigt, lediglich Benutzername und Passwort, welche in der Homeconnect-App verwendet wurden. Geräte müssen einmalig über die Homeconnect-App registriert werden.
+
+Im lokalen Netz muss Port 443 am Gerät freigeschaltet sein.
+
+Es kann vorkommen, dass das Gerät nach Laden der Konfiguration nicht angesprochen werden kann. Dann liegt im lokalen Netz kein DNS-Eintrag für die Domain des Geräts vor. Außer diesen im Netzwerk einzurichten, kann im Datenpunkt `info.config` bei `host` einfach die lokale IP des Gerätes eingetragen werden.
 
 ## Konfiguration
 
@@ -132,6 +132,10 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 
 -   Weitere Geräte hinzufügen, die über <ins>keinen</ins> freigeschalteten Port 443 verfügen.
 -   Favoriten in Settings einstellen können
+
+### 1.0.4
+
+-   (eifel-tech) Unterstützung für Geschirrspüler
 
 ### 1.0.3
 
