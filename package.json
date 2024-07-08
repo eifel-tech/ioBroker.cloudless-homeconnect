@@ -31,7 +31,7 @@
     "crypto-js": "^4.2.0",
     "http-cookie-agent": "^6.0.5",
     "tough-cookie": "^4.1.4",
-    "ws": "^8.17.1",
+    "ws": "^8.18.0",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
