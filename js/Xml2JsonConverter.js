@@ -178,8 +178,31 @@ async function xml2json(featuresXml, descriptionXml, typesXml) {
 
 	if (description.device.programGroup[0].programGroup) {
 		//Oven
-		Object.values(description.device.programGroup[0].programGroup).forEach((programGroup) => {
-			joinFeature(programGroup.program);
+		Object.values(description.device.programGroup[0].programGroup).forEach((programGroup0) => {
+			if (programGroup0.programGroup) {
+				Object.values(programGroup0.programGroup).forEach((programGroup1) => {
+					if (programGroup1.programGroup) {
+						Object.values(programGroup1.programGroup).forEach((programGroup2) => {
+							if (programGroup2.programGroup) {
+								Object.values(programGroup2.programGroup).forEach((programGroup3) => {
+									if (programGroup3.program) {
+										joinFeature(programGroup3.program);
+									}
+								});
+							}
+							if (programGroup2.program) {
+								joinFeature(programGroup2.program);
+							}
+						});
+					}
+					if (programGroup1.program) {
+						joinFeature(programGroup1.program);
+					}
+				});
+			}
+			if (programGroup0.program) {
+				joinFeature(programGroup0.program);
+			}
 		});
 	} else {
 		//Dishwasher
