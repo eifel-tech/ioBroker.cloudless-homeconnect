@@ -3,6 +3,8 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
+const fs = require("node:fs");
+const path = require("node:path");
 
 const axios = require("axios");
 const tough = require("tough-cookie");
@@ -347,15 +349,23 @@ class CloudlessHomeconnect extends utils.Adapter {
 					// open zip and read entries ....
 					const zip = new AdmZip(res.data);
 					const zips = {};
+					//Gefundene Dateien für Debugzwecke ablegen in z.B. /opt/iobroker/iobroker-data/cloudless-homeconnect.0
+					const instanceDir = utils.getAbsoluteInstanceDataDir(this);
+					if (!fs.existsSync(instanceDir)) {
+						fs.mkdirSync(instanceDir);
+						this.log.debug("Created folder: " + instanceDir);
+					}
+
 					zip.getEntries().forEach((zipEntry) => {
-						this.log.debug(zipEntry.entryName);
+						const newFilePath = path.join(instanceDir, zipEntry.entryName);
+						this.log.info("Create file: " + newFilePath);
 						if (zipEntry.entryName.includes("_FeatureMapping.xml")) {
 							zips.feature = zip.readAsText(zipEntry);
-							this.log.debug(zips.feature);
+							fs.writeFileSync(newFilePath, zips.feature);
 						}
 						if (zipEntry.entryName.includes("_DeviceDescription.xml")) {
 							zips.description = zip.readAsText(zipEntry);
-							this.log.debug(zips.description);
+							fs.writeFileSync(newFilePath, zips.description);
 						}
 					});
 					if (Object.keys(zips).length === 2) {
@@ -437,7 +447,15 @@ class CloudlessHomeconnect extends utils.Adapter {
 			if (response.status > 300 && response.status < 400) {
 				preauthUrl = this.addSinglekeyHost(response.headers["location"]);
 			}
+			if (response.status === 403) {
+				this.log.error("Server has a temporary problem. Try again later.");
+				return;
+			}
 		} while (!preauthData);
+
+		if (!preauthData) {
+			return;
+		}
 
 		let returnUrl = this.addSinglekeyHost(util.getUrlParams(preauthUrl).get("ReturnUrl"));
 
