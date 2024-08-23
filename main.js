@@ -87,7 +87,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 			}
 
 			const loadedConfig = await this.loadConfig();
-			await this.setStateAsync("info.config", JSON.stringify(loadedConfig), true);
+			this.setState("info.config", JSON.stringify(loadedConfig), true);
 
 			this.configJson = loadedConfig;
 		}
@@ -294,7 +294,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 					}
 				}
 
-				await this.setStateAsync(oid, value, true);
+				this.setState(oid, value, true);
 			});
 	}
 
