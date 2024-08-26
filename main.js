@@ -323,25 +323,31 @@ class CloudlessHomeconnect extends utils.Adapter {
 
 				//Für jedes Gerät wird ein Eintrag im ConfigJsonArray hinzugefügt
 				this.log.info("Found " + account.data.homeAppliances.length + " device(s).");
+				//Gefundene Dateien für Debugzwecke ablegen in z.B. /opt/iobroker/iobroker-data/cloudless-homeconnect.0
+				const instanceDir = utils.getAbsoluteInstanceDataDir(this);
+				if (!fs.existsSync(instanceDir)) {
+					fs.mkdirSync(instanceDir);
+					this.log.debug("Created folder: " + instanceDir);
+				}
 				for (const app of account.data.homeAppliances) {
+					//Generelle Datenpunkte erzeugen und Geräte-ID zurückliefern
+					const devID = await this.getDeviceID(app);
+
 					const config = {
 						name: app.type.toLowerCase(),
-						id: app.identifier,
+						id: devID,
 					};
 					if (app.tls) {
 						// fancy machine with TLS support
-						config.host = app.brand + "-" + app.type + "-" + app.identifier;
+						config.host = app.brand + "-" + app.type + "-" + devID;
 						config.key = app.tls.key;
 					} else {
 						// less fancy machine with HTTP support
-						config.host = app.identifier;
+						config.host = devID;
 						config.key = app.aes.key;
 						config.iv = app.aes.iv;
 					}
 					configJson.push(config);
-
-					//Generelle Datenpunkte erzeugen und Geräte-ID zurückliefern
-					const devID = await this.getDeviceID(app);
 
 					//Fetch the XML zip file for this device
 					const res = await this.request(this.ASSET_URL + "api/iddf/v1/iddf/" + devID);
@@ -349,12 +355,6 @@ class CloudlessHomeconnect extends utils.Adapter {
 					// open zip and read entries ....
 					const zip = new AdmZip(res.data);
 					const zips = {};
-					//Gefundene Dateien für Debugzwecke ablegen in z.B. /opt/iobroker/iobroker-data/cloudless-homeconnect.0
-					const instanceDir = utils.getAbsoluteInstanceDataDir(this);
-					if (!fs.existsSync(instanceDir)) {
-						fs.mkdirSync(instanceDir);
-						this.log.debug("Created folder: " + instanceDir);
-					}
 
 					zip.getEntries().forEach((zipEntry) => {
 						const newFilePath = path.join(instanceDir, zipEntry.entryName);

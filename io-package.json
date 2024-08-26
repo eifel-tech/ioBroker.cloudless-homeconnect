@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.0.4",
+		"version": "1.1.0",
 		"news": {
+			"1.1.0": {
+				"en": "Parsing configuration of more than one device",
+				"de": "Parsen Konfiguration von mehr als einem Gerät überarbeitet",
+				"ru": "Конфигурация парирования более чем одного устройства",
+				"pt": "Parsing configuração de mais de um dispositivo",
+				"nl": "Ontleedconfiguratie van meer dan één apparaat",
+				"fr": "Configuration d'analyse de plusieurs dispositifs",
+				"it": "Configurazione del Parsing di più di un dispositivo",
+				"es": "Ajuste de configuración de más de un dispositivo",
+				"pl": "Konfiguracja partycji więcej niż jednego urządzenia",
+				"uk": "Налаштування пароля більше одного пристрою",
+				"zh-cn": "解析多个设备的配置"
+			},
 			"1.0.4": {
 				"en": "Supporting diswasher",
 				"de": "Unterstützung Geschirrspüler",

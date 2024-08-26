@@ -5,25 +5,30 @@
  */
 
 const xml2js = require("xml2js");
-const parsedEnums = {};
-const parsedFeatures = {};
-const parsedTypes = {};
+let parsedEnums = {};
+let allFeatures = {};
+let parsedFeatures = {};
+let parsedTypes = {};
 
 /**
  * Parse the description file and collapse everything into a single list of UIDs
  */
 function joinFeature(entries) {
 	entries
-		.filter((el) => parseInt(el.$.uid, 16) in parsedFeatures)
+		.filter((el) => parseInt(el.$.uid, 16) in allFeatures)
 		.forEach((el) => {
+			const uid = parseInt(el.$.uid, 16);
+			parsedFeatures[uid] = {
+				name: allFeatures[uid].name,
+			};
+
 			const keys = Object.keys(el.$);
 
 			keys.filter((key) => key === "enumerationType").forEach(() => {
-				parsedFeatures[parseInt(el.$.uid, 16)].states = parsedEnums[parseInt(el.$.enumerationType, 16)].values;
+				parsedFeatures[uid].states = parsedEnums[parseInt(el.$.enumerationType, 16)].values;
 			});
 
 			keys.filter((key) => key === "refCID").forEach(() => {
-				const uid = parseInt(el.$.uid, 16);
 				const obj = parsedTypes[parseInt(el.$.refCID, 16)];
 				parsedFeatures[uid].type = obj.type;
 
@@ -39,11 +44,11 @@ function joinFeature(entries) {
 					.map((option) => {
 						return parseInt(option.$.refUID, 16);
 					});
-				parsedFeatures[parseInt(el.$.uid, 16)].options = optionUIDs;
+				parsedFeatures[uid].options = optionUIDs;
 			});
 
 			keys.filter((key) => key !== "uid").forEach((key) => {
-				parsedFeatures[parseInt(el.$.uid, 16)][key] = el.$[key];
+				parsedFeatures[uid][key] = el.$[key];
 			});
 		});
 }
@@ -61,7 +66,7 @@ function getMachineDescription(entries) {
 
 function parseFeatures(features) {
 	Object.values(features).forEach((key) => {
-		parsedFeatures[parseInt(key.$.refUID, 16)] = {
+		allFeatures[parseInt(key.$.refUID, 16)] = {
 			name: key._,
 		};
 	});
@@ -138,6 +143,11 @@ function tryToGetUnit(type) {
 }
 
 async function xml2json(featuresXml, descriptionXml, typesXml) {
+	parsedEnums = {};
+	allFeatures = {};
+	parsedFeatures = {};
+	parsedTypes = {};
+
 	// the feature file has features, errors, and enums
 	const parser = new xml2js.Parser();
 	const description = await parser.parseStringPromise(descriptionXml);
@@ -172,9 +182,15 @@ async function xml2json(featuresXml, descriptionXml, typesXml) {
 	}
 
 	joinFeature(description.device.eventList[0].event);
-
 	joinFeature(description.device.commandList[0].command);
+
 	joinFeature(description.device.optionList[0].option);
+	if (description.device.optionList[0].optionList) {
+		//Dishwasher
+		Object.values(description.device.optionList[0].optionList).forEach((optionList) => {
+			joinFeature(optionList.option);
+		});
+	}
 
 	if (description.device.programGroup[0].programGroup) {
 		//Oven
@@ -204,7 +220,7 @@ async function xml2json(featuresXml, descriptionXml, typesXml) {
 				joinFeature(programGroup0.program);
 			}
 		});
-	} else {
+	} else if (description.device.programGroup[0].program) {
 		//Dishwasher
 		joinFeature(description.device.programGroup[0].program);
 	}
