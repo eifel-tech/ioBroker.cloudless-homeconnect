@@ -325,7 +325,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 				this.log.info("Found " + account.data.homeAppliances.length + " device(s).");
 				//Gefundene Dateien für Debugzwecke ablegen in z.B. /opt/iobroker/iobroker-data/cloudless-homeconnect.0
 				const instanceDir = utils.getAbsoluteInstanceDataDir(this);
-				if (!fs.existsSync(instanceDir)) {
+				if (this.log.level === "debug" && !fs.existsSync(instanceDir)) {
 					fs.mkdirSync(instanceDir);
 					this.log.debug("Created folder: " + instanceDir);
 				}
@@ -357,15 +357,20 @@ class CloudlessHomeconnect extends utils.Adapter {
 					const zips = {};
 
 					zip.getEntries().forEach((zipEntry) => {
+						this.log.info("Found file: " + zipEntry.entryName);
 						const newFilePath = path.join(instanceDir, zipEntry.entryName);
-						this.log.info("Create file: " + newFilePath);
+						this.log.debug("Creating file: " + newFilePath);
 						if (zipEntry.entryName.includes("_FeatureMapping.xml")) {
 							zips.feature = zip.readAsText(zipEntry);
-							fs.writeFileSync(newFilePath, zips.feature);
+							if (this.log.level === "debug") {
+								fs.writeFileSync(newFilePath, zips.feature);
+							}
 						}
 						if (zipEntry.entryName.includes("_DeviceDescription.xml")) {
 							zips.description = zip.readAsText(zipEntry);
-							fs.writeFileSync(newFilePath, zips.description);
+							if (this.log.level === "debug") {
+								fs.writeFileSync(newFilePath, zips.description);
+							}
 						}
 					});
 					if (Object.keys(zips).length === 2) {
