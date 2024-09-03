@@ -9,11 +9,47 @@ function b64UrlEncode(str) {
 }
 
 function b64random(num) {
-	return b64UrlEncode(crypto.randomBytes(num));
+	return b64UrlEncode(randomBytes(num));
+}
+
+function randomBytes(num) {
+	return crypto.randomBytes(num);
 }
 
 function sha256(buffer) {
 	return crypto.createHash("sha256").update(buffer).digest();
+}
+
+function hmac(key, msg) {
+	return crypto.createHmac("sha256", key).update(msg).digest();
+}
+
+/**
+ * hmac an inbound or outbound message, chaining the last hmac too
+ * @param {Buffer} iv
+ * @param {Buffer} direction
+ * @param {Buffer} enc_msg
+ * @param {Buffer} key
+ */
+function getHmacOfMessage(iv, direction, enc_msg, key) {
+	let hmac_msg = Buffer.concat([iv, direction, enc_msg]);
+	return hmac(key, hmac_msg).subarray(0, 16);
+}
+
+/**
+ * @param {Buffer} key
+ * @param {Buffer} iv
+ */
+function aesCipherIv(key, iv) {
+	return crypto.createCipheriv("aes-256-cbc", key, iv);
+}
+
+/**
+ * @param {Buffer} key
+ * @param {Buffer} iv
+ */
+function aesDecipherIv(key, iv) {
+	return crypto.createDecipheriv("aes-256-cbc", key, iv);
 }
 
 function isConfigJson(str) {
@@ -53,7 +89,12 @@ function sleep(ms) {
 module.exports = {
 	b64UrlEncode,
 	b64random,
+	randomBytes,
 	sha256,
+	hmac,
+	getHmacOfMessage,
+	aesCipherIv,
+	aesDecipherIv,
 	isConfigJson,
 	urlEncode,
 	getUrlParams,
