@@ -89,7 +89,7 @@ class Socket {
 
 	handleMessage(msg) {
 		if (this.isHttp) {
-			this._this.debug("msg " + msg);
+			this._this.log.debug("msg " + msg);
 			msg = this.decrypt(Buffer.from(msg));
 		}
 		this._this.handleMessage(this.deviceID, msg);
