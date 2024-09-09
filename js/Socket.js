@@ -172,7 +172,7 @@ class Socket {
 	 * @param {Buffer} buf
 	 */
 	decrypt(buf) {
-		this._this.debug("recieved msg byes" + buf.toString());
+		this._this.log.debug("recieved msg byes" + buf.toString());
 		if (buf.length < 32) {
 			this._this.log.debug("Short message? " + buf.toString());
 			return buf;
@@ -183,7 +183,7 @@ class Socket {
 
 		// split the message into the encrypted message and the first 16-bytes of the HMAC
 		let enc_msg = buf.subarray(0, -16);
-		this._this.debug("encrypted msg " + enc_msg.toString());
+		this._this.log.debug("encrypted msg " + enc_msg.toString());
 		let their_hmac = buf.subarray(-16);
 
 		// compute the expected hmac on the encrypted message with direction 'C'
@@ -196,8 +196,8 @@ class Socket {
 			this.mackey,
 		);
 
-		this._this.debug("my hmac " + our_hmac.toString());
-		this._this.debug("their hmac " + their_hmac.toString());
+		this._this.log.debug("my hmac " + our_hmac.toString());
+		this._this.log.debug("their hmac " + their_hmac.toString());
 		if (!their_hmac.equals(our_hmac)) {
 			this._this.log.error("HMAC failure: " + their_hmac.toString() + " vs. " + our_hmac.toString());
 			return;
@@ -208,12 +208,12 @@ class Socket {
 		// decrypt the message with CBC, so the last message block is mixed in
 		// @ts-ignore
 		let msg = this.aesDecrypt.update(enc_msg);
-		this._this.debug("decrypted msg " + msg.toString());
+		this._this.log.debug("decrypted msg " + msg.toString());
 
 		// check for padding and trim it off the end
 		let pad_len = msg.subarray(-1).length;
 		if (msg.length < pad_len) {
-			this._this.debug("padding error? " + msg.toString("hex"));
+			this._this.log.debug("padding error? " + msg.toString("hex"));
 			return;
 		}
 
