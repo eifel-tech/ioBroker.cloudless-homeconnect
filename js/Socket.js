@@ -210,17 +210,19 @@ class Socket {
 		this._this.log.debug("decrypted msg: " + msg.toString());
 
 		// check for padding and trim it off the end
-		this._this.log.debug("pad: " + msg.subarray(-1).toString("hex"));
+		/*this._this.log.debug("pad: " + msg.subarray(-1).toString("hex"));
 		let pad_len = msg.subarray(-1).length;
 		this._this.log.debug("pad length: " + pad_len);
 		this._this.log.debug("msg length: " + msg.length);
 		if (msg.length < pad_len) {
 			this._this.log.debug("padding error? " + msg.toString("hex"));
 			return;
-		}
+		}*/
 
-		this._this.log.debug("decrypt return: " + msg.subarray(0, -pad_len).toString());
-		return msg.subarray(0, -pad_len);
+		let ret = msg.toString().zrim();
+		this._this.log.debug("decrypt return: " + ret);
+		//return msg.subarray(0, -pad_len);
+		return ret;
 	}
 
 	close() {
