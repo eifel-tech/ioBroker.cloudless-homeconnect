@@ -89,7 +89,6 @@ class Socket {
 
 	handleMessage(msg) {
 		if (this.isHttp) {
-			this._this.log.debug("msg " + msg);
 			msg = this.decrypt(Buffer.from(msg));
 		}
 		this._this.handleMessage(this.deviceID, msg);
@@ -129,7 +128,7 @@ class Socket {
 		// convert the UTF-8 string into a byte array
 		const textEncoder = new TextEncoder();
 		let msgBuf = textEncoder.encode(msg);
-		this._this.log.debug("Encoded msgas bytes:");
+		this._this.log.debug("Encoded msg bytes:");
 		this._this.log.debug(msgBuf);
 
 		// pad the buffer, adding an extra block if necessary
@@ -137,17 +136,15 @@ class Socket {
 		if (pad_len === 1) {
 			pad_len += 16;
 		}
-		this._this.log.debug(pad_len);
+		this._this.log.debug("pad length: " + pad_len);
 
 		let pad = Buffer.concat([Buffer.from("00", "hex"), util.randomBytes(pad_len - 2), Buffer.alloc(pad_len)]);
 		msgBuf = Buffer.concat([msgBuf, pad]);
 
-		this._this.log.debug(msg.toString());
 		// encrypt the padded message with CBC, so there is chained state from the last cipher block sent
 		// @ts-ignore
 		let enc_msg = this.aesEncrypt.update(msg);
-		this._this.log.debug("Encrypted msg:");
-		this._this.log.debug(enc_msg.toString());
+		this._this.log.debug("Encrypted msg: " + enc_msg.toString("base64"));
 
 		// compute the hmac of the encrypted message, chaining the hmac of the previous message plus direction 'E'
 		this.last_tx_hmac = util.getHmacOfMessage(
@@ -158,13 +155,11 @@ class Socket {
 			enc_msg,
 			this.mackey,
 		);
-		this._this.log.debug("Hmac of encrypted msg:");
-		this._this.log.debug(this.last_tx_hmac.toString());
+		this._this.log.debug("Hmac of encrypted msg: " + this.last_tx_hmac.toString("base64"));
 
 		// append the new hmac to the message
 		let ret = Buffer.concat([enc_msg, this.last_tx_hmac]);
-		this._this.log.debug("Encrypted msg with hmac:");
-		this._this.log.debug(ret.toString());
+		this._this.log.debug("Encrypted msg with hmac: " + ret.toString("base64"));
 		return ret;
 	}
 
@@ -172,18 +167,18 @@ class Socket {
 	 * @param {Buffer} buf
 	 */
 	decrypt(buf) {
-		this._this.log.debug("recieved msg byes" + buf.toString());
+		this._this.log.debug("recieved msg: " + buf.toString("base64"));
 		if (buf.length < 32) {
-			this._this.log.debug("Short message? " + buf.toString());
+			this._this.log.debug("Short message? " + buf.toString("base64"));
 			return buf;
 		}
 		if (buf.length % 16 !== 0) {
-			this._this.log.debug("Unaligned message? probably bad: " + buf.toString());
+			this._this.log.debug("Unaligned message? probably bad: " + buf.toString("base64"));
 		}
 
 		// split the message into the encrypted message and the first 16-bytes of the HMAC
 		let enc_msg = buf.subarray(0, -16);
-		this._this.log.debug("encrypted msg " + enc_msg.toString());
+		this._this.log.debug("encrypted msg " + enc_msg.toString("base64"));
 		let their_hmac = buf.subarray(-16);
 
 		// compute the expected hmac on the encrypted message with direction 'C'
@@ -196,10 +191,12 @@ class Socket {
 			this.mackey,
 		);
 
-		this._this.log.debug("my hmac " + our_hmac.toString());
-		this._this.log.debug("their hmac " + their_hmac.toString());
+		this._this.log.debug("my hmac " + our_hmac.toString("base64"));
+		this._this.log.debug("their hmac " + their_hmac.toString("base64"));
 		if (!their_hmac.equals(our_hmac)) {
-			this._this.log.error("HMAC failure: " + their_hmac.toString() + " vs. " + our_hmac.toString());
+			this._this.log.error(
+				"HMAC failure: " + their_hmac.toString("base64") + " vs. " + our_hmac.toString("base64"),
+			);
 			return;
 		}
 
@@ -208,15 +205,19 @@ class Socket {
 		// decrypt the message with CBC, so the last message block is mixed in
 		// @ts-ignore
 		let msg = this.aesDecrypt.update(enc_msg);
-		this._this.log.debug("decrypted msg " + msg.toString());
+		this._this.log.debug("decrypted msg: " + msg.toString());
 
 		// check for padding and trim it off the end
+		this._this.log.debug("pad: " + msg.subarray(-1).toString("hex"));
 		let pad_len = msg.subarray(-1).length;
+		this._this.log.debug("pad length: " + pad_len);
+		this._this.log.debug("msg length: " + msg.length);
 		if (msg.length < pad_len) {
 			this._this.log.debug("padding error? " + msg.toString("hex"));
 			return;
 		}
 
+		this._this.log.debug("decrypt return: " + msg.subarray(0, -pad_len).toString());
 		return msg.subarray(0, -pad_len);
 	}
 
