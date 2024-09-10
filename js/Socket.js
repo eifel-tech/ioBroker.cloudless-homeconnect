@@ -125,10 +125,11 @@ class Socket {
 	 * @param {string} msg
 	 */
 	encrypt(msg) {
+		this._this.log.debug("---------------- Starting encryption -----------------------");
 		// convert the UTF-8 string into a byte array
 		const textEncoder = new TextEncoder();
 		let msgBuf = textEncoder.encode(msg);
-		this._this.log.debug("Encoded msg bytes:");
+		this._this.log.debug("Encoded msg bytes: ");
 		this._this.log.debug(msgBuf);
 
 		// pad the buffer, adding an extra block if necessary
@@ -167,6 +168,7 @@ class Socket {
 	 * @param {Buffer} buf
 	 */
 	decrypt(buf) {
+		this._this.log.debug("---------------- Starting decryption -----------------------");
 		this._this.log.debug("recieved msg: " + buf.toString("base64"));
 		if (buf.length < 32) {
 			this._this.log.debug("Short message? " + buf.toString("base64"));
