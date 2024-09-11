@@ -219,7 +219,7 @@ class Socket {
 			return;
 		}*/
 
-		let ret = msg.toString().zrim();
+		let ret = msg.toString().trim();
 		this._this.log.debug("decrypt return: " + ret);
 		//return msg.subarray(0, -pad_len);
 		return ret;
