@@ -140,18 +140,17 @@ class Socket {
 		let pad = Buffer.concat([Buffer.from("00", "hex"), util.randomBytes(pad_len - 2), Buffer.alloc(pad_len)]);
 		msgBuf = Buffer.concat([msgBuf, pad]);
 
-		this._this.log.debug("pad: " + pad);
 		this._this.log.debug("pad as base64: " + pad.toString("base64"));
 		this._this.log.debug("msg plus pad: " + msgBuf.toString("base64"));
 
 		// encrypt the padded message with CBC, so there is chained state from the last cipher block sent
 		// @ts-ignore
 		let enc_msg = this.aesEncrypt.update(msg);
-		this._this.log.debug("Encrypted msg: " + enc_msg);
+		this._this.log.debug("Encrypted msg: " + enc_msg.toString("base64"));
 
 		// compute the hmac of the encrypted message, chaining the hmac of the previous message plus direction 'E'
 		// @ts-ignore
-		this._this.log.debug("Last Hmac: " + this.last_tx_hmac);
+		this._this.log.debug("Last Hmac: " + this.last_tx_hmac.toString("base64"));
 		this.last_tx_hmac = util.getHmacOfMessage(
 			// @ts-ignore
 			this.iv,
@@ -161,14 +160,17 @@ class Socket {
 			this.mackey,
 		);
 		this._this.log.debug(
-			// @ts-ignore
-			"Hmaced msg: " + Buffer.concat([this.iv, Buffer.concat([Buffer.from("E"), this.last_tx_hmac]), enc_msg]),
+			"Hmaced msg: " +
+				// @ts-ignore
+				Buffer.concat([this.iv, Buffer.concat([Buffer.from("E"), this.last_tx_hmac]), enc_msg]).toString(
+					"base64",
+				),
 		);
-		this._this.log.debug("Hmac of encrypted msg: " + this.last_tx_hmac);
+		this._this.log.debug("Hmac of encrypted msg: " + this.last_tx_hmac.toString("base64"));
 
 		// append the new hmac to the message
 		let ret = Buffer.concat([enc_msg, this.last_tx_hmac]);
-		this._this.log.debug("Encrypted msg with hmac: " + ret);
+		this._this.log.debug("Encrypted msg with hmac: " + ret.toString("base64"));
 		return ret;
 	}
 
