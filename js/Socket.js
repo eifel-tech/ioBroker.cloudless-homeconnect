@@ -127,10 +127,8 @@ class Socket {
 	encrypt(msg) {
 		this._this.log.debug("---------------- Starting encryption -----------------------");
 		// convert the UTF-8 string into a byte array
-		const textEncoder = new TextEncoder();
-		let msgBuf = textEncoder.encode(msg);
-		this._this.log.debug("Encoded msg bytes: ");
-		this._this.log.debug(msgBuf);
+		let msgBuf = Buffer.from(msg);
+		this._this.log.debug("msg as base64: " + msgBuf.toString("base64"));
 
 		// pad the buffer, adding an extra block if necessary
 		let pad_len = 16 - (msgBuf.length % 16);
@@ -142,25 +140,31 @@ class Socket {
 		let pad = Buffer.concat([Buffer.from("00", "hex"), util.randomBytes(pad_len - 2), Buffer.alloc(pad_len)]);
 		msgBuf = Buffer.concat([msgBuf, pad]);
 
+		this._this.log.debug("pad: " + pad);
+		this._this.log.debug("pad as base64: " + pad.toString("base64"));
+		this._this.log.debug("msg plus pad: " + msgBuf.toString("base64"));
+
 		// encrypt the padded message with CBC, so there is chained state from the last cipher block sent
 		// @ts-ignore
 		let enc_msg = this.aesEncrypt.update(msg);
-		this._this.log.debug("Encrypted msg: " + enc_msg.toString("base64"));
+		this._this.log.debug("Encrypted msg: " + enc_msg);
 
 		// compute the hmac of the encrypted message, chaining the hmac of the previous message plus direction 'E'
+		// @ts-ignore
+		this._this.log.debug("Last Hmac: " + this.last_tx_hmac);
 		this.last_tx_hmac = util.getHmacOfMessage(
 			// @ts-ignore
 			this.iv,
 			// @ts-ignore
-			Buffer.concat([Buffer.from("45", "hex"), this.last_tx_hmac]),
+			Buffer.concat([Buffer.from("E"), this.last_tx_hmac]),
 			enc_msg,
 			this.mackey,
 		);
-		this._this.log.debug("Hmac of encrypted msg: " + this.last_tx_hmac.toString("base64"));
+		this._this.log.debug("Hmac of encrypted msg: " + this.last_tx_hmac);
 
 		// append the new hmac to the message
 		let ret = Buffer.concat([enc_msg, this.last_tx_hmac]);
-		this._this.log.debug("Encrypted msg with hmac: " + ret.toString("base64"));
+		this._this.log.debug("Encrypted msg with hmac: " + ret);
 		return ret;
 	}
 
@@ -188,7 +192,7 @@ class Socket {
 			// @ts-ignore
 			this.iv,
 			// @ts-ignore
-			Buffer.concat([Buffer.from("43", "hex"), this.last_rx_hmac]),
+			Buffer.concat([Buffer.from("C"), this.last_rx_hmac]),
 			enc_msg,
 			this.mackey,
 		);
