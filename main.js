@@ -239,9 +239,9 @@ class CloudlessHomeconnect extends utils.Adapter {
 	 * Delegates messages from Websocket to right device
 	 */
 	handleMessage(devId, msg) {
-		this.log.debug(devId + ": " + JSON.stringify(JSON.parse(msg)));
-		if (this.devMap.has(devId)) {
-			try {
+		try {
+			this.log.debug(devId + ": " + JSON.stringify(JSON.parse(msg)));
+			if (this.devMap.has(devId)) {
 				const device = this.devMap.get(devId);
 				const values = device.handleMessage(JSON.parse(msg));
 				if (values.error) {
@@ -260,10 +260,10 @@ class CloudlessHomeconnect extends utils.Adapter {
 				if (Object.keys(values).length > 0) {
 					this.updateDatapoints(device, values);
 				}
-			} catch (e) {
-				this.log.error("Fehler beim Behandeln einer Nachricht von " + devId + ": " + msg);
-				this.log.error("Fehlermeldung: " + e);
 			}
+		} catch (e) {
+			this.log.error("Fehler beim Behandeln einer Nachricht von " + devId + ": " + msg);
+			this.log.error("Fehlermeldung: " + e);
 		}
 	}
 
