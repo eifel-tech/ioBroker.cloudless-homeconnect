@@ -160,6 +160,10 @@ class Socket {
 			enc_msg,
 			this.mackey,
 		);
+		this._this.log.debug(
+			// @ts-ignore
+			"Hmaced msg: " + Buffer.concat([this.iv, Buffer.concat([Buffer.from("E"), this.last_tx_hmac]), enc_msg]),
+		);
 		this._this.log.debug("Hmac of encrypted msg: " + this.last_tx_hmac);
 
 		// append the new hmac to the message
