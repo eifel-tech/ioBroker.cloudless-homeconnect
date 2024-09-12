@@ -240,7 +240,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 	 */
 	handleMessage(devId, msg) {
 		try {
-			this.log.debug(devId + ": " + JSON.stringify(JSON.parse(msg)));
+			this.log.debug(devId + ": " + msg);
 			if (this.devMap.has(devId)) {
 				const device = this.devMap.get(devId);
 				const values = device.handleMessage(JSON.parse(msg));
