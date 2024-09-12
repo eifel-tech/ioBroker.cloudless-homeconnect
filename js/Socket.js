@@ -218,6 +218,8 @@ class Socket {
 		// @ts-ignore
 		let msg = this.aesDecrypt.update(enc_msg);
 		this._this.log.debug("decrypted msg: " + msg.toString());
+		this._this.log.debug("decrypted as bytes:");
+		this._this.log.debug(msg.toString("hex"));
 
 		// check for padding and trim it off the end
 		/*this._this.log.debug("pad: " + msg.subarray(-1).toString("hex"));
