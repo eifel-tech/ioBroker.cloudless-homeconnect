@@ -252,6 +252,15 @@ class CloudlessHomeconnect extends utils.Adapter {
 								" bei Service " +
 								values.resource,
 						);
+					} else if (values.error === 500 || values.error === 510) {
+						this.log.debug(
+							"Unplausibler Wert wurde empfangen (" +
+								values.error +
+								"): " +
+								values.info +
+								" ; Wert: " +
+								values.resource,
+						);
 					} else {
 						this.log.error("Kommunikationsfehler " + values.error + " bei Service " + values.resource);
 					}
@@ -262,8 +271,8 @@ class CloudlessHomeconnect extends utils.Adapter {
 				}
 			}
 		} catch (e) {
-			this.log.error("Fehler beim Behandeln einer Nachricht von " + devId + ": " + msg);
-			this.log.error("Fehlermeldung: " + e);
+			this.log.debug("Fehler beim Behandeln einer Nachricht von " + devId + ": " + msg);
+			this.log.debug("Fehlermeldung: " + e);
 		}
 	}
 

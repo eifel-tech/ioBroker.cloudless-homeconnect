@@ -153,6 +153,7 @@ class Socket {
 		this._this.log.debug(enc_msg.toString("hex"));
 
 		// compute the hmac of the encrypted message, chaining the hmac of the previous message plus direction 'E'
+		let lastHmac = this.last_tx_hmac;
 		this._this.log.debug("Last Hmac:");
 		// @ts-ignore
 		this._this.log.debug(this.last_tx_hmac.toString("hex"));
@@ -167,7 +168,7 @@ class Socket {
 		this._this.log.debug("Hmaced msg:");
 		this._this.log.debug(
 			// @ts-ignore
-			Buffer.concat([this.iv, Buffer.concat([Buffer.from("E"), this.last_tx_hmac]), enc_msg]).toString("hex"),
+			Buffer.concat([this.iv, Buffer.concat([Buffer.from("E"), lastHmac]), enc_msg]).toString("hex"),
 		);
 		this._this.log.debug("Hmac of encrypted msg:");
 		this._this.log.debug(this.last_tx_hmac.toString("hex"));
@@ -187,7 +188,11 @@ class Socket {
 		this._this.log.debug("recieved msg: " + buf.toString("base64"));
 		if (buf.length < 32) {
 			this._this.log.debug("Short message? " + buf.toString("base64"));
-			return buf;
+			return JSON.stringify({
+				code: 500,
+				info: "Received message length < 32: " + buf.length,
+				resource: buf.toString("base64"),
+			});
 		}
 		if (buf.length % 16 !== 0) {
 			this._this.log.debug("Unaligned message? probably bad: " + buf.toString("base64"));
@@ -228,13 +233,24 @@ class Socket {
 		this._this.log.debug("decrypted as bytes:");
 		this._this.log.debug(msg.toString("hex"));
 
-		// check for padding and trim it off the end
-		if (msg.includes(Buffer.from("00", "hex"))) {
-			msg = msg.subarray(0, msg.indexOf(0x00));
+		// check for padding and trim it off
+		while (msg.includes(0x00)) {
+			let index = msg.indexOf(0x00);
+			msg = index === 0 ? msg.subarray(1) : msg.subarray(0, index);
 
+			this._this.log.debug("index of 0x00: " + index);
 			this._this.log.debug("decrypted msg removed pad: " + msg.toString());
 			this._this.log.debug("decrypted removed pad as bytes:");
 			this._this.log.debug(msg.toString("hex"));
+		}
+		//check for valid json
+		//Wenn die Nachricht nicht mit '{' beginnt oder nicht mit '}' endet, handelt es sich nicht um valides JSON
+		if (msg[0].toString(16) !== "7b" || msg[msg.length - 1].toString(16) !== "7d") {
+			return JSON.stringify({
+				code: 510,
+				info: "Invalid JSON format",
+				resource: msg.toString(),
+			});
 		}
 
 		return msg.toString();

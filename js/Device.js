@@ -20,6 +20,7 @@ class Device {
 			return {
 				error: msg.code,
 				resource: msg.resource,
+				info: msg.info,
 			};
 		}
 
