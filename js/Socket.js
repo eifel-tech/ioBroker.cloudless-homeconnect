@@ -128,7 +128,8 @@ class Socket {
 		this._this.log.debug("---------------- Starting encryption -----------------------");
 		// convert the UTF-8 string into a byte array
 		let msgBuf = Buffer.from(msg);
-		this._this.log.debug("msg as base64: " + msgBuf.toString("base64"));
+		this._this.log.debug("msg as bytes:");
+		this._this.log.debug(msgBuf.toString("hex"));
 
 		// pad the buffer, adding an extra block if necessary
 		let pad_len = 16 - (msgBuf.length % 16);
@@ -140,17 +141,21 @@ class Socket {
 		let pad = Buffer.concat([Buffer.from("00", "hex"), util.randomBytes(pad_len - 2), Buffer.alloc(pad_len)]);
 		msgBuf = Buffer.concat([msgBuf, pad]);
 
-		this._this.log.debug("pad as base64: " + pad.toString("base64"));
-		this._this.log.debug("msg plus pad: " + msgBuf.toString("base64"));
+		this._this.log.debug("pad as bytes:");
+		this._this.log.debug(pad.toString("hex"));
+		this._this.log.debug("msg plus pad:");
+		this._this.log.debug(msgBuf.toString("hex"));
 
 		// encrypt the padded message with CBC, so there is chained state from the last cipher block sent
 		// @ts-ignore
 		let enc_msg = this.aesEncrypt.update(msg);
-		this._this.log.debug("Encrypted msg: " + enc_msg.toString("base64"));
+		this._this.log.debug("Encrypted msg:");
+		this._this.log.debug(enc_msg.toString("hex"));
 
 		// compute the hmac of the encrypted message, chaining the hmac of the previous message plus direction 'E'
+		this._this.log.debug("Last Hmac:");
 		// @ts-ignore
-		this._this.log.debug("Last Hmac: " + this.last_tx_hmac.toString("base64"));
+		this._this.log.debug(this.last_tx_hmac.toString("hex"));
 		this.last_tx_hmac = util.getHmacOfMessage(
 			// @ts-ignore
 			this.iv,
@@ -159,18 +164,18 @@ class Socket {
 			enc_msg,
 			this.mackey,
 		);
+		this._this.log.debug("Hmaced msg:");
 		this._this.log.debug(
-			"Hmaced msg: " +
-				// @ts-ignore
-				Buffer.concat([this.iv, Buffer.concat([Buffer.from("E"), this.last_tx_hmac]), enc_msg]).toString(
-					"base64",
-				),
+			// @ts-ignore
+			Buffer.concat([this.iv, Buffer.concat([Buffer.from("E"), this.last_tx_hmac]), enc_msg]).toString("hex"),
 		);
-		this._this.log.debug("Hmac of encrypted msg: " + this.last_tx_hmac.toString("base64"));
+		this._this.log.debug("Hmac of encrypted msg:");
+		this._this.log.debug(this.last_tx_hmac.toString("hex"));
 
 		// append the new hmac to the message
 		let ret = Buffer.concat([enc_msg, this.last_tx_hmac]);
-		this._this.log.debug("Encrypted msg with hmac: " + ret.toString("base64"));
+		this._this.log.debug("Encrypted msg with hmac:");
+		this._this.log.debug(ret.toString("hex"));
 		return ret;
 	}
 
@@ -203,8 +208,10 @@ class Socket {
 			this.mackey,
 		);
 
-		this._this.log.debug("my hmac " + our_hmac.toString("base64"));
-		this._this.log.debug("their hmac " + their_hmac.toString("base64"));
+		this._this.log.debug("my hmac:");
+		this._this.log.debug(our_hmac.toString("hex"));
+		this._this.log.debug("their hmac:");
+		this._this.log.debug(their_hmac.toString("hex"));
 		if (!their_hmac.equals(our_hmac)) {
 			this._this.log.error(
 				"HMAC failure: " + their_hmac.toString("base64") + " vs. " + our_hmac.toString("base64"),
@@ -222,19 +229,15 @@ class Socket {
 		this._this.log.debug(msg.toString("hex"));
 
 		// check for padding and trim it off the end
-		/*this._this.log.debug("pad: " + msg.subarray(-1).toString("hex"));
-		let pad_len = msg.subarray(-1).length;
-		this._this.log.debug("pad length: " + pad_len);
-		this._this.log.debug("msg length: " + msg.length);
-		if (msg.length < pad_len) {
-			this._this.log.debug("padding error? " + msg.toString("hex"));
-			return;
-		}*/
+		if (msg.includes(Buffer.from("00", "hex"))) {
+			msg = msg.subarray(0, msg.indexOf(0x00));
 
-		let ret = msg.toString().trim();
-		this._this.log.debug("decrypt return: " + ret);
-		//return msg.subarray(0, -pad_len);
-		return ret;
+			this._this.log.debug("decrypted msg removed pad: " + msg.toString());
+			this._this.log.debug("decrypted removed pad as bytes:");
+			this._this.log.debug(msg.toString("hex"));
+		}
+
+		return msg.toString();
 	}
 
 	close() {
