@@ -252,7 +252,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 								" bei Service " +
 								values.resource,
 						);
-					} else if (values.error === 500 || values.error === 510) {
+					} else if (values.error > 5000) {
 						this.log.debug(
 							"Unplausibler Wert wurde empfangen (" +
 								values.error +

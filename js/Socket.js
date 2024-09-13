@@ -189,7 +189,7 @@ class Socket {
 		if (buf.length < 32) {
 			this._this.log.debug("Short message? " + buf.toString("base64"));
 			return JSON.stringify({
-				code: 500,
+				code: 5001,
 				info: "Received message length < 32: " + buf.length,
 				resource: buf.toString("base64"),
 			});
@@ -218,10 +218,11 @@ class Socket {
 		this._this.log.debug("their hmac:");
 		this._this.log.debug(their_hmac.toString("hex"));
 		if (!their_hmac.equals(our_hmac)) {
-			this._this.log.error(
-				"HMAC failure: " + their_hmac.toString("base64") + " vs. " + our_hmac.toString("base64"),
-			);
-			return;
+			return JSON.stringify({
+				code: 5002,
+				info: "HAMAC failure",
+				resource: their_hmac.toString("base64") + " vs. " + our_hmac.toString("base64"),
+			});
 		}
 
 		this.last_rx_hmac = their_hmac;
@@ -247,7 +248,7 @@ class Socket {
 		//Wenn die Nachricht nicht mit '{' beginnt oder nicht mit '}' endet, handelt es sich nicht um valides JSON
 		if (msg[0].toString(16) !== "7b" || msg[msg.length - 1].toString(16) !== "7d") {
 			return JSON.stringify({
-				code: 510,
+				code: 5003,
 				info: "Invalid JSON format",
 				resource: msg.toString(),
 			});
