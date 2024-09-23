@@ -168,8 +168,31 @@ async function xml2json(featuresXml, descriptionXml, typesXml) {
 	joinFeature(description.device.statusList[0].status);
 	//Oven
 	if (description.device.statusList[0].statusList) {
-		Object.values(description.device.statusList[0].statusList).forEach((statusList) => {
-			joinFeature(statusList.status);
+		Object.values(description.device.statusList[0].statusList).forEach((statusList0) => {
+			if (statusList0.statusList) {
+				Object.values(statusList0.statusList).forEach((statusList1) => {
+					if (statusList1.statusList) {
+						Object.values(statusList1.statusList).forEach((statusList2) => {
+							if (statusList2.statusList) {
+								Object.values(statusList2.statusList).forEach((statusList3) => {
+									if (statusList3.status) {
+										joinFeature(statusList3.status);
+									}
+								});
+							}
+							if (statusList2.status) {
+								joinFeature(statusList2.status);
+							}
+						});
+					}
+					if (statusList1.status) {
+						joinFeature(statusList1.status);
+					}
+				});
+			}
+			if (statusList0.status) {
+				joinFeature(statusList0.status);
+			}
 		});
 	}
 
@@ -183,6 +206,11 @@ async function xml2json(featuresXml, descriptionXml, typesXml) {
 
 	joinFeature(description.device.eventList[0].event);
 	joinFeature(description.device.commandList[0].command);
+	if (description.device.commandList[0].commandList) {
+		Object.values(description.device.commandList[0].commandList).forEach((commandList0) => {
+			joinFeature(commandList0.command);
+		});
+	}
 
 	joinFeature(description.device.optionList[0].option);
 	if (description.device.optionList[0].optionList) {
