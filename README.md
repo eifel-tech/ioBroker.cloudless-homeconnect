@@ -133,6 +133,10 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 -   Weitere Geräte hinzufügen, die über <ins>keinen</ins> freigeschalteten Port 443 verfügen.
 -   Favoriten in Settings einstellen können
 
+### 1.1.1
+
+-   (eifel-tech) Parsen der Konfiguration vereinfacht
+
 ### 1.1.0
 
 -   (eifel-tech) Parsen der Konfiguration bei mehreren Geräten überarbeitet

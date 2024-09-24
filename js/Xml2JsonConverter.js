@@ -5,6 +5,7 @@
  */
 
 const xml2js = require("xml2js");
+const cheerio = require("cheerio");
 let parsedEnums = {};
 let allFeatures = {};
 let parsedFeatures = {};
@@ -53,12 +54,19 @@ function joinFeature(entries) {
 		});
 }
 
-function getMachineDescription(entries) {
+/**
+ * @param {cheerio.CheerioAPI} $
+ */
+function getMachineDescription($) {
 	const description = {};
-	Object.entries(entries)
-		.filter(([key]) => key !== "pairableDeviceTypes")
-		.forEach(([key, value]) => {
-			description[key] = value[0];
+	$("device")
+		.find("description")
+		.children()
+		.filter(function () {
+			return this.name != "pairableDeviceTypes";
+		})
+		.each(function () {
+			description[this.name] = $(this).text();
 		});
 
 	return description;
@@ -149,8 +157,10 @@ async function xml2json(featuresXml, descriptionXml, typesXml) {
 	parsedTypes = {};
 
 	// the feature file has features, errors, and enums
+	const $ = cheerio.load(descriptionXml, {
+		xml: true,
+	});
 	const parser = new xml2js.Parser();
-	const description = await parser.parseStringPromise(descriptionXml);
 
 	// Parse the feature an enum file
 	const result = await parser.parseStringPromise(featuresXml);
@@ -165,100 +175,50 @@ async function xml2json(featuresXml, descriptionXml, typesXml) {
 	// Types
 	parseTypes(types.cidList.contentType);
 
-	joinFeature(description.device.statusList[0].status);
-	//Oven
-	if (description.device.statusList[0].statusList) {
-		Object.values(description.device.statusList[0].statusList).forEach((statusList0) => {
-			if (statusList0.statusList) {
-				Object.values(statusList0.statusList).forEach((statusList1) => {
-					if (statusList1.statusList) {
-						Object.values(statusList1.statusList).forEach((statusList2) => {
-							if (statusList2.statusList) {
-								Object.values(statusList2.statusList).forEach((statusList3) => {
-									if (statusList3.status) {
-										joinFeature(statusList3.status);
-									}
-								});
-							}
-							if (statusList2.status) {
-								joinFeature(statusList2.status);
-							}
-						});
-					}
-					if (statusList1.status) {
-						joinFeature(statusList1.status);
-					}
-				});
-			}
-			if (statusList0.status) {
-				joinFeature(statusList0.status);
-			}
-		});
-	}
-
-	joinFeature(description.device.settingList[0].setting);
-	//Oven
-	if (description.device.settingList[0].settingList) {
-		Object.values(description.device.settingList[0].settingList).forEach((settingList) => {
-			joinFeature(settingList.setting);
-		});
-	}
-
-	joinFeature(description.device.eventList[0].event);
-	joinFeature(description.device.commandList[0].command);
-	if (description.device.commandList[0].commandList) {
-		Object.values(description.device.commandList[0].commandList).forEach((commandList0) => {
-			joinFeature(commandList0.command);
-		});
-	}
-
-	joinFeature(description.device.optionList[0].option);
-	if (description.device.optionList[0].optionList) {
-		//Dishwasher
-		Object.values(description.device.optionList[0].optionList).forEach((optionList) => {
-			joinFeature(optionList.option);
-		});
-	}
-
-	if (description.device.programGroup[0].programGroup) {
-		//Oven
-		Object.values(description.device.programGroup[0].programGroup).forEach((programGroup0) => {
-			if (programGroup0.programGroup) {
-				Object.values(programGroup0.programGroup).forEach((programGroup1) => {
-					if (programGroup1.programGroup) {
-						Object.values(programGroup1.programGroup).forEach((programGroup2) => {
-							if (programGroup2.programGroup) {
-								Object.values(programGroup2.programGroup).forEach((programGroup3) => {
-									if (programGroup3.program) {
-										joinFeature(programGroup3.program);
-									}
-								});
-							}
-							if (programGroup2.program) {
-								joinFeature(programGroup2.program);
-							}
-						});
-					}
-					if (programGroup1.program) {
-						joinFeature(programGroup1.program);
-					}
-				});
-			}
-			if (programGroup0.program) {
-				joinFeature(programGroup0.program);
-			}
-		});
-	} else if (description.device.programGroup[0].program) {
-		//Dishwasher
-		joinFeature(description.device.programGroup[0].program);
-	}
-	joinFeature(description.device.activeProgram);
-	joinFeature(description.device.selectedProgram);
+	const theDevice = $("device");
+	joinFeature(getAttribs(theDevice, "status"));
+	joinFeature(getAttribs(theDevice, "setting"));
+	joinFeature(getAttribs(theDevice, "event"));
+	joinFeature(getAttribs(theDevice, "command"));
+	joinFeature(getAttribs(theDevice, "option"));
+	joinFeature(getPrograms($));
+	joinFeature(getAttribs(theDevice, "activeProgram"));
+	joinFeature(getAttribs(theDevice, "selectedProgram"));
 
 	return {
-		description: getMachineDescription(description.device.description[0]),
+		description: getMachineDescription($),
 		features: parsedFeatures,
 	};
+}
+
+/**
+ * @param {cheerio.Cheerio<import("domhandler").Element>} cheerioObj
+ * @param {string} filtername
+ */
+function getAttribs(cheerioObj, filtername) {
+	var ret = [];
+	cheerioObj.find(filtername).each(function () {
+		ret.push({
+			$: this.attribs,
+		});
+	});
+	return ret;
+}
+
+/**
+ * @param {cheerio.CheerioAPI} $
+ */
+function getPrograms($) {
+	var ret = [];
+	$("device")
+		.find("program")
+		.each(function () {
+			ret.push({
+				$: this.attribs,
+				option: getAttribs($(this), "option"),
+			});
+		});
+	return ret;
 }
 
 module.exports = {

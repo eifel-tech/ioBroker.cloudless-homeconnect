@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.1.0",
+		"version": "1.1.1",
 		"news": {
+			"1.1.1": {
+				"en": "Parsing configuration easier",
+				"de": "Parsing-Konfiguration einfacher",
+				"ru": "Удобная конфигурация",
+				"pt": "Parsing configuração mais fácil",
+				"nl": "Het ontleden van de configuratie makkelijker",
+				"fr": "Configuration d'analyse plus facile",
+				"it": "Configurazione Parsing più facile",
+				"es": "Configuración de pares más fácil",
+				"pl": "Łatwa konfiguracja partycji",
+				"uk": "Налаштування батьків легше",
+				"zh-cn": "更容易解析配置"
+			},
 			"1.1.0": {
 				"en": "Parsing configuration of more than one device",
 				"de": "Parsen Konfiguration von mehr als einem Gerät überarbeitet",
