@@ -1,5 +1,4 @@
 const Websocket = require("ws");
-const CryptoJs = require("crypto-js");
 const util = require("./util.js");
 
 /**
@@ -138,7 +137,7 @@ class Socket {
 		}
 		this._this.log.debug("pad length: " + pad_len);
 
-		let pad = Buffer.concat([Buffer.from("00", "hex"), util.randomBytes(pad_len - 2), Buffer.alloc(pad_len)]);
+		let pad = Buffer.concat([Buffer.from("00", "hex"), util.randomBytes(pad_len - 2), Buffer.from([pad_len])]);
 		msgBuf = Buffer.concat([msgBuf, pad]);
 
 		this._this.log.debug("pad as bytes:");
@@ -148,7 +147,7 @@ class Socket {
 
 		// encrypt the padded message with CBC, so there is chained state from the last cipher block sent
 		// @ts-ignore
-		let enc_msg = this.aesEncrypt.update(msg);
+		let enc_msg = this.aesEncrypt.update(msgBuf);
 		this._this.log.debug("Encrypted msg:");
 		this._this.log.debug(enc_msg.toString("hex"));
 
