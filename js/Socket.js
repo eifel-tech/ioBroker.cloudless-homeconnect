@@ -140,8 +140,6 @@ class Socket {
 		let pad = Buffer.concat([Buffer.from("00", "hex"), util.randomBytes(pad_len - 2), Buffer.from([pad_len])]);
 		msgBuf = Buffer.concat([msgBuf, pad]);
 
-		this._this.log.debug("pad as bytes:");
-		this._this.log.debug(pad.toString("hex"));
 		this._this.log.debug("msg plus pad:");
 		this._this.log.debug(msgBuf.toString("hex"));
 
@@ -152,10 +150,6 @@ class Socket {
 		this._this.log.debug(enc_msg.toString("hex"));
 
 		// compute the hmac of the encrypted message, chaining the hmac of the previous message plus direction 'E'
-		let lastHmac = this.last_tx_hmac;
-		this._this.log.debug("Last Hmac:");
-		// @ts-ignore
-		this._this.log.debug(this.last_tx_hmac.toString("hex"));
 		this.last_tx_hmac = util.getHmacOfMessage(
 			// @ts-ignore
 			this.iv,
@@ -164,8 +158,6 @@ class Socket {
 			enc_msg,
 			this.mackey,
 		);
-		this._this.log.debug("Hmac of encrypted msg:");
-		this._this.log.debug(this.last_tx_hmac.toString("hex"));
 
 		// append the new hmac to the message
 		let ret = Buffer.concat([enc_msg, this.last_tx_hmac]);
@@ -182,7 +174,6 @@ class Socket {
 		this._this.log.debug("recieved msg: ");
 		this._this.log.debug(buf.toString("hex"));
 		if (buf.length < 32) {
-			this._this.log.debug("Short message? " + buf.toString("base64"));
 			return JSON.stringify({
 				code: 5001,
 				info: "Received message length < 32: " + buf.length,
@@ -190,7 +181,9 @@ class Socket {
 			});
 		}
 		if (buf.length % 16 !== 0) {
-			this._this.log.debug("Unaligned message? probably bad: " + buf.toString("base64"));
+			this._this.log.debug(
+				"Unaligned message? probably bad: " + buf.toString("base64") + " length: " + buf.length,
+			);
 		}
 
 		// split the message into the encrypted message and the first 16-bytes of the HMAC
@@ -207,10 +200,6 @@ class Socket {
 			this.mackey,
 		);
 
-		this._this.log.debug("my hmac:");
-		this._this.log.debug(our_hmac.toString("hex"));
-		this._this.log.debug("their hmac:");
-		this._this.log.debug(their_hmac.toString("hex"));
 		if (!their_hmac.equals(our_hmac)) {
 			return JSON.stringify({
 				code: 5002,
@@ -222,11 +211,8 @@ class Socket {
 		this.last_rx_hmac = their_hmac;
 
 		// decrypt the message with CBC, so the last message block is mixed in
-		this._this.log.debug("encrypted msg ");
-		this._this.log.debug(enc_msg.toString("hex"));
 		// @ts-ignore
 		let msg = this.aesDecrypt.update(enc_msg);
-		this._this.log.debug(msg.length);
 		this._this.log.debug("decrypted msg: " + msg.toString("base64"));
 		this._this.log.debug("decrypted as bytes:");
 		this._this.log.debug(msg.toString("hex"));

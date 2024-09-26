@@ -1,3 +1,5 @@
+const util = require("./util.js");
+
 /**
  * Homeconnect-Device with its socket connection @see Socket.js
  */
@@ -66,9 +68,8 @@ class Device {
 
 		/* the clothes washer wants this, the token doesn't matter, although they do not handle padding characters
 		they send a response, not sure how to interpret it*/
-		/*Die nächsten zwei Zeilen mangels Gerät ungetestet*/
-		//const token = util.b64random(32).replaceAll("=", "");
-		//this.send("/ci/authentication", 2, "GET", { nonce: token });
+		const token = util.b64random(32).replaceAll("=", "");
+		this.send("/ci/authentication", 2, "GET", { nonce: token });
 
 		//this.send("/ci/info", 2); // clothes washer
 		//this.send("/iz/info"); // dish washer
