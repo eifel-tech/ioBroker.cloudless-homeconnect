@@ -49,7 +49,9 @@ function aesCipherIv(key, iv) {
  * @param {Buffer} iv
  */
 function aesDecipherIv(key, iv) {
-	return crypto.createDecipheriv("aes-256-cbc", key, iv);
+	let decrypter = crypto.createDecipheriv("aes-256-cbc", key, iv);
+	decrypter.setAutoPadding(false);
+	return decrypter;
 }
 
 function isConfigJson(str) {

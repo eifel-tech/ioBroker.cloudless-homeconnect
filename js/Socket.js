@@ -164,17 +164,12 @@ class Socket {
 			enc_msg,
 			this.mackey,
 		);
-		this._this.log.debug("Hmaced msg:");
-		this._this.log.debug(
-			// @ts-ignore
-			Buffer.concat([this.iv, Buffer.concat([Buffer.from("E"), lastHmac]), enc_msg]).toString("hex"),
-		);
 		this._this.log.debug("Hmac of encrypted msg:");
 		this._this.log.debug(this.last_tx_hmac.toString("hex"));
 
 		// append the new hmac to the message
 		let ret = Buffer.concat([enc_msg, this.last_tx_hmac]);
-		this._this.log.debug("Encrypted msg with hmac:");
+		this._this.log.debug("Encrypted msg with hmac (return):");
 		this._this.log.debug(ret.toString("hex"));
 		return ret;
 	}
@@ -184,7 +179,8 @@ class Socket {
 	 */
 	decrypt(buf) {
 		this._this.log.debug("---------------- Starting decryption -----------------------");
-		this._this.log.debug("recieved msg: " + buf.toString("base64"));
+		this._this.log.debug("recieved msg: ");
+		this._this.log.debug(buf.toString("hex"));
 		if (buf.length < 32) {
 			this._this.log.debug("Short message? " + buf.toString("base64"));
 			return JSON.stringify({
@@ -199,7 +195,6 @@ class Socket {
 
 		// split the message into the encrypted message and the first 16-bytes of the HMAC
 		let enc_msg = buf.subarray(0, -16);
-		this._this.log.debug("encrypted msg " + enc_msg.toString("base64"));
 		let their_hmac = buf.subarray(-16);
 
 		// compute the expected hmac on the encrypted message with direction 'C'
@@ -227,33 +222,30 @@ class Socket {
 		this.last_rx_hmac = their_hmac;
 
 		// decrypt the message with CBC, so the last message block is mixed in
+		this._this.log.debug("encrypted msg ");
+		this._this.log.debug(enc_msg.toString("hex"));
 		// @ts-ignore
 		let msg = this.aesDecrypt.update(enc_msg);
-		this._this.log.debug("decrypted msg: " + msg.toString());
+		this._this.log.debug(msg.length);
+		this._this.log.debug("decrypted msg: " + msg.toString("base64"));
 		this._this.log.debug("decrypted as bytes:");
 		this._this.log.debug(msg.toString("hex"));
 
 		// check for padding and trim it off
-		while (msg.includes(0x00)) {
-			let index = msg.indexOf(0x00);
-			msg = index === 0 ? msg.subarray(1) : msg.subarray(0, index);
+		let pad_len = parseInt(msg.subarray(-1).toString("hex"), 16);
+		this._this.log.debug("pad length: " + pad_len);
 
-			this._this.log.debug("index of 0x00: " + index);
-			this._this.log.debug("decrypted msg removed pad: " + msg.toString());
-			this._this.log.debug("decrypted removed pad as bytes:");
-			this._this.log.debug(msg.toString("hex"));
-		}
 		//check for valid json
-		//Wenn die Nachricht nicht mit '{' beginnt oder nicht mit '}' endet, handelt es sich nicht um valides JSON
-		if (msg[0].toString(16) !== "7b" || msg[msg.length - 1].toString(16) !== "7d") {
+		let ret = msg.subarray(0, -pad_len).toString();
+		if (ret[0] !== "{" || ret[ret.length - 1] !== "}") {
 			return JSON.stringify({
 				code: 5003,
 				info: "Invalid JSON format",
-				resource: msg.toString(),
+				resource: ret.toString(),
 			});
 		}
 
-		return msg.toString();
+		return ret;
 	}
 
 	close() {
