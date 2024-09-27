@@ -24,6 +24,9 @@ class Socket {
 			this.mackey = util.hmac(this.psk, Buffer.from("4D4143", "hex"));
 			this.iv = Buffer.from(iv64 + "===", "base64");
 
+			this.aesEncrypt = util.aesCipherIv(this.enckey, this.iv);
+			this.aesDecrypt = util.aesDecipherIv(this.enckey, this.iv);
+
 			this.reset();
 		} else {
 			this.isHttp = false;
@@ -79,9 +82,8 @@ class Socket {
 			}
 			this._this.log.debug("Connection to device " + this.deviceID + " established.");
 		});
-		ws.on("close", async (event) => {
+		ws.on("close", (event) => {
 			if (event === 1000 || event === 1001 || event === 1002 || event === 1005 || event === 1008) {
-				await util.sleep(1000);
 				this.reconnect();
 				return;
 			}
@@ -96,6 +98,7 @@ class Socket {
 
 	handleMessage(msg) {
 		if (this.isHttp) {
+			this._this.log.debug("Encrypted message from " + this.deviceID);
 			msg = this.decrypt(Buffer.from(msg));
 		}
 		this._this.handleMessage(this.deviceID, msg);
@@ -109,11 +112,6 @@ class Socket {
 		if (this.isHttp) {
 			this.last_rx_hmac = Buffer.alloc(16);
 			this.last_tx_hmac = Buffer.alloc(16);
-
-			// @ts-ignore
-			this.aesEncrypt = util.aesCipherIv(this.enckey, this.iv);
-			// @ts-ignore
-			this.aesDecrypt = util.aesDecipherIv(this.enckey, this.iv);
 		}
 	}
 
@@ -171,6 +169,7 @@ class Socket {
 		let ret = Buffer.concat([enc_msg, this.last_tx_hmac]);
 		this._this.log.debug("Encrypted msg with hmac (return):");
 		this._this.log.debug(ret.toString("hex"));
+		this._this.log.debug("---------------- Ending encryption -----------------------");
 		return ret;
 	}
 
@@ -190,7 +189,7 @@ class Socket {
 		}
 		if (buf.length % 16 !== 0) {
 			this._this.log.debug(
-				"Unaligned message? probably bad: " + buf.toString("base64") + " length: " + buf.length,
+				"Unaligned message? probably bad: " + buf.toString("base64") + " ; length: " + buf.length,
 			);
 		}
 
@@ -212,11 +211,6 @@ class Socket {
 			this._this.log.debug(
 				"HMAC failure; Wert: " + their_hmac.toString("hex") + " vs. " + our_hmac.toString("hex"),
 			);
-			/*return JSON.stringify({
-				code: 5002,
-				info: "HAMAC failure",
-				resource: their_hmac.toString("base64") + " vs. " + our_hmac.toString("base64"),
-			});*/
 		}
 
 		this.last_rx_hmac = their_hmac;
@@ -224,7 +218,6 @@ class Socket {
 		// decrypt the message with CBC, so the last message block is mixed in
 		// @ts-ignore
 		let msg = this.aesDecrypt.update(enc_msg);
-		this._this.log.debug("decrypted msg: " + msg.toString("base64"));
 		this._this.log.debug("decrypted as bytes:");
 		this._this.log.debug(msg.toString("hex"));
 
@@ -242,6 +235,7 @@ class Socket {
 			});
 		}
 
+		this._this.log.debug("---------------- Ending decryption -----------------------");
 		return ret;
 	}
 
