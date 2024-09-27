@@ -66,10 +66,12 @@ class Device {
 		// ask the device which services it supports
 		this.send("/ci/services");
 
-		/* the clothes washer wants this, the token doesn't matter, although they do not handle padding characters
-		they send a response, not sure how to interpret it*/
-		const token = util.b64random(32).replaceAll("=", "");
-		this.send("/ci/authentication", 2, "GET", { nonce: token });
+		if (this.ws.isHttp) {
+			/* the clothes washer wants this, the token doesn't matter, although they do not handle padding characters
+			they send a response, not sure how to interpret it*/
+			const token = util.b64random(32).replaceAll("=", "");
+			this.send("/ci/authentication", 2, "GET", { nonce: token });
+		}
 
 		//this.send("/ci/info", 2); // clothes washer
 		//this.send("/iz/info"); // dish washer

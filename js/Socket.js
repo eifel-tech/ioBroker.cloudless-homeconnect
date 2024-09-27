@@ -23,8 +23,10 @@ class Socket {
 			this.mackey = util.hmac(this.psk, Buffer.from("4D4143", "hex"));
 			this.iv = Buffer.from(iv64 + "===", "base64");
 
-			this.last_rx_hmac = Buffer.alloc(16);
-			this.last_tx_hmac = Buffer.alloc(16);
+			this.aesEncrypt = util.aesCipherIv(this.enckey, this.iv);
+			this.aesDecrypt = util.aesDecipherIv(this.enckey, this.iv);
+
+			this.reset();
 		} else {
 			this.isHttp = false;
 			this.port = 443;
@@ -40,6 +42,8 @@ class Socket {
 
 		let options = {
 			origin: "",
+			keepAlive: true,
+			keepAliveInitialDelay: 30000,
 		};
 		let protocol = "ws";
 		if (this.isHttp) {
@@ -49,6 +53,8 @@ class Socket {
 			const _this = this;
 			options = {
 				origin: "",
+				keepAlive: true,
+				keepAliveInitialDelay: 30000,
 				ciphers: "ECDHE-PSK-CHACHA20-POLY1305",
 				minVersion: "TLSv1.2",
 				pskCallback: function () {
@@ -70,11 +76,14 @@ class Socket {
 			this._this.log.error("Connection error for device " + this.deviceID + ": " + e);
 		});
 		ws.on("open", () => {
+			if (this.isHttp) {
+				this.reset();
+			}
 			this._this.log.debug("Connection to device " + this.deviceID + " established.");
 		});
 		ws.on("close", (event) => {
-			if (event === 1000 || event === 1001 || event === 1005 || event === 1008) {
-				this.reconnect();
+			if (event === 1000 || event === 1001 || event === 1002 || event === 1005 || event === 1008) {
+				setTimeout(this.reconnect, 1000);
 				return;
 			}
 			this._this.log.debug("Closed connection to " + this.deviceID + "; reason: " + event);
@@ -101,11 +110,6 @@ class Socket {
 		if (this.isHttp) {
 			this.last_rx_hmac = Buffer.alloc(16);
 			this.last_tx_hmac = Buffer.alloc(16);
-
-			// @ts-ignore
-			this.aesEncrypt = util.aesCipherIv(this.enckey, this.iv);
-			// @ts-ignore
-			this.aesDecrypt = util.aesDecipherIv(this.enckey, this.iv);
 		}
 	}
 
