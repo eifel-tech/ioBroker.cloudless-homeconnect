@@ -1,3 +1,4 @@
+// @ts-ignore
 const Websocket = require("ws");
 const util = require("./util.js");
 
@@ -22,9 +23,6 @@ class Socket {
 			this.enckey = util.hmac(this.psk, Buffer.from("454E43", "hex"));
 			this.mackey = util.hmac(this.psk, Buffer.from("4D4143", "hex"));
 			this.iv = Buffer.from(iv64 + "===", "base64");
-
-			this.aesEncrypt = util.aesCipherIv(this.enckey, this.iv);
-			this.aesDecrypt = util.aesDecipherIv(this.enckey, this.iv);
 
 			this.reset();
 		} else {
@@ -110,6 +108,11 @@ class Socket {
 		if (this.isHttp) {
 			this.last_rx_hmac = Buffer.alloc(16);
 			this.last_tx_hmac = Buffer.alloc(16);
+
+			// @ts-ignore
+			this.aesEncrypt = util.aesCipherIv(this.enckey, this.iv);
+			// @ts-ignore
+			this.aesDecrypt = util.aesDecipherIv(this.enckey, this.iv);
 		}
 	}
 

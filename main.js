@@ -736,7 +736,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 		setInterval(() => {
 			this.devMap.forEach((device) => {
 				this.log.debug("Reconnection initialised after timeout to " + device.id);
-				//device.ws.close();
+				device.ws.close();
 				device.ws.reconnect();
 			});
 		}, 60 * 1000);
