@@ -79,9 +79,10 @@ class Socket {
 			}
 			this._this.log.debug("Connection to device " + this.deviceID + " established.");
 		});
-		ws.on("close", (event) => {
+		ws.on("close", async (event) => {
 			if (event === 1000 || event === 1001 || event === 1002 || event === 1005 || event === 1008) {
-				setTimeout(this.reconnect, 1000);
+				await util.sleep(1000);
+				this.reconnect();
 				return;
 			}
 			this._this.log.debug("Closed connection to " + this.deviceID + "; reason: " + event);
