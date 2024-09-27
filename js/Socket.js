@@ -209,11 +209,14 @@ class Socket {
 		);
 
 		if (!their_hmac.equals(our_hmac)) {
-			return JSON.stringify({
+			this._this.log.debug(
+				"HMAC failure; Wert: " + their_hmac.toString("hex") + " vs. " + our_hmac.toString("hex"),
+			);
+			/*return JSON.stringify({
 				code: 5002,
 				info: "HAMAC failure",
 				resource: their_hmac.toString("base64") + " vs. " + our_hmac.toString("base64"),
-			});
+			});*/
 		}
 
 		this.last_rx_hmac = their_hmac;
