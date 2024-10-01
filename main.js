@@ -818,11 +818,11 @@ class CloudlessHomeconnect extends utils.Adapter {
 					//Wenn ein Programm bereits aktiv ist, dieses zunächst beenden
 					const isAktiv = await this.getStateAsync(devId + ".ActiveProgram");
 					if (isAktiv && isAktiv.val !== "0") {
-						const abortObj = await this.getObjectAsync(devId + ".Command.AbortProgram");
+						const powerObj = await this.getObjectAsync(devId + ".Setting.PowerState");
 						device.send(resource, 1, "POST", {
 							// @ts-ignore
-							uid: parseInt(abortObj.common.name),
-							value: true,
+							uid: parseInt(powerObj.common.name),
+							value: 3,
 						});
 						await util.sleep(2000);
 					}
