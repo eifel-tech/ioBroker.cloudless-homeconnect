@@ -851,19 +851,21 @@ class CloudlessHomeconnect extends utils.Adapter {
 					//Programme haben u.U. Optionen, die auch übertragen werden müssen
 					data.program = uid;
 
-					const options = await this.getStatesAsync(oid.substring(0, oid.lastIndexOf(".")) + ".*");
-					data.options = await Promise.all(
-						Object.entries(options)
-							.filter(([oid]) => !oid.endsWith("Start"))
-							.map(async ([oid, state]) => {
-								const obj = await this.getObjectAsync(oid);
-								return {
-									// @ts-ignore
-									uid: parseInt(obj.common.name),
-									value: state.val,
-								};
-							}),
-					);
+					if (device.deviceJson.description.type !== "Washer") {
+						const options = await this.getStatesAsync(oid.substring(0, oid.lastIndexOf(".")) + ".*");
+						data.options = await Promise.all(
+							Object.entries(options)
+								.filter(([oid]) => !oid.endsWith("Start"))
+								.map(async ([oid, state]) => {
+									const obj = await this.getObjectAsync(oid);
+									return {
+										// @ts-ignore
+										uid: parseInt(obj.common.name),
+										value: state.val,
+									};
+								}),
+						);
+					}
 
 					resource = "/ro/activeProgram";
 				} else {
