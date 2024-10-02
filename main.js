@@ -747,6 +747,27 @@ class CloudlessHomeconnect extends utils.Adapter {
 	}
 
 	/**
+	 *
+	 * @param {ioBroker.Object|null|undefined} powerStateObj
+	 * @returns
+	 */
+	async getOffOrStandbyValue(powerStateObj) {
+		const keys = Object.keys(powerStateObj?.common.states);
+		const min = powerStateObj?.common.min;
+		const max =
+			powerStateObj?.common.max !== undefined ? powerStateObj.common.max : parseInt(keys[keys.length - 1]);
+		let ret;
+		Object.entries(powerStateObj?.common.states).forEach(([key, value]) => {
+			const keyInt = parseInt(key);
+			if (keyInt >= min && keyInt <= max && (value === "Off" || value === "Standby")) {
+				ret = keyInt;
+				return;
+			}
+		});
+		return ret;
+	}
+
+	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback
 	 */
@@ -822,7 +843,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 						device.send(resource, 1, "POST", {
 							// @ts-ignore
 							uid: parseInt(powerObj.common.name),
-							value: 3,
+							value: this.getOffOrStandbyValue(powerObj),
 						});
 						await util.sleep(2000);
 					}

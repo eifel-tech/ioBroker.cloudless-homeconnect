@@ -43,8 +43,6 @@ class Socket {
 
 		let options = {
 			origin: "",
-			keepAlive: true,
-			keepAliveInitialDelay: 30000,
 		};
 		let protocol = "ws";
 		if (this.isHttp) {
@@ -54,8 +52,6 @@ class Socket {
 			const _this = this;
 			options = {
 				origin: "",
-				keepAlive: true,
-				keepAliveInitialDelay: 30000,
 				ciphers: "ECDHE-PSK-CHACHA20-POLY1305",
 				minVersion: "TLSv1.2",
 				pskCallback: function () {
@@ -83,7 +79,7 @@ class Socket {
 			this._this.log.debug("Connection to device " + this.deviceID + " established.");
 		});
 		ws.on("close", (event) => {
-			if (event === 1000 || event === 1001 || event === 1002 || event === 1005 || event === 1008) {
+			if (event >= 1000 && event <= 1015) {
 				this.reconnect();
 				return;
 			}
