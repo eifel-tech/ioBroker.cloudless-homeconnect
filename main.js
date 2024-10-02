@@ -865,6 +865,9 @@ class CloudlessHomeconnect extends utils.Adapter {
 									};
 								}),
 						);
+					} else {
+						device.send("/ro/selectedProgram", 1, "POST", data);
+						await util.sleep(1000);
 					}
 
 					resource = "/ro/activeProgram";
