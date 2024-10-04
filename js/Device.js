@@ -14,6 +14,8 @@ class Device {
 		this.device_id = "0badcafe";
 
 		this.tx_msg_id = 0;
+
+		this.sendingMap = new Map();
 	}
 
 	handleMessage(msg) {
@@ -34,6 +36,9 @@ class Device {
 			this.handleFirstMessage(msg);
 		} else if (action === "RESPONSE" || action === "NOTIFY") {
 			if (resource == "/ro/allMandatoryValues" || resource == "/ro/values") {
+				if (!msg.data && this.sendingMap.has(msg.msgID)) {
+					msg.data = this.sendingMap.get(msg.msgID);
+				}
 				if (msg.data) {
 					for (const val of msg.data) {
 						values[val.uid] = val.value;
@@ -119,7 +124,9 @@ class Device {
 				msg.data = [data];
 			}
 
-			//TODO Options bei Programmen werden mit falschen Werten übermittelt
+			//Werte pro Message zwischenspeichern, um auf Antworten des Geräts reagieren zu können, z.B. sofort ack=true setzen
+			this.sendingMap.set(msg.msgID, msg.data);
+
 			this.ws.send(msg);
 			this.tx_msg_id += 1;
 		}
