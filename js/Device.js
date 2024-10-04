@@ -58,6 +58,8 @@ class Device {
 	}
 
 	handleFirstMessage(msg) {
+		this.sendingMap.clear();
+
 		// this is the first message they send to us and establishes our session plus message ids
 		this.session_id = msg.sID;
 		this.tx_msg_id = msg.data[0].edMsgID;
