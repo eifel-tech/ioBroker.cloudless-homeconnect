@@ -95,7 +95,7 @@ class Socket {
 			this._this.log.debug("Closed connection to " + this.deviceID + "; reason: " + event);
 		});
 		ws.on("ping", () => {
-			this._this.log.debug("ping received");
+			this._this.log.debug(this.deviceID + ": ping received");
 			this.heartbeat();
 		});
 		ws.onmessage = (event) => {
