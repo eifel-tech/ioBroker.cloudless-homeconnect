@@ -864,12 +864,12 @@ class CloudlessHomeconnect extends utils.Adapter {
 								};
 							}),
 					);
-					//if (device.json.description.type === "Washer") {
-					device.send("/ro/selectedProgram", 1, "POST", data);
-					await util.sleep(1000);
-					//	device.send("/ro/activeProgram", 1, "POST", { program: data.program });
-					//	return;
-					//}
+					if (device.json.description.type === "Washer") {
+						device.send("/ro/selectedProgram", 1, "POST", data);
+						await util.sleep(1000);
+						device.send("/ro/activeProgram", 1, "POST", { program: data.program });
+						return;
+					}
 
 					resource = "/ro/activeProgram";
 				} else {
