@@ -2,6 +2,9 @@
 const Websocket = require("ws");
 const util = require("./util.js");
 
+//Sockettimeout in Sekunden
+const socketTimeout = 30;
+
 /**
  * Create a websocket that wraps a connection to a Bosh-Siemens Home Connect device
  * @TODO Mangels Geräten muss noch wenn nötig die Kommunikation über http implementiert werden.
@@ -43,6 +46,8 @@ class Socket {
 
 		let options = {
 			origin: "",
+			timeout: socketTimeout * 1000,
+			keepAlive: true,
 		};
 		let protocol = "ws";
 		if (this.isHttp) {
@@ -52,6 +57,8 @@ class Socket {
 			const _this = this;
 			options = {
 				origin: "",
+				timeout: socketTimeout * 1000,
+				keepAlive: true,
 				ciphers: "ECDHE-PSK-CHACHA20-POLY1305",
 				minVersion: "TLSv1.2",
 				pskCallback: function () {
@@ -76,20 +83,37 @@ class Socket {
 			if (this.isHttp) {
 				this.reset();
 			}
+			this.ws.ping();
 			this._this.log.debug("Connection to device " + this.deviceID + " established.");
 		});
 		ws.on("close", (event) => {
+			clearTimeout(this.pingTimeout);
 			if (event >= 1000 && event <= 1015) {
 				this.reconnect();
 				return;
 			}
 			this._this.log.debug("Closed connection to " + this.deviceID + "; reason: " + event);
 		});
+		ws.on("ping", () => {
+			this._this.log.debug("ping received");
+			this.heartbeat();
+		});
 		ws.onmessage = (event) => {
 			this.handleMessage(event.data);
 		};
 
 		this.ws = ws;
+	}
+
+	heartbeat() {
+		clearTimeout(this.pingTimeout);
+
+		this.pingTimeout = setTimeout(
+			() => {
+				this.ws.close();
+			},
+			socketTimeout * 4 * 1000,
+		);
 	}
 
 	handleMessage(msg) {
