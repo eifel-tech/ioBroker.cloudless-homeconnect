@@ -851,24 +851,25 @@ class CloudlessHomeconnect extends utils.Adapter {
 					//Programme haben u.U. Optionen, die auch übertragen werden müssen
 					data.program = uid;
 
-					if (device.json.description.type !== "Washer") {
-						const options = await this.getStatesAsync(oid.substring(0, oid.lastIndexOf(".")) + ".*");
-						data.options = await Promise.all(
-							Object.entries(options)
-								.filter(([oid]) => !oid.endsWith("Start"))
-								.map(async ([oid, state]) => {
-									const obj = await this.getObjectAsync(oid);
-									return {
-										// @ts-ignore
-										uid: parseInt(obj.common.name),
-										value: state.val,
-									};
-								}),
-						);
-					} else {
-						device.send("/ro/selectedProgram", 1, "POST", data);
-						await util.sleep(1000);
-					}
+					const options = await this.getStatesAsync(oid.substring(0, oid.lastIndexOf(".")) + ".*");
+					data.options = await Promise.all(
+						Object.entries(options)
+							.filter(([oid]) => !oid.endsWith("Start"))
+							.map(async ([oid, state]) => {
+								const obj = await this.getObjectAsync(oid);
+								return {
+									// @ts-ignore
+									uid: parseInt(obj.common.name),
+									value: state.val,
+								};
+							}),
+					);
+					//if (device.json.description.type === "Washer") {
+					device.send("/ro/selectedProgram", 1, "POST", data);
+					await util.sleep(1000);
+					//	device.send("/ro/activeProgram", 1, "POST", { program: data.program });
+					//	return;
+					//}
 
 					resource = "/ro/activeProgram";
 				} else {
