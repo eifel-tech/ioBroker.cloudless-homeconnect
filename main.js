@@ -844,6 +844,8 @@ class CloudlessHomeconnect extends utils.Adapter {
 					//Programme haben u.U. Optionen, die auch übertragen werden müssen
 					data.program = uid;
 
+					device.send("/ro/selectedProgram", 1, "POST", data);
+
 					const options = await this.getStatesAsync(oid.substring(0, oid.lastIndexOf(".")) + ".*");
 					data.options = await Promise.all(
 						Object.entries(options)
@@ -858,12 +860,13 @@ class CloudlessHomeconnect extends utils.Adapter {
 							}),
 					);
 					if (device.json.description.type === "Washer") {
-						device.send("/ro/values", 1, "POST", data.options);
-						await util.sleep(1000);
-						device.send("/ro/activeProgram", 1, "POST", { program: data.program });
-						return;
+						data.options.forEach((option) => {
+							device.send("/ro/values", 1, "POST", option);
+						});
+						delete data.options;
 					}
 
+					await util.sleep(1000);
 					resource = "/ro/activeProgram";
 				} else {
 					data.uid = uid;
