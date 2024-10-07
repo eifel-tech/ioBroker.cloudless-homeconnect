@@ -27,7 +27,17 @@ class Socket {
 
 			this.iv = Buffer.from(iv64 + "===", "base64");
 
-			this.reset();
+			// an HTTP self-encrypted socket
+			this.enckey = util.hmac(this.psk, Buffer.from("454E43", "hex"));
+			this.mackey = util.hmac(this.psk, Buffer.from("4D4143", "hex"));
+
+			// @ts-ignore
+			this.aesEncrypt = util.aesCipherIv(this.enckey, this.iv);
+			// @ts-ignore
+			this.aesDecrypt = util.aesDecipherIv(this.enckey, this.iv);
+
+			this.last_rx_hmac = Buffer.alloc(16);
+			this.last_tx_hmac = Buffer.alloc(16);
 		} else {
 			this.isHttp = false;
 			this.port = 443;
@@ -47,10 +57,7 @@ class Socket {
 			keepAlive: true,
 		};
 		let protocol = "ws";
-		if (this.isHttp) {
-			// an HTTP self-encrypted socket
-			this.reset();
-		} else {
+		if (!this.isHttp) {
 			const _this = this;
 			options = {
 				origin: "",
@@ -77,16 +84,17 @@ class Socket {
 			this._this.log.error("Connection error for device " + this.deviceID + ": " + e);
 		});
 		ws.on("open", () => {
-			if (this.isHttp) {
-				this.reset();
-			}
 			this.ws.ping();
 			this._this.log.debug("Connection to device " + this.deviceID + " established.");
 		});
 		ws.on("close", (event) => {
 			clearTimeout(this.pingTimeout);
 			if (event >= 1000 && event <= 1015) {
-				this.reconnect();
+				if (this.isHttp) {
+					this.destroy();
+				} else {
+					this.reconnect();
+				}
 				return;
 			}
 			this._this.log.debug("Closed connection to " + this.deviceID + "; reason: " + event);
@@ -125,18 +133,9 @@ class Socket {
 		return this.ws.readyState !== Websocket.CLOSE;
 	}
 
-	reset() {
+	destroy() {
 		if (this.isHttp) {
-			this.enckey = util.hmac(this.psk, Buffer.from("454E43", "hex"));
-			this.mackey = util.hmac(this.psk, Buffer.from("4D4143", "hex"));
-
-			// @ts-ignore
-			this.aesEncrypt = util.aesCipherIv(this.enckey, this.iv);
-			// @ts-ignore
-			this.aesDecrypt = util.aesDecipherIv(this.enckey, this.iv);
-
-			this.last_rx_hmac = Buffer.alloc(16);
-			this.last_tx_hmac = Buffer.alloc(16);
+			this._this.recreateSocket(this.deviceID);
 		}
 	}
 
