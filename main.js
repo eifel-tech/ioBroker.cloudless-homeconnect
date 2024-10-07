@@ -868,6 +868,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 								};
 							}),
 					);
+					//Bei Waschmaschine müssen die Optionen der Programme einzeln und nicht in Verbindung mit activeProgram gesetzt werden.
 					if (device.json.description.type === "Washer") {
 						data.options.forEach((option) => {
 							device.send("/ro/values", 1, "POST", option);
