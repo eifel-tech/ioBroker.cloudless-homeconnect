@@ -30,7 +30,7 @@
     "axios": "^1.7.7",
     "cheerio": "^1.0.0",
     "http-cookie-agent": "^6.0.6",
-    "tough-cookie": "^4.1.4",
+    "tough-cookie": "^5.0.0",
     "ws": "^8.18.0",
     "xml2js": "^0.6.2"
   },
