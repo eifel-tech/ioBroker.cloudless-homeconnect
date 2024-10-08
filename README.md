@@ -139,7 +139,9 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 
 ### 1.2.0
 
--   (eifel-tech) Möglichkeit, einzelne Geräte von der Steuerung auszuschließen. <span style="color:red">Achtung: Die Konfiguration musste dafür erweitert werden, weswegen der Inhalt des Datenpunkts `info.config` gelöscht und der Adapter neu gestartet werden muss. Ebenfalls den Objektbaum `General` löschen.</span>
+-   (eifel-tech) Möglichkeit, einzelne Geräte von der Steuerung auszuschließen.
+> [!CAUTION]
+> Die Konfiguration musste dafür erweitert werden, weswegen der Inhalt des Datenpunkts `info.config` gelöscht und der Adapter neu gestartet werden muss. Ebenfalls den Objektbaum `General` löschen.
 
 ### 1.1.2
 
