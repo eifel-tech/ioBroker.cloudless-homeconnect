@@ -5,6 +5,7 @@ const util = require("./util.js");
  */
 class Device {
 	constructor(ws, deviceJson) {
+		this.refreshInterval = undefined;
 		this.ws = ws;
 		this.id = deviceJson.id;
 		this.json = deviceJson;

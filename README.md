@@ -95,6 +95,10 @@ Hier wird die Konfiguration als JSON gespeichert. Soll diese neu eingelesen werd
 
 Die Datenpunkte enthalten als Wert die UID des Programms, das gerade läuft. `ActiveProgram` ist dabei `readonly`.
 
+### observe
+
+Mit dem Datenpunkt `observe` können bei Änderung auf `false` Geräte von der Überwachung des Adapters ausgeschlossen werden. So kann bspw. im Fehlerfall eingestellt werdne, dass nur ein Gerät vom Adapter beachtet wird und kein anderes "dazwischen funkt".
+
 ### Command
 
 Unter `Command` werden Datenpunkte der Rolle `button` gesammelt, die das Gerät zum Fernsteuern zur Verfügung stellt. Es kann nur eine Reaktion der Gegenseite erwartet werden, wenn das Kommando plausibel ist: `AbortProgram` wird nur ausgeführt, wenn auch ein Programm aktiv ist.
@@ -132,6 +136,10 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 
 -   Weitere Geräte hinzufügen, die über <ins>keinen</ins> freigeschalteten Port 443 verfügen.
 -   Favoriten in Settings einstellen können
+
+### 1.2.0
+
+-   (eifel-tech) Möglichkeit, einzelne Geräte von der Steuerung auszuschließen. <span style="color:red">Achtung: Die Konfiguration musste dafür erweitert werden, weswegen der Inhalt des Datenpunkts `info.config` gelöscht und der Adapter neu gestartet werden muss. Ebenfalls den Objektbaum `General` löschen.</span>
 
 ### 1.1.2
 

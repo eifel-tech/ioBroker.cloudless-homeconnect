@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.1.2",
+		"version": "1.2.0",
 		"news": {
+			"1.2.0": {
+				"en": "Ability to observe only individual devices",
+				"de": "Möglichkeit, nur einzelne Geräte zu beobachten",
+				"ru": "Способность наблюдать только отдельные устройства",
+				"pt": "Capacidade de observar apenas dispositivos individuais",
+				"nl": "Mogelijkheid om alleen individuele apparaten te observeren",
+				"fr": "Capacité d'observer uniquement les appareils individuels",
+				"it": "Capacità di osservare solo singoli dispositivi",
+				"es": "Capacidad de observar sólo dispositivos individuales",
+				"pl": "Możliwość obserwowania tylko pojedynczych urządzeń",
+				"uk": "Можливість спостерігати тільки індивідуальні пристрої",
+				"zh-cn": "只观察单个设备的能力"
+			},
 			"1.1.2": {
 				"en": "Set options of programs of washer separatly",
 				"de": "Separates Setzen von Optionen der Programme von Waschmaschinen",

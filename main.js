@@ -105,23 +105,89 @@ class CloudlessHomeconnect extends utils.Adapter {
 		}
 
 		await this.createDatapoints();
-		await util.sleep(5000);
-		this.connectDevices();
 
-		//Die Verbindungen zu den Geräten erneuern
-		this.updateAllActualValues();
+		//Sockerverbindung für alle Geräte in der Config, die überwacht werden sollen, herstellen
+		Object.values(this.configJson).forEach(async (device) => {
+			const observe = await this.getStateAsync(device.id + ".observe");
+			if (observe && observe.val) {
+				this.connectDevice(device.id);
+			}
+		});
 
 		this.log.info("Adapter started successfully");
 	}
 
 	async createDatapoints() {
-		this.configJson.forEach((dev) => {
+		this.configJson.forEach(async (dev) => {
 			const id = dev.id;
 			if (!dev.features) {
 				this.log.error("Konfiguration unvollständig");
 				return;
 			}
 
+			//Root-Knoten
+			await this.setObjectNotExistsAsync(id, {
+				type: "device",
+				common: {
+					name: dev.name,
+				},
+				native: {},
+			});
+
+			//DP zum Deaktivieren eines Geräts
+			await this.setObjectNotExistsAsync(id + ".observe", {
+				type: "state",
+				common: {
+					type: "boolean",
+					role: "state",
+					name: "Gerät über Adapter steuern",
+					write: true,
+					read: true,
+					def: true,
+				},
+				native: {},
+			});
+
+			//Generelles
+			await this.setObjectNotExistsAsync(id + ".General", {
+				type: "channel",
+				common: {
+					name: "Generelle Information zum Gerät",
+				},
+				native: {},
+			});
+
+			["name", "id", "enumber", "mac", "serialnumber"].forEach(async (key) => {
+				await this.setObjectNotExistsAsync(id + ".General." + key, {
+					type: "state",
+					common: {
+						name: key,
+						type: "string",
+						role: "indicator",
+						write: false,
+						read: true,
+					},
+					native: {},
+				});
+				this.setState(id + ".General." + key, dev[key], true);
+			});
+
+			["brand", "model"].forEach(async (key) => {
+				await this.setObjectNotExistsAsync(id + ".General." + key, {
+					type: "state",
+					common: {
+						name: key,
+						type: "string",
+						role: "indicator",
+						write: false,
+						read: true,
+					},
+					native: {},
+				});
+				this.setState(id + ".General." + key, dev.description[key], true);
+			});
+
+			//Features
 			Object.entries(dev.features).forEach(async ([uid, feature]) => {
 				const subFolder = this.getSubfolderByName(feature.name, true);
 				const subFolderName = this.getSubfolderByName(feature.name);
@@ -307,17 +373,27 @@ class CloudlessHomeconnect extends utils.Adapter {
 			});
 	}
 
-	connectDevices() {
-		//Socketverbindung zu den Geräten herstellen
-		Object.values(this.configJson).forEach((device) => {
-			const socket = new Socket(device.id, device.host, device.key, device.iv, this);
-			const dev = new Device(socket, device);
+	/**
+	 * @param {string} deviceID
+	 */
+	connectDevice(deviceID) {
+		Object.values(this.configJson)
+			.filter((val) => val.id === deviceID)
+			.forEach(async (device) => {
+				//Socketverbindung zu den Geräten herstellen
+				const socket = new Socket(device.id, device.host, device.key, device.iv, this);
+				const dev = new Device(socket, device);
 
-			//Die erzeugten Devices cachen
-			this.devMap.set(dev.id, dev);
+				socket.reconnect();
 
-			socket.reconnect();
-		});
+				//Ruft reglmäßig die aktuellen Werte des Geräts ab. Damit kann das Gerät auch über andere Wege gesteuert werden und der Adapter bleibt aktuell
+				dev.refreshInterval = setInterval(() => {
+					dev.send("/ro/allMandatoryValues");
+				}, 59 * 1000);
+
+				//Die erzeugten Devices cachen
+				this.devMap.set(dev.id, dev);
+			});
 	}
 
 	async loadConfig() {
@@ -339,12 +415,14 @@ class CloudlessHomeconnect extends utils.Adapter {
 					this.log.debug("Created folder: " + instanceDir);
 				}
 				for (const app of account.data.homeAppliances) {
-					//Generelle Datenpunkte erzeugen und Geräte-ID zurückliefern
-					const devID = await this.getDeviceID(app);
+					const devID = app.identifier;
 
 					const config = {
 						name: app.type.toLowerCase(),
 						id: devID,
+						mac: app.mac,
+						enumber: app.enumber,
+						serialnumber: app.serialnumber,
 					};
 					if (app.tls) {
 						// fancy machine with TLS support
@@ -362,32 +440,40 @@ class CloudlessHomeconnect extends utils.Adapter {
 					const res = await this.request(this.ASSET_URL + "api/iddf/v1/iddf/" + devID);
 
 					// open zip and read entries ....
-					const zip = new AdmZip(res.data);
-					const zips = {};
+					try {
+						const zip = new AdmZip(res.data);
+						const zips = {};
 
-					zip.getEntries().forEach((zipEntry) => {
-						this.log.info("Found file: " + zipEntry.entryName);
-						const newFilePath = path.join(instanceDir, zipEntry.entryName);
-						this.log.debug("Creating file: " + newFilePath);
-						if (zipEntry.entryName.includes("_FeatureMapping.xml")) {
-							zips.feature = zip.readAsText(zipEntry);
-							if (this.log.level === "debug") {
-								fs.writeFileSync(newFilePath, zips.feature);
+						zip.getEntries().forEach((zipEntry) => {
+							this.log.info("Found file: " + zipEntry.entryName);
+							const newFilePath = path.join(instanceDir, zipEntry.entryName);
+							this.log.debug("Creating file: " + newFilePath);
+							if (zipEntry.entryName.includes("_FeatureMapping.xml")) {
+								zips.feature = zip.readAsText(zipEntry);
+								if (this.log.level === "debug") {
+									fs.writeFileSync(newFilePath, zips.feature);
+								}
 							}
-						}
-						if (zipEntry.entryName.includes("_DeviceDescription.xml")) {
-							zips.description = zip.readAsText(zipEntry);
-							if (this.log.level === "debug") {
-								fs.writeFileSync(newFilePath, zips.description);
+							if (zipEntry.entryName.includes("_DeviceDescription.xml")) {
+								zips.description = zip.readAsText(zipEntry);
+								if (this.log.level === "debug") {
+									fs.writeFileSync(newFilePath, zips.description);
+								}
 							}
-						}
-					});
-					if (Object.keys(zips).length === 2) {
-						const types = await this.request(this.TYPES_URL);
+						});
+						if (Object.keys(zips).length === 2) {
+							const types = await this.request(this.TYPES_URL);
 
-						const machine = await xml2jsonConverter.xml2json(zips.feature, zips.description, types.data);
-						config.description = machine.description;
-						config.features = machine.features;
+							const machine = await xml2jsonConverter.xml2json(
+								zips.feature,
+								zips.description,
+								types.data,
+							);
+							config.description = machine.description;
+							config.features = machine.features;
+						}
+					} catch (e) {
+						this.log.error("Unparsable zips received. Please try again later. " + e);
 					}
 				}
 			}
@@ -606,48 +692,6 @@ class CloudlessHomeconnect extends utils.Adapter {
 		return account;
 	}
 
-	/**
-	 * Gibt die Geräteid zurück und erstellt Datenpunkte mit generellen Informationen über das Gerät
-	 * @param {*} app
-	 * @returns device id
-	 */
-	async getDeviceID(app) {
-		this.log.debug("Get device list");
-
-		const id = app.identifier;
-		await this.setObjectNotExistsAsync(id, {
-			type: "device",
-			common: {
-				name: app.name,
-			},
-			native: {},
-		});
-		await this.setObjectNotExistsAsync(id + ".General", {
-			type: "channel",
-			common: {
-				name: "Generellle Information zum Gerät",
-			},
-			native: {},
-		});
-
-		["brand", "enumber", "identifier", "mac", "serialnumber", "type", "vib"].forEach(async (key) => {
-			await this.setObjectNotExistsAsync(id + ".General." + key, {
-				type: "state",
-				common: {
-					name: key,
-					type: "string",
-					role: "indicator",
-					write: false,
-					read: true,
-				},
-				native: {},
-			});
-			this.setState(id + ".General." + key, app[key], true);
-		});
-
-		return id;
-	}
-
 	addSinglekeyHost(url) {
 		if (url.startsWith(this.REDIRECT_DOMAIN)) {
 			return url;
@@ -738,17 +782,6 @@ class CloudlessHomeconnect extends utils.Adapter {
 	}
 
 	/**
-	 * Ruft reglmäßig die aktuellen Werte des Geräts ab. Damit kann das Gerät auch über andere Wege gesteuert werden und der Adapter bleibt aktuell
-	 */
-	updateAllActualValues() {
-		setInterval(() => {
-			this.devMap.forEach((device) => {
-				device.send("/ro/allMandatoryValues");
-			});
-		}, 59 * 1000);
-	}
-
-	/**
 	 *
 	 * @param {ioBroker.Object|null|undefined} powerStateObj
 	 * @returns
@@ -827,6 +860,15 @@ class CloudlessHomeconnect extends utils.Adapter {
 			}
 
 			const devId = oid.split(".")[0];
+
+			//Wenn Gerät überwacht werden soll, dieses verbinden
+			if (oid.includes("observe") && state.val) {
+				this.connectDevice(devId);
+
+				this.log.info("Gerät mit ID " + devId + " kann über den Adapter gesteuert werden.");
+				return;
+			}
+
 			if (!this.devMap.has(devId)) {
 				this.log.error("Gerät " + devId + " nicht gefunden. Bitte Adapter neu starten und erneut versuchen.");
 				return;
@@ -834,6 +876,21 @@ class CloudlessHomeconnect extends utils.Adapter {
 
 			const uid = await this.getUidByDp(oid);
 			const device = this.devMap.get(devId);
+
+			//Wenn Gerät nicht überwacht werden soll, Verbindung schließen und aus der Devicemap entfernen
+			if (oid.includes("observe") && !state.val) {
+				if (device.refreshInterval) {
+					clearInterval(device.refreshInterval);
+				}
+				device.ws.close();
+
+				if (this.devMap.has(devId)) {
+					this.devMap.delete(devId);
+				}
+				this.log.info("Gerät mit ID " + devId + " wird nicht mehr über den Adapter gesteuert.");
+				return;
+			}
+
 			if (uid) {
 				let resource = "/ro/values";
 				const data = {};
