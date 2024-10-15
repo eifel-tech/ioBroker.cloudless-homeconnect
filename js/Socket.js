@@ -13,6 +13,8 @@ const socketTimeout = 30;
  */
 class Socket {
 	constructor(devId, host, key, iv64, mainClass) {
+		this.connectionEstablished = false;
+
 		this.handleMessage = this.handleMessage.bind(this);
 
 		this._this = mainClass;
@@ -81,13 +83,16 @@ class Socket {
 		const ws = new Websocket(protocol + "://" + this.host + ":" + this.port + "/homeconnect", options);
 
 		ws.on("error", (e) => {
+			this.connectionEstablished = false;
 			this._this.log.error("Connection error for device " + this.deviceID + ": " + e);
 		});
 		ws.on("open", () => {
+			this.connectionEstablished = true;
 			this.ws.ping();
 			this._this.log.debug("Connection to device " + this.deviceID + " established.");
 		});
 		ws.on("close", (event) => {
+			this.connectionEstablished = false;
 			clearTimeout(this.pingTimeout);
 			if (event >= 1000 && event <= 1015) {
 				if (this.isHttp) {
@@ -130,7 +135,7 @@ class Socket {
 	}
 
 	isConnected() {
-		return this.ws.readyState !== Websocket.CLOSE;
+		return this.connectionEstablished;
 	}
 
 	destroy() {

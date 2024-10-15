@@ -388,7 +388,11 @@ class CloudlessHomeconnect extends utils.Adapter {
 
 				//Ruft reglmäßig die aktuellen Werte des Geräts ab. Damit kann das Gerät auch über andere Wege gesteuert werden und der Adapter bleibt aktuell
 				dev.refreshInterval = setInterval(() => {
-					dev.send("/ro/allMandatoryValues");
+					if (dev.ws.isConnected()) {
+						dev.send("/ro/allMandatoryValues");
+					} else {
+						this.recreateSocket(dev.id);
+					}
 				}, 59 * 1000);
 
 				//Die erzeugten Devices cachen
@@ -774,11 +778,9 @@ class CloudlessHomeconnect extends utils.Adapter {
 
 	recreateSocket(deviceID) {
 		const device = this.devMap.get(deviceID);
-		if (device.json.iv) {
-			this.log.debug("Socket of device " + deviceID + " destroyed.");
-			device.ws = new Socket(device.json.id, device.json.host, device.json.key, device.json.iv, this);
-			device.ws.reconnect();
-		}
+		this.log.debug("Socket of device " + deviceID + " destroyed.");
+		device.ws = new Socket(device.json.id, device.json.host, device.json.key, device.json.iv, this);
+		device.ws.reconnect();
 	}
 
 	/**
