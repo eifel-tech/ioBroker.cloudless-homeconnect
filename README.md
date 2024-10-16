@@ -137,11 +137,15 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 -   Weitere Geräte hinzufügen, die über <ins>keinen</ins> freigeschalteten Port 443 verfügen.
 -   Favoriten in Settings einstellen können
 
+### 1.2.1
+
+-   (eifel-tech) Abbrechen der Verbindung, wenn bei der Socketverbindung zum Gerät Fehler auftreten
+
 ### 1.2.0
 
 -   (eifel-tech) Möglichkeit, einzelne Geräte von der Steuerung auszuschließen.
-> [!CAUTION]
-> Die Konfiguration musste dafür erweitert werden, weswegen der Inhalt des Datenpunkts `info.config` gelöscht und der Adapter neu gestartet werden muss. Ebenfalls den Objektbaum `General` löschen.
+    > [!CAUTION]
+    > Die Konfiguration musste dafür erweitert werden, weswegen der Inhalt des Datenpunkts `info.config` gelöscht und der Adapter neu gestartet werden muss. Ebenfalls den Objektbaum `General` löschen.
 
 ### 1.1.2
 

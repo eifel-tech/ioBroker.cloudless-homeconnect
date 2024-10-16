@@ -884,7 +884,9 @@ class CloudlessHomeconnect extends utils.Adapter {
 				if (device.refreshInterval) {
 					clearInterval(device.refreshInterval);
 				}
-				device.ws.close();
+				if (device.ws.isConnected()) {
+					device.ws.close();
+				}
 
 				if (this.devMap.has(devId)) {
 					this.devMap.delete(devId);

@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.2.0",
+		"version": "1.2.1",
 		"news": {
+			"1.2.1": {
+				"en": "Errorhandling at socket connection",
+				"de": "Fehlerbehandlung bei Socketverbindung",
+				"ru": "Ошибка при подключении к сокету",
+				"pt": "Erro na conexão de soquete",
+				"nl": "Fout bij het verwerken van socketaansluiting",
+				"fr": "Gestion des erreurs à la connexion de socket",
+				"it": "Gestione degli errori alla connessione dell'orbita",
+				"es": "Manipulación de errores en la conexión de toma",
+				"pl": "Obróbka błędów przy podłączeniu gniazda",
+				"uk": "Помилка для підключення розетки",
+				"zh-cn": "套接字连接时处理错误"
+			},
 			"1.2.0": {
 				"en": "Ability to observe only individual devices",
 				"de": "Möglichkeit, nur einzelne Geräte zu beobachten",

@@ -56,7 +56,6 @@ class Socket {
 		let options = {
 			origin: "",
 			timeout: socketTimeout * 1000,
-			keepAlive: true,
 		};
 		let protocol = "ws";
 		if (!this.isHttp) {
@@ -64,7 +63,6 @@ class Socket {
 			options = {
 				origin: "",
 				timeout: socketTimeout * 1000,
-				keepAlive: true,
 				ciphers: "ECDHE-PSK-CHACHA20-POLY1305",
 				minVersion: "TLSv1.2",
 				pskCallback: function () {
@@ -84,6 +82,9 @@ class Socket {
 
 		ws.on("error", (e) => {
 			this.connectionEstablished = false;
+			this.ws.removeAllListeners();
+			this.ws.terminate();
+
 			this._this.log.error("Connection error for device " + this.deviceID + ": " + e);
 		});
 		ws.on("open", () => {
@@ -120,7 +121,8 @@ class Socket {
 
 		this.pingTimeout = setTimeout(
 			() => {
-				this.ws.close();
+				this.ws.terminate();
+				this.connectionEstablished = false;
 			},
 			socketTimeout * 4 * 1000,
 		);
