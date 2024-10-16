@@ -16,6 +16,8 @@ const Socket = require("./js/Socket.js");
 const Device = require("./js/Device.js");
 const util = require("./js/util.js");
 
+const events = require("events");
+
 /**
  * Implementation of Homeconnect-Adapter with only local network communication.
  * Ported from https://github.com/osresearch/hcpy
@@ -32,6 +34,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 		this.on("ready", this.onReady.bind(this));
 		this.on("stateChange", this.onStateChange.bind(this));
 		this.on("unload", this.onUnload.bind(this));
+		this.eventEmitter = new events.EventEmitter();
 
 		this.TYPES_URL = "https://www.home-connect.com/schemas/DeviceDescription/20140417/HC_INT_BSH_CTD.xml";
 		this.BASE_URL = "https://api.home-connect.com/security/oauth/";
@@ -59,7 +62,9 @@ class CloudlessHomeconnect extends utils.Adapter {
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady() {
+		this.setState("info.connection", { val: false, ack: true });
 		this.subscribeStates("*");
+		this.registerEvents();
 
 		const configJsonObj = await this.getStateAsync("info.config");
 		if (configJsonObj && !util.isConfigJson(configJsonObj.val)) {
@@ -115,6 +120,37 @@ class CloudlessHomeconnect extends utils.Adapter {
 		});
 
 		this.log.info("Adapter started successfully");
+	}
+
+	registerEvents() {
+		this.eventEmitter.on("log", (type, msg, e) => {
+			if (type === "debug") {
+				this.log.debug(msg);
+			} else if (type === "error") {
+				if (e) {
+					msg += ": " + e;
+				}
+				this.log.error(msg);
+			} else if (type === "warn") {
+				this.log.warn(msg);
+			} else {
+				this.log.info(msg);
+			}
+		});
+		this.eventEmitter.on("message", (devId, data) => {
+			this.handleMessage(devId, data);
+		});
+		this.eventEmitter.on("socketGracefullyClose", (devId) => {
+			this.connectDevice(devId);
+		});
+		this.eventEmitter.on("socketError", (devId, e) => {
+			this.log.warn("Connection interrupted for device " + devId + ": " + e);
+			this.setStateChanged("info.connection", { val: false, ack: true });
+		});
+		this.eventEmitter.on("socketOpen", (devId) => {
+			this.log.debug("Connection to device " + devId + " established.");
+			this.setStateChanged("info.connection", { val: true, ack: true });
+		});
 	}
 
 	async createDatapoints() {
@@ -381,7 +417,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 			.filter((val) => val.id === deviceID)
 			.forEach(async (device) => {
 				//Socketverbindung zu den Geräten herstellen
-				const socket = new Socket(device.id, device.host, device.key, device.iv, this);
+				const socket = new Socket(device.id, device.host, device.key, device.iv, this.eventEmitter);
 				const dev = new Device(socket, device);
 
 				socket.reconnect();
@@ -390,10 +426,8 @@ class CloudlessHomeconnect extends utils.Adapter {
 				dev.refreshInterval = setInterval(() => {
 					if (dev.ws.isConnected()) {
 						dev.send("/ro/allMandatoryValues");
-					} else {
-						this.recreateSocket(dev.id);
 					}
-				}, 59 * 1000);
+				}, 60 * 1000);
 
 				//Die erzeugten Devices cachen
 				this.devMap.set(dev.id, dev);
@@ -774,13 +808,6 @@ class CloudlessHomeconnect extends utils.Adapter {
 		this.devMap.forEach((device) => {
 			device.ws.close();
 		});
-	}
-
-	recreateSocket(deviceID) {
-		const device = this.devMap.get(deviceID);
-		this.log.debug("Socket of device " + deviceID + " destroyed.");
-		device.ws = new Socket(device.json.id, device.json.host, device.json.key, device.json.iv, this);
-		device.ws.reconnect();
 	}
 
 	/**

@@ -1,5 +1,3 @@
-// @ts-ignore
-// @ts-ignore
 const Websocket = require("ws");
 const util = require("./util.js");
 
@@ -12,12 +10,12 @@ const socketTimeout = 30;
  * @see https://github.com/osresearch/hcpy/blob/main/HCSocket.py
  */
 class Socket {
-	constructor(devId, host, key, iv64, mainClass) {
+	constructor(devId, host, key, iv64, eventEmitter) {
 		this.connectionEstablished = false;
+		this.eventEmitter = eventEmitter;
 
 		this.handleMessage = this.handleMessage.bind(this);
 
-		this._this = mainClass;
 		this.deviceID = devId;
 
 		this.host = host;
@@ -51,7 +49,7 @@ class Socket {
 	 * @see https://nodejs.org/api/tls.html#tlsconnectoptions-callback
 	 */
 	reconnect() {
-		this._this.log.debug("Try to (re)connect to device " + this.deviceID);
+		this.eventEmitter.emit("log", "debug", "Try to (re)connect to device " + this.deviceID);
 
 		let options = {
 			origin: "",
@@ -82,31 +80,31 @@ class Socket {
 
 		ws.on("error", (e) => {
 			this.connectionEstablished = false;
+			clearTimeout(this.pingTimeout);
 			this.ws.removeAllListeners();
 			this.ws.terminate();
 
-			this._this.log.error("Connection error for device " + this.deviceID + ": " + e);
+			this.eventEmitter.emit("socketError", this.deviceID, e);
 		});
 		ws.on("open", () => {
 			this.connectionEstablished = true;
 			this.ws.ping();
-			this._this.log.debug("Connection to device " + this.deviceID + " established.");
+
+			this.eventEmitter.emit("socketOpen", this.deviceID);
 		});
 		ws.on("close", (event) => {
 			this.connectionEstablished = false;
 			clearTimeout(this.pingTimeout);
+			this.ws.removeAllListeners();
+
 			if (event >= 1000 && event <= 1015) {
-				if (this.isHttp) {
-					this.destroy();
-				} else {
-					this.reconnect();
-				}
-				return;
+				this.eventEmitter.emit("socketGracefullyClose", this.deviceID);
+			} else {
+				this.eventEmitter.emit("log", "debug", "Closed connection to " + this.deviceID + "; reason: " + event);
 			}
-			this._this.log.debug("Closed connection to " + this.deviceID + "; reason: " + event);
 		});
 		ws.on("ping", () => {
-			this._this.log.debug(this.deviceID + ": ping received");
+			this.eventEmitter.emit("log", "debug", this.deviceID + ": ping received");
 			this.heartbeat();
 		});
 		ws.onmessage = (event) => {
@@ -121,6 +119,7 @@ class Socket {
 
 		this.pingTimeout = setTimeout(
 			() => {
+				this.eventEmitter.emit("log", "debug", this.deviceID + ": expected ping not received");
 				this.ws.terminate();
 				this.connectionEstablished = false;
 			},
@@ -130,24 +129,18 @@ class Socket {
 
 	handleMessage(msg) {
 		if (this.isHttp) {
-			this._this.log.debug("Encrypted message from " + this.deviceID);
+			this.eventEmitter.emit("log", "debug", "Encrypted message from " + this.deviceID);
 			msg = this.decrypt(Buffer.from(msg));
 		}
-		this._this.handleMessage(this.deviceID, msg);
+		this.eventEmitter.emit("message", this.deviceID, msg);
 	}
 
 	isConnected() {
 		return this.connectionEstablished;
 	}
 
-	destroy() {
-		if (this.isHttp) {
-			this._this.recreateSocket(this.deviceID);
-		}
-	}
-
 	send(msg) {
-		this._this.log.debug(this.deviceID + ": " + JSON.stringify(msg));
+		this.eventEmitter.emit("log", "debug", this.deviceID + ": " + JSON.stringify(msg));
 
 		let buf = JSON.stringify(msg);
 		if (this.isHttp) {
@@ -161,30 +154,30 @@ class Socket {
 	 * @param {string} msg
 	 */
 	encrypt(msg) {
-		this._this.log.debug("---------------- Starting encryption -----------------------");
+		this.eventEmitter.emit("log", "debug", "---------------- Starting encryption -----------------------");
 		// convert the UTF-8 string into a byte array
 		let msgBuf = Buffer.from(msg);
-		this._this.log.debug("msg as bytes:");
-		this._this.log.debug(msgBuf.toString("hex"));
+		this.eventEmitter.emit("log", "debug", "msg as bytes:");
+		this.eventEmitter.emit("log", "debug", msgBuf.toString("hex"));
 
 		// pad the buffer, adding an extra block if necessary
 		let pad_len = 16 - (msgBuf.length % 16);
 		if (pad_len === 1) {
 			pad_len += 16;
 		}
-		this._this.log.debug("pad length: " + pad_len);
+		this.eventEmitter.emit("log", "debug", "pad length: " + pad_len);
 
 		let pad = Buffer.concat([Buffer.from("00", "hex"), util.randomBytes(pad_len - 2), Buffer.from([pad_len])]);
 		msgBuf = Buffer.concat([msgBuf, pad]);
 
-		this._this.log.debug("msg plus pad:");
-		this._this.log.debug(msgBuf.toString("hex"));
+		this.eventEmitter.emit("log", "debug", "msg plus pad:");
+		this.eventEmitter.emit("log", "debug", msgBuf.toString("hex"));
 
 		// encrypt the padded message with CBC, so there is chained state from the last cipher block sent
 		// @ts-ignore
 		let enc_msg = this.aesEncrypt.update(msgBuf);
-		this._this.log.debug("Encrypted msg:");
-		this._this.log.debug(enc_msg.toString("hex"));
+		this.eventEmitter.emit("log", "debug", "Encrypted msg:");
+		this.eventEmitter.emit("log", "debug", enc_msg.toString("hex"));
 
 		// compute the hmac of the encrypted message, chaining the hmac of the previous message plus direction 'E'
 		this.last_tx_hmac = util.getHmacOfMessage(
@@ -198,9 +191,9 @@ class Socket {
 
 		// append the new hmac to the message
 		let ret = Buffer.concat([enc_msg, this.last_tx_hmac]);
-		this._this.log.debug("Encrypted msg with hmac (return):");
-		this._this.log.debug(ret.toString("hex"));
-		this._this.log.debug("---------------- Ending encryption -----------------------");
+		this.eventEmitter.emit("log", "debug", "Encrypted msg with hmac (return):");
+		this.eventEmitter.emit("log", "debug", ret.toString("hex"));
+		this.eventEmitter.emit("log", "debug", "---------------- Ending encryption -----------------------");
 		return ret;
 	}
 
@@ -208,9 +201,9 @@ class Socket {
 	 * @param {Buffer} buf
 	 */
 	decrypt(buf) {
-		this._this.log.debug("---------------- Starting decryption -----------------------");
-		this._this.log.debug("recieved msg: ");
-		this._this.log.debug(buf.toString("hex"));
+		this.eventEmitter.emit("log", "debug", "---------------- Starting decryption -----------------------");
+		this.eventEmitter.emit("log", "debug", "recieved msg: ");
+		this.eventEmitter.emit("log", "debug", buf.toString("hex"));
 		if (buf.length < 32) {
 			return JSON.stringify({
 				code: 5001,
@@ -219,7 +212,9 @@ class Socket {
 			});
 		}
 		if (buf.length % 16 !== 0) {
-			this._this.log.debug(
+			this.eventEmitter.emit(
+				"log",
+				"debug",
 				"Unaligned message? probably bad: " + buf.toString("base64") + " ; length: " + buf.length,
 			);
 		}
@@ -239,7 +234,9 @@ class Socket {
 		);
 
 		if (!their_hmac.equals(our_hmac)) {
-			this._this.log.debug(
+			this.eventEmitter.emit(
+				"log",
+				"debug",
 				"HMAC failure; Wert: " + their_hmac.toString("hex") + " vs. " + our_hmac.toString("hex"),
 			);
 		}
@@ -249,12 +246,12 @@ class Socket {
 		// decrypt the message with CBC, so the last message block is mixed in
 		// @ts-ignore
 		let msg = this.aesDecrypt.update(enc_msg);
-		this._this.log.debug("decrypted as bytes:");
-		this._this.log.debug(msg.toString("hex"));
+		this.eventEmitter.emit("log", "debug", "decrypted as bytes:");
+		this.eventEmitter.emit("log", "debug", msg.toString("hex"));
 
 		// check for padding and trim it off
 		let pad_len = parseInt(msg.subarray(-1).toString("hex"), 16);
-		this._this.log.debug("pad length: " + pad_len);
+		this.eventEmitter.emit("log", "debug", "pad length: " + pad_len);
 
 		//check for valid json
 		let ret = msg.subarray(0, -pad_len).toString();
@@ -266,12 +263,12 @@ class Socket {
 			});
 		}
 
-		this._this.log.debug("---------------- Ending decryption -----------------------");
+		this.eventEmitter.emit("log", "debug", "---------------- Ending decryption -----------------------");
 		return ret;
 	}
 
 	close() {
-		this._this.log.debug("Closing socket connection gracefully to " + this.deviceID);
+		this.eventEmitter.emit("log", "debug", "Closing socket connection gracefully to " + this.deviceID);
 		this.ws.close(3000);
 	}
 }
