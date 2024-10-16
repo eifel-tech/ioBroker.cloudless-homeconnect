@@ -141,10 +141,12 @@ class CloudlessHomeconnect extends utils.Adapter {
 			this.handleMessage(devId, data);
 		});
 		this.eventEmitter.on("socketGracefullyClose", (devId) => {
+			clearInterval(this.devMap.get(devId).refreshInterval);
 			this.connectDevice(devId);
 		});
 		this.eventEmitter.on("socketError", (devId, e) => {
 			this.log.warn("Connection interrupted for device " + devId + ": " + e);
+			clearInterval(this.devMap.get(devId).refreshInterval);
 			this.setStateChanged("info.connection", { val: false, ack: true });
 		});
 		this.eventEmitter.on("socketOpen", (devId) => {
