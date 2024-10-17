@@ -4,21 +4,34 @@ const util = require("./util.js");
  * Homeconnect-Device with its socket connection @see Socket.js
  */
 class Device {
+	#device_name;
+	#device_id;
+	#tx_msg_id;
+	#sendingMap;
+
+	/**
+	 * @param {import("./Socket.js")} ws
+	 * @param {{ id: string; features: object; }} deviceJson
+	 */
 	constructor(ws, deviceJson) {
 		this.refreshInterval = undefined;
 		this.ws = ws;
 		this.id = deviceJson.id;
-		this.json = deviceJson;
 		this.features = deviceJson.features;
 
-		this.device_name = "hcpy";
-		this.device_id = "0badcafe";
+		this.#device_name = "hcpy";
+		this.#device_id = "0badcafe";
 
-		this.tx_msg_id = 0;
+		this.#tx_msg_id = 0;
 
-		this.sendingMap = new Map();
+		this.#sendingMap = new Map();
 	}
 
+	/**
+	 *
+	 * @param {object} msg
+	 * @returns
+	 */
 	handleMessage(msg) {
 		//Bei Fehler abbrechen
 		if (msg.code) {
@@ -34,11 +47,11 @@ class Device {
 
 		const values = {};
 		if (action === "POST" && resource == "/ei/initialValues") {
-			this.handleFirstMessage(msg);
+			this.#handleFirstMessage(msg);
 		} else if (action === "RESPONSE" || action === "NOTIFY") {
 			if (resource == "/ro/allMandatoryValues" || resource == "/ro/values") {
-				if (!msg.data && this.sendingMap.has(msg.msgID)) {
-					msg.data = this.sendingMap.get(msg.msgID);
+				if (!msg.data && this.#sendingMap.has(msg.msgID)) {
+					msg.data = this.#sendingMap.get(msg.msgID);
 				}
 				if (msg.data) {
 					for (const val of msg.data) {
@@ -58,17 +71,21 @@ class Device {
 		return values;
 	}
 
-	handleFirstMessage(msg) {
-		this.sendingMap.clear();
+	/**
+	 *
+	 * @param {object} msg
+	 */
+	#handleFirstMessage(msg) {
+		this.#sendingMap.clear();
 
 		// this is the first message they send to us and establishes our session plus message ids
 		this.session_id = msg.sID;
-		this.tx_msg_id = msg.data[0].edMsgID;
+		this.#tx_msg_id = msg.data[0].edMsgID;
 
-		this.reply(msg, {
+		this.#reply(msg, {
 			deviceType: "Application",
-			deviceName: this.device_name,
-			deviceID: this.device_id,
+			deviceName: this.#device_name,
+			deviceID: this.#device_id,
 		});
 
 		// ask the device which services it supports
@@ -92,10 +109,10 @@ class Device {
 
 	/**
 	 * Reply to a POST or GET message with new data
-	 * @param {*} msg
-	 * @param {*} replyData
+	 * @param {object} msg
+	 * @param {object} replyData
 	 */
-	reply(msg, replyData) {
+	#reply(msg, replyData) {
 		this.ws.send({
 			sID: msg.sID,
 			msgID: msg.msgID, // same one they sent to us
@@ -108,16 +125,16 @@ class Device {
 
 	/**
 	 * Sends a message to the device
-	 * @param {*} resource
-	 * @param {*} version
-	 * @param {*} action
-	 * @param {*} data
+	 * @param {string} resource
+	 * @param {number} version
+	 * @param {string} action
+	 * @param {object} data
 	 */
 	send(resource, version = 1, action = "GET", data = undefined) {
 		if (this.ws.isConnected()) {
 			const msg = {
 				sID: this.session_id,
-				msgID: this.tx_msg_id,
+				msgID: this.#tx_msg_id,
 				resource: resource,
 				version: version,
 				action: action,
@@ -128,10 +145,10 @@ class Device {
 			}
 
 			//Werte pro Message zwischenspeichern, um auf Antworten des Geräts reagieren zu können, z.B. sofort ack=true setzen
-			this.sendingMap.set(msg.msgID, msg.data);
+			this.#sendingMap.set(msg.msgID, msg.data);
 
 			this.ws.send(msg);
-			this.tx_msg_id += 1;
+			this.#tx_msg_id += 1;
 		}
 	}
 }

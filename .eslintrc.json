@@ -5,8 +5,8 @@
 		"node": true,
 		"mocha": true
 	},
-	"extends": ["eslint:recommended"],
-	"plugins": [],
+	"extends": ["eslint:recommended", "airbnb", "prettier"],
+	"plugins": ["prettier"],
 	"rules": {
 		"indent": [
 			"error",
@@ -34,9 +34,11 @@
 				"allowTemplateLiterals": true
 			}
 		],
-		"semi": ["error", "always"]
+		"semi": ["error", "always"],
+		"prettier/prettier": ["error"]
 	},
 	"parserOptions": {
 		"ecmaVersion": "latest"
-	}
+	},
+	"eslint.validate": ["javascript"]
 }
