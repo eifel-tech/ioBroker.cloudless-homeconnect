@@ -1,4 +1,5 @@
 const Websocket = require("ws");
+const Pws = require("pws");
 const util = require("./util.js");
 
 //Sockettimeout in Sekunden
@@ -10,8 +11,8 @@ const socketTimeout = 30;
  */
 class Socket {
 	#connectionEstablished;
-	#retries;
-	#maxTimeout;
+	// #retries;
+	// #maxTimeout;
 	#eventEmitter;
 	#deviceID;
 	#host;
@@ -32,12 +33,12 @@ class Socket {
 	 * @param {string} key
 	 * @param {string} iv64
 	 * @param {*} eventEmitter
-	 * @param {number} retries
 	 */
-	constructor(devId, host, key, iv64, eventEmitter, retries) {
+	// constructor(devId, host, key, iv64, eventEmitter, retries) {
+	constructor(devId, host, key, iv64, eventEmitter) {
 		this.#connectionEstablished = false;
-		this.#retries = retries | 0;
-		this.#maxTimeout = (socketTimeout / 6) * 60 * 1000; //5 Minuten
+		// this.#retries = retries | 0;
+		// this.#maxTimeout = (socketTimeout / 6) * 60 * 1000; //5 Minuten
 		this.#eventEmitter = eventEmitter;
 
 		this.handleMessage = this.#handleMessage.bind(this);
@@ -77,20 +78,21 @@ class Socket {
 	async reconnect() {
 		this.#eventEmitter.emit("log", "debug", "Try to (re)connect to device " + this.#deviceID);
 
-		let reconnectDelay = Math.ceil(this.#nextReconnectDelay(this.#retries++));
-		if (reconnectDelay >= this.#maxTimeout) {
-			this.#eventEmitter.emit(
-				"log",
-				"warn",
-				"Max time of trying to reconnect reached for device " + this.#deviceID + ". Giving up.",
-			);
-			return;
-		}
-		await util.sleep(reconnectDelay);
+		// let reconnectDelay = Math.ceil(this.#nextReconnectDelay(this.#retries++));
+		// if (reconnectDelay >= this.#maxTimeout) {
+		// 	this.#eventEmitter.emit(
+		// 		"log",
+		// 		"warn",
+		// 		"Max time of trying to reconnect reached for device " + this.#deviceID + ". Giving up.",
+		// 	);
+		// 	return;
+		// }
+		// await util.sleep(reconnectDelay);
 
 		let options = {
 			origin: "",
 			timeout: socketTimeout * 1000,
+			pingTimeout: socketTimeout * 4 * 1000,
 		};
 		let protocol = "ws";
 		if (!this.isHttp) {
@@ -110,37 +112,38 @@ class Socket {
 
 			protocol = "wss";
 		}
-		let ws = new Websocket(`${protocol}://${this.#host}:${this.#port}/homeconnect`, options);
+		// let ws = new Websocket(`${protocol}://${this.#host}:${this.#port}/homeconnect`, options);
+		let ws = Pws(`${protocol}://${this.#host}:${this.#port}/homeconnect`, Websocket, options);
 
 		ws.on("error", (e) => {
 			this.#connectionEstablished = false;
-			clearTimeout(this.pingTimeout);
-			this.ws.removeAllListeners();
-			this.ws.terminate();
+			// clearTimeout(this.pingTimeout);
+			// this.ws.removeAllListeners();
+			// this.ws.terminate();
 
 			this.#eventEmitter.emit("socketError", this.#deviceID, e);
 		});
 		ws.on("open", () => {
 			this.#connectionEstablished = true;
-			this.ws.ping();
+			// this.ws.ping();
 
 			this.#eventEmitter.emit("socketOpen", this.#deviceID);
 		});
 		ws.on("close", (event) => {
 			this.#connectionEstablished = false;
-			clearTimeout(this.pingTimeout);
-			this.ws.removeAllListeners();
+			// clearTimeout(this.pingTimeout);
+			// this.ws.removeAllListeners();
 
-			if (event >= 1000 && event <= 1015) {
-				this.#eventEmitter.emit("socketGracefullyClose", this.#deviceID);
-			} else {
-				this.#eventEmitter.emit("socketClose", this.#deviceID, event);
-			}
+			// if (event >= 1000 && event <= 1015) {
+			// 	this.#eventEmitter.emit("socketGracefullyClose", this.#deviceID);
+			// } else {
+			this.#eventEmitter.emit("socketClose", this.#deviceID, event);
+			// }
 		});
-		ws.on("ping", () => {
-			this.#eventEmitter.emit("log", "debug", this.#deviceID + ": ping received");
-			this.#heartbeat();
-		});
+		// ws.on("ping", () => {
+		// 	this.#eventEmitter.emit("log", "debug", this.#deviceID + ": ping received");
+		// 	this.#heartbeat();
+		// });
 		ws.onmessage = (event) => {
 			this.#handleMessage(event.data);
 		};
@@ -148,22 +151,22 @@ class Socket {
 		this.ws = ws;
 	}
 
-	#heartbeat() {
-		clearTimeout(this.pingTimeout);
+	// #heartbeat() {
+	// 	clearTimeout(this.pingTimeout);
 
-		this.pingTimeout = setTimeout(
-			() => {
-				this.#eventEmitter.emit("log", "debug", this.#deviceID + ": expected ping not received");
-				this.ws.terminate();
-				this.#connectionEstablished = false;
-			},
-			socketTimeout * 4 * 1000,
-		);
-	}
+	// 	this.pingTimeout = setTimeout(
+	// 		() => {
+	// 			this.#eventEmitter.emit("log", "debug", this.#deviceID + ": expected ping not received");
+	// 			this.ws.terminate();
+	// 			this.#connectionEstablished = false;
+	// 		},
+	// 		socketTimeout * 4 * 1000,
+	// 	);
+	// }
 
-	#nextReconnectDelay(retries) {
-		return Math.min((1 + Math.random()) * Math.pow(1.5, retries) * 1000, this.#maxTimeout);
-	}
+	// #nextReconnectDelay(retries) {
+	// 	return Math.min((1 + Math.random()) * Math.pow(1.5, retries) * 1000, this.#maxTimeout);
+	// }
 
 	/**
 	 *
