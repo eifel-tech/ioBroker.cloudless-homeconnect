@@ -171,7 +171,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 					},
 					native: {},
 				});
-				this.setState(id + ".General." + key, dev[key], true);
+				this.setStateChanged(id + ".General." + key, dev[key], true);
 			});
 
 			["brand", "model"].forEach(async (key) => {
@@ -186,7 +186,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 					},
 					native: {},
 				});
-				this.setState(id + ".General." + key, dev.description[key], true);
+				this.setStateChanged(id + ".General." + key, dev.description[key], true);
 			});
 
 			//Features
@@ -371,7 +371,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 					}
 				}
 
-				this.setState(oid, value, true);
+				this.setStateChanged(oid, value, true);
 			});
 	}
 
