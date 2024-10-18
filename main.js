@@ -29,6 +29,8 @@ class CloudlessHomeconnect extends utils.Adapter {
 		this.on("unload", this.onUnload.bind(this));
 		this.eventEmitter = new events.EventEmitter();
 
+		this.connRetriesMap = new Map();
+
 		this.configJson = [];
 		this.devMap = new Map();
 		this.configService = new ConfigService(this.eventEmitter, utils.getAbsoluteInstanceDataDir(this));
@@ -112,10 +114,17 @@ class CloudlessHomeconnect extends utils.Adapter {
 			this.log.warn("Connection interrupted for device " + devId + ": " + e);
 			clearInterval(this.devMap.get(devId).refreshInterval);
 			this.setStateChanged("info.connection", { val: false, ack: true });
+
+			//Nur bei bestimmten Fehlern einen neuen Verbindungsversuch starten.
+			if (-1 * e.errno >= 100 && -1 * e.errno <= 113) {
+				this.connectDevice(devId);
+			}
 		});
 		this.eventEmitter.on("socketOpen", (devId) => {
 			this.log.debug("Connection to device " + devId + " established.");
 			this.setStateChanged("info.connection", { val: true, ack: true });
+
+			this.connRetriesMap.set(devId, -1);
 		});
 	}
 
@@ -382,8 +391,12 @@ class CloudlessHomeconnect extends utils.Adapter {
 		Object.values(this.configJson)
 			.filter((val) => val.id === deviceID)
 			.forEach((device) => {
+				let retries = this.connRetriesMap.has(deviceID) ? this.connRetriesMap.get(deviceID) : -1;
+				retries++;
+				this.connRetriesMap.set(deviceID, retries);
+
 				//Socketverbindung zu den Geräten herstellen
-				const socket = new Socket(device.id, device.host, device.key, device.iv, this.eventEmitter);
+				const socket = new Socket(device.id, device.host, device.key, device.iv, this.eventEmitter, retries);
 				const dev = new Device(socket, device);
 
 				socket.reconnect();

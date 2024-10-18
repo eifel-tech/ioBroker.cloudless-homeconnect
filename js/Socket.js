@@ -10,6 +10,8 @@ const socketTimeout = 30;
  */
 class Socket {
 	#connectionEstablished;
+	#retries;
+	#maxTimeout;
 	#eventEmitter;
 	#deviceID;
 	#host;
@@ -30,9 +32,12 @@ class Socket {
 	 * @param {string} key
 	 * @param {string} iv64
 	 * @param {*} eventEmitter
+	 * @param {number} retries
 	 */
-	constructor(devId, host, key, iv64, eventEmitter) {
+	constructor(devId, host, key, iv64, eventEmitter, retries) {
 		this.#connectionEstablished = false;
+		this.#retries = retries | 0;
+		this.#maxTimeout = (socketTimeout / 6) * 60 * 1000; //5 Minuten
 		this.#eventEmitter = eventEmitter;
 
 		this.handleMessage = this.#handleMessage.bind(this);
@@ -66,11 +71,22 @@ class Socket {
 	}
 
 	/**
-	 * Stellt eine Socketverbindung zum Endgerät her und gibt die Verbindung zurück
+	 * Stellt eine Socketverbindung zum Endgerät her
 	 * @see https://nodejs.org/api/tls.html#tlsconnectoptions-callback
 	 */
-	reconnect() {
+	async reconnect() {
 		this.#eventEmitter.emit("log", "debug", "Try to (re)connect to device " + this.#deviceID);
+
+		let reconnectDelay = Math.ceil(this.#nextReconnectDelay(this.#retries++));
+		if (reconnectDelay >= this.#maxTimeout) {
+			this.#eventEmitter.emit(
+				"log",
+				"warn",
+				"Max time of trying to reconnect reached for device " + this.#deviceID + ". Giving up.",
+			);
+			return;
+		}
+		await util.sleep(reconnectDelay);
 
 		let options = {
 			origin: "",
@@ -79,20 +95,17 @@ class Socket {
 		let protocol = "ws";
 		if (!this.isHttp) {
 			const _this = this;
-			options = {
-				origin: "",
-				timeout: socketTimeout * 1000,
-				ciphers: "ECDHE-PSK-CHACHA20-POLY1305",
-				minVersion: "TLSv1.2",
-				pskCallback: function () {
-					return {
-						identity: "Client_identity",
-						psk: _this.#psk,
-					};
-				},
-				checkServerIdentity: function () {
-					return undefined;
-				},
+
+			options.ciphers = "ECDHE-PSK-CHACHA20-POLY1305";
+			options.minVersion = "TLSv1.2";
+			options.pskCallback = function () {
+				return {
+					identity: "Client_identity",
+					psk: _this.#psk,
+				};
+			};
+			options.checkServerIdentity = function () {
+				return undefined;
 			};
 
 			protocol = "wss";
@@ -146,6 +159,10 @@ class Socket {
 			},
 			socketTimeout * 4 * 1000,
 		);
+	}
+
+	#nextReconnectDelay(retries) {
+		return Math.min((1 + Math.random()) * Math.pow(1.5, retries) * 1000, this.#maxTimeout);
 	}
 
 	/**
@@ -298,7 +315,7 @@ class Socket {
 
 	close() {
 		this.#eventEmitter.emit("log", "debug", "Closing socket connection gracefully to " + this.#deviceID);
-		this.ws.close(3000);
+		this.ws.close(4665);
 	}
 }
 
