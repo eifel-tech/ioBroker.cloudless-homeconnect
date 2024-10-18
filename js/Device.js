@@ -16,6 +16,7 @@ class Device {
 	constructor(ws, deviceJson) {
 		this.refreshInterval = undefined;
 		this.ws = ws;
+		this.json = deviceJson;
 		this.id = deviceJson.id;
 		this.features = deviceJson.features;
 
