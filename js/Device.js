@@ -11,12 +11,12 @@ class Device {
 
 	/**
 	 * @param {import("./Socket.js")} ws
-	 * @param {{ id: string; features: object; }} deviceJson
+	 * @param {{ id: string; description: object; features: object; }} deviceJson
 	 */
 	constructor(ws, deviceJson) {
 		this.refreshInterval = undefined;
 		this.ws = ws;
-		this.json = deviceJson;
+		this.type = deviceJson.description.type;
 		this.id = deviceJson.id;
 		this.features = deviceJson.features;
 

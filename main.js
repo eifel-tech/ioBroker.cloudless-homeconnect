@@ -29,8 +29,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 		this.on("unload", this.onUnload.bind(this));
 		this.eventEmitter = new events.EventEmitter();
 
-		// this.connRetriesMap = new Map();
-
+		this.startingErrors = 0;
 		this.configJson = [];
 		this.devMap = new Map();
 		this.configService = new ConfigService(this.eventEmitter, utils.getAbsoluteInstanceDataDir(this));
@@ -74,15 +73,17 @@ class CloudlessHomeconnect extends utils.Adapter {
 
 		await this.createDatapoints();
 
-		//Socketverbindung für alle Geräte in der Config, die überwacht werden sollen, herstellen
-		Object.values(this.configJson).forEach(async (device) => {
-			const observe = await this.getStateAsync(device.id + ".observe");
-			if (observe && observe.val) {
-				this.connectDevice(device.id);
-			}
-		});
+		if (this.startingErrors === 0) {
+			//Socketverbindung für alle Geräte in der Config, die überwacht werden sollen, herstellen
+			Object.values(this.configJson).forEach(async (device) => {
+				const observe = await this.getStateAsync(device.id + ".observe");
+				if (observe && observe.val) {
+					this.connectDevice(device.id);
+				}
+			});
 
-		this.log.info("Adapter started successfully");
+			this.log.info("Adapter started successfully");
+		}
 	}
 
 	registerEvents() {
@@ -103,29 +104,26 @@ class CloudlessHomeconnect extends utils.Adapter {
 		this.eventEmitter.on("message", (devId, data) => {
 			this.handleMessage(devId, data);
 		});
-		this.eventEmitter.on("socketGracefullyClose", (devId) => {
-			clearInterval(this.devMap.get(devId).refreshInterval);
-			this.connectDevice(devId);
-		});
 		this.eventEmitter.on("socketClose", (devId, event) => {
-			clearInterval(this.devMap.get(devId).refreshInterval);
+			if (this.devMap.has(devId)) {
+				clearInterval(this.devMap.get(devId).refreshInterval);
+			}
 			this.log.debug("Closed connection to " + devId + "; reason: " + event);
 		});
-		this.eventEmitter.on("socketError", (devId, e) => {
+		this.eventEmitter.on("socketError", async (devId, e) => {
 			this.log.warn("Connection interrupted for device " + devId + ": " + e);
-			clearInterval(this.devMap.get(devId).refreshInterval);
-			this.setStateChanged("info.connection", { val: false, ack: true });
+			if (this.devMap.has(devId)) {
+				clearInterval(this.devMap.get(devId).refreshInterval);
+			}
 
-			// //Nur bei bestimmten Fehlern einen neuen Verbindungsversuch starten.
-			// if (-1 * e.errno >= 100 && -1 * e.errno <= 113) {
-			// 	this.connectDevice(devId);
-			// }
+			const observe = await this.getStateAsync(devId + ".observe");
+			if (observe && observe.val) {
+				this.setStateChanged("info.connection", { val: false, ack: true });
+			}
 		});
 		this.eventEmitter.on("socketOpen", (devId) => {
 			this.log.debug("Connection to device " + devId + " established.");
 			this.setStateChanged("info.connection", { val: true, ack: true });
-
-			// this.connRetriesMap.set(devId, -1);
 		});
 	}
 
@@ -134,6 +132,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 			const id = dev.id;
 			if (!dev.features) {
 				this.log.error("Konfiguration unvollständig");
+				this.startingErrors++;
 				return;
 			}
 
@@ -260,8 +259,6 @@ class CloudlessHomeconnect extends utils.Adapter {
 									);
 								});
 							}
-
-							return;
 						}
 
 						//Datenpunkte initial anlegen
@@ -392,16 +389,11 @@ class CloudlessHomeconnect extends utils.Adapter {
 		Object.values(this.configJson)
 			.filter((val) => val.id === deviceID)
 			.forEach((device) => {
-				// let retries = this.connRetriesMap.has(deviceID) ? this.connRetriesMap.get(deviceID) : -1;
-				// retries++;
-				// this.connRetriesMap.set(deviceID, retries);
-
 				//Socketverbindung zu den Geräten herstellen
-				// const socket = new Socket(device.id, device.host, device.key, device.iv, this.eventEmitter, retries);
 				const socket = new Socket(device.id, device.host, device.key, device.iv, this.eventEmitter);
 				const dev = new Device(socket, device);
 
-				socket.reconnect();
+				socket.connect();
 
 				//Ruft reglmäßig die aktuellen Werte des Geräts ab. Damit kann das Gerät auch über andere Wege gesteuert werden und der Adapter bleibt aktuell
 				dev.refreshInterval = setInterval(() => {
@@ -563,6 +555,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 				if (this.devMap.has(devId)) {
 					this.devMap.delete(devId);
 				}
+				this.setStateChanged("info.connection", { val: true, ack: true });
 				this.log.info("Gerät mit ID " + devId + " wird nicht mehr über den Adapter gesteuert.");
 				return;
 			}
@@ -602,7 +595,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 							}),
 					);
 					//Bei Waschmaschine müssen die Optionen der Programme einzeln und nicht in Verbindung mit activeProgram gesetzt werden.
-					if (device.json.description.type === "Washer") {
+					if (device.type === "Washer") {
 						data.options.forEach((option) => {
 							device.send("/ro/values", 1, "POST", option);
 						});
@@ -617,7 +610,6 @@ class CloudlessHomeconnect extends utils.Adapter {
 					if (typeof val === "string") {
 						try {
 							val = JSON.parse(val);
-							// eslint-disable-next-line no-empty
 						} catch (e) {}
 					}
 					data.value = val;

@@ -87,6 +87,10 @@ Hier werden die wichtigsten Datenpunkte beschrieben. Im Namen ist die UID hinter
 |       └── SelectedProgram
 ```
 
+### info.connection
+
+Dieser Datenpunkt wird `false`, wenn die Verbindung zu **mindestens** einem Gerät nicht hergestellt werden kann, also bei einem Socketerror. Dadurch wird auch in der Instanzübersicht der Adapter "gelb". Es wird automatisch 15 mal eine Neuverbindung mit maximal 5 Minuten Wartezeit zum Gerät versucht. Danach müsste der Adapter manuell neugestartet werden, um wieder eine Verbindung aufzubauen. Warum das Gerät nicht verbunden werden kann und um welches Gerät es sich handelt, steht in warn-Einträgen im Log. Hier muss dann "von Hand" geschaut werden, wie das Problem zu beheben ist. Der Datenpunkt wird nur für Geräte gesetzt, die sich in der Überwachung des Adapters befinden (siehe `observe`).
+
 ### info.config
 
 Hier wird die Konfiguration als JSON gespeichert. Soll diese neu eingelesen werden, bspw. weil neue Geräte hinzugekommen sind, muss der Inhalt gelöscht und der Adapter ggfs. neu gestartet werden.
@@ -136,6 +140,11 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 
 -   Weitere Geräte hinzufügen, die über <ins>keinen</ins> freigeschalteten Port 443 verfügen.
 -   Favoriten in Settings einstellen können
+
+### 1.2.2
+
+-   (eifel-tech) Verwendung einer persistenten Websocketverbindung
+-   (eifel-tech) Abhängigkeiten überarbeitet
 
 ### 1.2.1
 

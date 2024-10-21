@@ -3,8 +3,6 @@
  * this collapses the XML entities and duplicates some things, but makes for
  * easier parsing later
  */
-
-const xml2js = require("xml2js");
 const cheerio = require("cheerio");
 let parsedEnums = {};
 let allFeatures = {};
@@ -72,41 +70,50 @@ function getMachineDescription($) {
 	return description;
 }
 
+/**
+ * @param {cheerio.Cheerio<import("domhandler").Element>} features
+ */
 function parseFeatures(features) {
-	Object.values(features).forEach((key) => {
-		allFeatures[parseInt(key.$.refUID, 16)] = {
-			name: key._,
+	features.each(function () {
+		allFeatures[parseInt(this.attribs.refUID, 16)] = {
+			// @ts-ignore
+			name: this.children[0].data,
 		};
 	});
 }
 
-function parseEnums(enums) {
-	for (const key of enums) {
-		const values = {};
-		const enumMember = key.enumMember;
-		for (const v of enumMember) {
-			const value = parseInt(v.$.refValue);
-			values[value] = v._;
-		}
-
-		parsedEnums[parseInt(key.$.refENID, 16)] = {
-			name: key.$.enumKey,
+/**
+ * @param {cheerio.CheerioAPI} $
+ */
+function parseEnums($) {
+	$("enumDescription").each(function () {
+		let values = {};
+		$(this)
+			.children("enumMember")
+			.map(function () {
+				return (values[parseInt(this.attribs.refValue)] = $(this).text());
+			});
+		parsedEnums[parseInt(this.attribs.refENID, 16)] = {
+			name: this.attribs.enumKey,
 			values: values,
 		};
-	}
+	});
 }
 
-function parseTypes(types) {
-	Object.values(types)
-		.map((type) => {
-			const correctedType = type.$.protocolType.toLowerCase();
+/**
+ * @param {cheerio.CheerioAPI} $
+ */
+function parseTypes($) {
+	$("contentType")
+		.map(function () {
+			const correctedType = this.attribs.protocolType.toLowerCase();
 			const ret = {
 				name: correctedType,
-				cid: type.$.cid,
+				cid: this.attribs.cid,
 			};
 			if (correctedType === "float" || correctedType === "integer") {
 				ret.name = "number";
-				const unit = tryToGetUnit(type.$.type);
+				const unit = tryToGetUnit(this.attribs.type);
 				if (unit) {
 					ret.unit = unit;
 				}
@@ -116,13 +123,13 @@ function parseTypes(types) {
 			}
 			return ret;
 		})
-		.forEach((type) => {
-			const uid = parseInt(type.cid, 16);
+		.each(function () {
+			const uid = parseInt(this.cid, 16);
 			parsedTypes[uid] = {
-				type: type.name,
+				type: this.name,
 			};
-			if (type.unit) {
-				parsedTypes[uid].unit = type.unit;
+			if (this.unit) {
+				parsedTypes[uid].unit = this.unit;
 			}
 		});
 }
@@ -148,47 +155,6 @@ function tryToGetUnit(type) {
 	}
 
 	return "";
-}
-
-async function xml2json(featuresXml, descriptionXml, typesXml) {
-	parsedEnums = {};
-	allFeatures = {};
-	parsedFeatures = {};
-	parsedTypes = {};
-
-	// the feature file has features, errors, and enums
-	const $ = cheerio.load(descriptionXml, {
-		xml: true,
-	});
-	const parser = new xml2js.Parser();
-
-	// Parse the feature an enum file
-	const result = await parser.parseStringPromise(featuresXml);
-
-	//Parse possible types
-	const types = await parser.parseStringPromise(typesXml);
-
-	// Features are all possible UIDs
-	parseFeatures(result.featureMappingFile.featureDescription[0].feature);
-	// Enums
-	parseEnums(result.featureMappingFile.enumDescriptionList[0].enumDescription);
-	// Types
-	parseTypes(types.cidList.contentType);
-
-	const theDevice = $("device");
-	joinFeature(getAttribs(theDevice, "status"));
-	joinFeature(getAttribs(theDevice, "setting"));
-	joinFeature(getAttribs(theDevice, "event"));
-	joinFeature(getAttribs(theDevice, "command"));
-	joinFeature(getAttribs(theDevice, "option"));
-	joinFeature(getPrograms($));
-	joinFeature(getAttribs(theDevice, "activeProgram"));
-	joinFeature(getAttribs(theDevice, "selectedProgram"));
-
-	return {
-		description: getMachineDescription($),
-		features: parsedFeatures,
-	};
 }
 
 /**
@@ -219,6 +185,47 @@ function getPrograms($) {
 			});
 		});
 	return ret;
+}
+
+async function xml2json(featuresXml, descriptionXml, typesXml) {
+	parsedEnums = {};
+	allFeatures = {};
+	parsedFeatures = {};
+	parsedTypes = {};
+
+	// the feature file has features, errors, and enums
+	let $ = cheerio.load(featuresXml, {
+		xml: true,
+	});
+	// Features are all possible UIDs
+	parseFeatures($("feature"));
+	// Enums
+	parseEnums($);
+
+	//Parse possible types
+	$ = cheerio.load(typesXml, {
+		xml: true,
+	});
+	parseTypes($);
+
+	//Parse description
+	$ = cheerio.load(descriptionXml, {
+		xml: true,
+	});
+	const theDevice = $("device");
+	joinFeature(getAttribs(theDevice, "status"));
+	joinFeature(getAttribs(theDevice, "setting"));
+	joinFeature(getAttribs(theDevice, "event"));
+	joinFeature(getAttribs(theDevice, "command"));
+	joinFeature(getAttribs(theDevice, "option"));
+	joinFeature(getPrograms($));
+	joinFeature(getAttribs(theDevice, "activeProgram"));
+	joinFeature(getAttribs(theDevice, "selectedProgram"));
+
+	return {
+		description: getMachineDescription($),
+		features: parsedFeatures,
+	};
 }
 
 module.exports = {

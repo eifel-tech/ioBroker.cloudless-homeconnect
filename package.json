@@ -30,10 +30,8 @@
     "axios": "^1.7.7",
     "cheerio": "^1.0.0",
     "http-cookie-agent": "^6.0.6",
-    "pws": "^7.0.0",
     "tough-cookie": "^5.0.0",
-    "ws": "^8.18.0",
-    "xml2js": "^0.6.2"
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@iobroker/testing": "^5.0.0",
@@ -48,13 +46,8 @@
     "chai": "^4.5.0",
     "chai-as-promised": "^8.0.0",
     "eslint": "^9.13.0",
-    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-jsx-a11y": "^6.10.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react": "^7.37.1",
-    "eslint-plugin-react-hooks": "^4.6.2",
     "mocha": "^10.7.3",
     "prettier": "^3.3.3",
     "proxyquire": "^2.1.3",

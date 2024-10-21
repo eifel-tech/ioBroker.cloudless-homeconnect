@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.2.1",
+		"version": "1.2.2",
 		"news": {
+			"1.2.2": {
+				"en": "Using persistent WebSocket",
+				"de": "Verwendung einer persistenten Websocketverbindung",
+				"ru": "Использование постоянного WebSocket",
+				"pt": "Usando persistente WebSocket",
+				"nl": "Het gebruik van persistente WebSocket",
+				"fr": "Utilisation persistante de WebSocket",
+				"it": "Utilizzo di WebSocket persistente",
+				"es": "Utilizando WebSocket persistente",
+				"pl": "Utrzymanie WebSocket",
+				"uk": "Використання стійких WebSocket",
+				"zh-cn": "使用持久的 WebSocket"
+			},
 			"1.2.1": {
 				"en": "Errorhandling at socket connection",
 				"de": "Fehlerbehandlung bei Socketverbindung",
