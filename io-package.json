@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.2.2",
+		"version": "1.2.3",
 		"news": {
+			"1.2.3": {
+				"en": "Added DP to show if connected to WebSocket",
+				"de": "DP hinzugefügt, um anzuzeigen, ob eine Socketverbindung besteht",
+				"ru": "Добавить DP, чтобы показать, подключен ли к WebSocket",
+				"pt": "Adicionado DP para mostrar se conectado ao WebSocket",
+				"nl": "Toegevoegd DP om te tonen of het verbonden is met WebSocket",
+				"fr": "Ajouté DP pour afficher si connecté à WebSocket",
+				"it": "Aggiunto DP per mostrare se collegato a WebSocket",
+				"es": "DP adicional para mostrar si está conectado a WebSocket",
+				"pl": "Dodano DP, aby pokazać, czy podłączone do WebSocket",
+				"uk": "Додано ДП, щоб показати, чи підключено до WebSocket",
+				"zh-cn": "如果连接到 WebSocket 则添加 DP 显示"
+			},
 			"1.2.2": {
 				"en": "Using persistent WebSocket",
 				"de": "Verwendung einer persistenten Websocketverbindung",
@@ -197,12 +210,12 @@
 		},
 		"dependencies": [
 			{
-				"js-controller": ">=3.3.22"
+				"js-controller": ">=5.0.19"
 			}
 		],
 		"globalDependencies": [
 			{
-				"admin": ">=5.1.13"
+				"admin": ">=6.0.0"
 			}
 		]
 	},
@@ -213,7 +226,19 @@
 			"_id": "info",
 			"type": "channel",
 			"common": {
-				"name": "Information"
+				"name": {
+					"en": "Information",
+					"de": "Information",
+					"ru": "Информация",
+					"pt": "Informação",
+					"nl": "Informatie",
+					"fr": "Informations",
+					"it": "Informazioni",
+					"es": "Información",
+					"pl": "Informacje",
+					"uk": "Інформація",
+					"zh-cn": "资料"
+				}
 			},
 			"native": {}
 		},
@@ -222,7 +247,19 @@
 			"type": "state",
 			"common": {
 				"role": "json",
-				"name": "Device config",
+				"name": {
+					"en": "Device config",
+					"de": "Gerätekonfiguration",
+					"ru": "Настройка устройства",
+					"pt": "Configuração do dispositivo",
+					"nl": "Apparaatconfiguratie",
+					"fr": "Configuration du périphérique",
+					"it": "Configurazione del dispositivo",
+					"es": "Configuración de dispositivo",
+					"pl": "Konfiguracja urządzenia",
+					"uk": "Налаштування пристрою",
+					"zh-cn": "设备配置"
+				},
 				"type": "string",
 				"read": true,
 				"write": true,
@@ -235,7 +272,19 @@
 			"type": "state",
 			"common": {
 				"role": "indicator.connected",
-				"name": "If connected",
+				"name": {
+					"en": "Connected to all devices",
+					"de": "Verbunden mit allen Geräten",
+					"ru": "Подключены ко всем устройствам",
+					"pt": "Conectado a todos os dispositivos",
+					"nl": "Verbonden met alle apparaten",
+					"fr": "Connecté à tous les appareils",
+					"it": "Collegato a tutti i dispositivi",
+					"es": "Conectado a todos los dispositivos",
+					"pl": "Połączone ze wszystkimi urządzeniami",
+					"uk": "Підключення до всіх пристроїв",
+					"zh-cn": "连接到所有设备"
+				},
 				"type": "boolean",
 				"read": true,
 				"write": false,

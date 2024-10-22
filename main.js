@@ -108,6 +108,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 			if (this.devMap.has(devId)) {
 				this.clearInterval(this.devMap.get(devId).refreshInterval);
 			}
+			this.setStateChanged(devId + ".General.connected", false, true);
 			this.log.debug("Closed connection to " + devId + "; reason: " + event);
 		});
 		this.eventEmitter.on("socketError", async (devId, e) => {
@@ -119,14 +120,17 @@ class CloudlessHomeconnect extends utils.Adapter {
 			const observe = await this.getStateAsync(devId + ".observe");
 			if (observe && observe.val) {
 				this.setStateChanged("info.connection", { val: false, ack: true });
+				this.setStateChanged(devId + ".General.connected", false, true);
 			}
 		});
 		this.eventEmitter.on("socketOpen", (devId) => {
 			this.log.debug("Connection to device " + devId + " established.");
 			this.setStateChanged("info.connection", { val: true, ack: true });
+			this.setStateChanged(devId + ".General.connected", true, true);
 		});
 		this.eventEmitter.on("recreateSocket", async (devId) => {
 			this.log.debug("Recreate Socket for device " + devId + " requested.");
+			this.setStateChanged(devId + ".General.connected", false, true);
 			if (this.devMap.has(devId)) {
 				const device = this.devMap.get(devId);
 				this.clearInterval(device.refreshInterval);
@@ -175,6 +179,19 @@ class CloudlessHomeconnect extends utils.Adapter {
 				type: "channel",
 				common: {
 					name: "Generelle Information zum Gerät",
+				},
+				native: {},
+			});
+
+			await this.setObjectNotExistsAsync(id + ".General.connected", {
+				type: "state",
+				common: {
+					name: "Gibt an, ob eine Socketverbindung besteht",
+					type: "boolean",
+					role: "indicator",
+					def: false,
+					write: false,
+					read: true,
 				},
 				native: {},
 			});

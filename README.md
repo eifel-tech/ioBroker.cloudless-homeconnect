@@ -30,7 +30,7 @@ Die Grundidee zu diesem Adapter stammt von https://github.com/osresearch/hcpy. D
 
 ## Voraussetzungen vor der Installation
 
-Es muß mindestens Node.js **Version 18** installiert sein.
+Es muss mindestens Node.js **Version 18** installiert sein.
 
 Für den Adapter wird im Gegensatz zur Verwendung der offiziellen API <ins>keine</ins> ClientID benötigt, lediglich Benutzername und Passwort, welche in der Homeconnect-App verwendet wurden. Geräte müssen einmalig über die Homeconnect-App registriert werden.
 
@@ -142,6 +142,10 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 
 -   Weitere Geräte hinzufügen, die über <ins>keinen</ins> freigeschalteten Port 443 verfügen.
 -   Favoriten in Settings einstellen können
+
+### 1.2.3
+
+-   (eifel-tech) Datenpunkt hinzugefügt, um anzuzeigen, ob eine Socketverbindung besteht
 
 ### 1.2.2
 
