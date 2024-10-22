@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * Sammlung von nützlichen Funktionen.
  */
@@ -32,7 +33,7 @@ function hmac(key, msg) {
  * @param {Buffer} key
  */
 function getHmacOfMessage(iv, direction, enc_msg, key) {
-	let hmac_msg = Buffer.concat([iv, direction, enc_msg]);
+	const hmac_msg = Buffer.concat([iv, direction, enc_msg]);
 	return hmac(key, hmac_msg).subarray(0, 16);
 }
 
@@ -49,7 +50,7 @@ function aesCipherIv(key, iv) {
  * @param {Buffer} iv
  */
 function aesDecipherIv(key, iv) {
-	let decrypter = crypto.createDecipheriv("aes-256-cbc", key, iv);
+	const decrypter = crypto.createDecipheriv("aes-256-cbc", key, iv);
 	decrypter.setAutoPadding(false);
 	return decrypter;
 }

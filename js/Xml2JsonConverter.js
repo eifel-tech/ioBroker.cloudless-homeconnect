@@ -87,7 +87,7 @@ function parseFeatures(features) {
  */
 function parseEnums($) {
 	$("enumDescription").each(function () {
-		let values = {};
+		const values = {};
 		$(this)
 			.children("enumMember")
 			.map(function () {
@@ -162,7 +162,7 @@ function tryToGetUnit(type) {
  * @param {string} filtername
  */
 function getAttribs(cheerioObj, filtername) {
-	var ret = [];
+	const ret = [];
 	cheerioObj.find(filtername).each(function () {
 		ret.push({
 			$: this.attribs,
@@ -175,7 +175,7 @@ function getAttribs(cheerioObj, filtername) {
  * @param {cheerio.CheerioAPI} $
  */
 function getPrograms($) {
-	var ret = [];
+	const ret = [];
 	$("device")
 		.find("program")
 		.each(function () {

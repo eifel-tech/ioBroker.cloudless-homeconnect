@@ -75,7 +75,7 @@ class Socket {
 	async connect() {
 		this.#eventEmitter.emit("log", "debug", "Try to connect to device " + this.#deviceID);
 
-		let options = {
+		const options = {
 			origin: "",
 			timeout: socketTimeout * 1000,
 			pingTimeout: socketTimeout * 4 * 1000,
@@ -100,7 +100,7 @@ class Socket {
 			protocol = "wss";
 		}
 
-		let ws = Pws(`${protocol}://${this.#host}:${this.#port}/homeconnect`, Websocket, options);
+		const ws = Pws(`${protocol}://${this.#host}:${this.#port}/homeconnect`, Websocket, options);
 
 		ws.on("error", (e) => {
 			this.#connectionEstablished = false;
@@ -147,7 +147,7 @@ class Socket {
 	send(msg) {
 		this.#eventEmitter.emit("log", "debug", this.#deviceID + ": " + JSON.stringify(msg));
 
-		let buf = JSON.stringify(msg);
+		const buf = JSON.stringify(msg);
 		if (this.isHttp) {
 			// @ts-ignore
 			this.ws.send(this.#encrypt(buf));
@@ -174,7 +174,7 @@ class Socket {
 		}
 		this.#eventEmitter.emit("log", "debug", "pad length: " + pad_len);
 
-		let pad = Buffer.concat([Buffer.from("00", "hex"), util.randomBytes(pad_len - 2), Buffer.from([pad_len])]);
+		const pad = Buffer.concat([Buffer.from("00", "hex"), util.randomBytes(pad_len - 2), Buffer.from([pad_len])]);
 		msgBuf = Buffer.concat([msgBuf, pad]);
 
 		this.#eventEmitter.emit("log", "debug", "msg plus pad:");
@@ -182,7 +182,7 @@ class Socket {
 
 		// encrypt the padded message with CBC, so there is chained state from the last cipher block sent
 		// @ts-ignore
-		let enc_msg = this.#aesEncrypt.update(msgBuf);
+		const enc_msg = this.#aesEncrypt.update(msgBuf);
 		this.#eventEmitter.emit("log", "debug", "Encrypted msg:");
 		this.#eventEmitter.emit("log", "debug", enc_msg.toString("hex"));
 
@@ -197,7 +197,7 @@ class Socket {
 		);
 
 		// append the new hmac to the message
-		let ret = Buffer.concat([enc_msg, this.#last_tx_hmac]);
+		const ret = Buffer.concat([enc_msg, this.#last_tx_hmac]);
 		this.#eventEmitter.emit("log", "debug", "Encrypted msg with hmac (return):");
 		this.#eventEmitter.emit("log", "debug", ret.toString("hex"));
 		this.#eventEmitter.emit("log", "debug", "---------------- Ending encryption -----------------------");
@@ -227,11 +227,11 @@ class Socket {
 		}
 
 		// split the message into the encrypted message and the first 16-bytes of the HMAC
-		let enc_msg = buf.subarray(0, -16);
-		let their_hmac = buf.subarray(-16);
+		const enc_msg = buf.subarray(0, -16);
+		const their_hmac = buf.subarray(-16);
 
 		// compute the expected hmac on the encrypted message with direction 'C'
-		let our_hmac = util.getHmacOfMessage(
+		const our_hmac = util.getHmacOfMessage(
 			// @ts-ignore
 			this.#iv,
 			// @ts-ignore
@@ -252,16 +252,16 @@ class Socket {
 
 		// decrypt the message with CBC, so the last message block is mixed in
 		// @ts-ignore
-		let msg = this.#aesDecrypt.update(enc_msg);
+		const msg = this.#aesDecrypt.update(enc_msg);
 		this.#eventEmitter.emit("log", "debug", "decrypted as bytes:");
 		this.#eventEmitter.emit("log", "debug", msg.toString("hex"));
 
 		// check for padding and trim it off
-		let pad_len = parseInt(msg.subarray(-1).toString("hex"), 16);
+		const pad_len = parseInt(msg.subarray(-1).toString("hex"), 16);
 		this.#eventEmitter.emit("log", "debug", "pad length: " + pad_len);
 
 		//check for valid json
-		let ret = msg.subarray(0, -pad_len).toString();
+		const ret = msg.subarray(0, -pad_len).toString();
 		if (ret[0] !== "{" || ret[ret.length - 1] !== "}") {
 			return JSON.stringify({
 				code: 5003,

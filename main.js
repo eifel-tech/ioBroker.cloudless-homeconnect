@@ -478,6 +478,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 
 			callback();
 		} catch (e) {
+			this.log.debug("Exception while unload: " + e);
 			callback();
 		}
 	}
@@ -610,7 +611,9 @@ class CloudlessHomeconnect extends utils.Adapter {
 					if (typeof val === "string") {
 						try {
 							val = JSON.parse(val);
-						} catch (e) {}
+						} catch (e) {
+							this.log.debug("Parsing error: " + e);
+						}
 					}
 					data.value = val;
 				}

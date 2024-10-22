@@ -1,5 +1,6 @@
 (function (g) {
 	// @ts-ignore
+	// eslint-disable-next-line no-undef
 	typeof exports === "object" && typeof module !== "undefined" ? (module.exports = pws) : ((g ? g : self).pws = pws);
 
 	function pws(url, protocols, WebSocket, options) {
@@ -219,9 +220,7 @@
 		}
 
 		function closeEvent(code, reason) {
-			let event;
-
-			event = new Error("HeartbeatTimeout");
+			const event = new Error("HeartbeatTimeout");
 			event["code"] = code;
 			event["reason"] = reason;
 
