@@ -106,14 +106,14 @@ class CloudlessHomeconnect extends utils.Adapter {
 		});
 		this.eventEmitter.on("socketClose", (devId, event) => {
 			if (this.devMap.has(devId)) {
-				clearInterval(this.devMap.get(devId).refreshInterval);
+				this.clearInterval(this.devMap.get(devId).refreshInterval);
 			}
 			this.log.debug("Closed connection to " + devId + "; reason: " + event);
 		});
 		this.eventEmitter.on("socketError", async (devId, e) => {
 			this.log.warn("Connection interrupted for device " + devId + ": " + e);
 			if (this.devMap.has(devId)) {
-				clearInterval(this.devMap.get(devId).refreshInterval);
+				this.clearInterval(this.devMap.get(devId).refreshInterval);
 			}
 
 			const observe = await this.getStateAsync(devId + ".observe");
@@ -124,6 +124,17 @@ class CloudlessHomeconnect extends utils.Adapter {
 		this.eventEmitter.on("socketOpen", (devId) => {
 			this.log.debug("Connection to device " + devId + " established.");
 			this.setStateChanged("info.connection", { val: true, ack: true });
+		});
+		this.eventEmitter.on("recreateSocket", async (devId) => {
+			this.log.debug("Recreate Socket for device " + devId + " requested.");
+			if (this.devMap.has(devId)) {
+				const device = this.devMap.get(devId);
+				this.clearInterval(device.refreshInterval);
+				device.ws.close();
+				await util.sleep(2000); //Give sockets a little time to close connections
+
+				this.connectDevice(devId);
+			}
 		});
 	}
 
@@ -396,7 +407,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 				socket.connect();
 
 				//Ruft reglmäßig die aktuellen Werte des Geräts ab. Damit kann das Gerät auch über andere Wege gesteuert werden und der Adapter bleibt aktuell
-				dev.refreshInterval = setInterval(() => {
+				dev.refreshInterval = this.setInterval(() => {
 					if (dev.ws.isConnected()) {
 						dev.send("/ro/allMandatoryValues");
 					}
@@ -444,6 +455,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 	closeConnections() {
 		this.devMap.forEach((device) => {
 			device.ws.close();
+			this.clearTimeout(device.refreshInterval);
 		});
 	}
 
@@ -547,7 +559,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 			//Wenn Gerät nicht überwacht werden soll, Verbindung schließen und aus der Devicemap entfernen
 			if (oid.includes("observe") && !state.val) {
 				if (device.refreshInterval) {
-					clearInterval(device.refreshInterval);
+					this.clearInterval(device.refreshInterval);
 				}
 				if (device.ws.isConnected()) {
 					device.ws.close();

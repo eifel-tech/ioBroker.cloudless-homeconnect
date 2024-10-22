@@ -246,6 +246,8 @@ class Socket {
 				"debug",
 				"HMAC failure; Wert: " + their_hmac.toString("hex") + " vs. " + our_hmac.toString("hex"),
 			);
+			this.#eventEmitter.emit("recreateSocket", this.#deviceID);
+			return;
 		}
 
 		this.#last_rx_hmac = their_hmac;
