@@ -5,9 +5,13 @@
 [![NPM version](https://img.shields.io/npm/v/iobroker.cloudless-homeconnect.svg)](https://www.npmjs.com/package/iobroker.cloudless-homeconnect)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.cloudless-homeconnect.svg)](https://www.npmjs.com/package/iobroker.cloudless-homeconnect)
 ![Number of Installations](https://iobroker.live/badges/cloudless-homeconnect-installed.svg)
-![Current version in stable repository](https://iobroker.live/badges/cloudless-homeconnect-stable.svg)
 
-[![NPM](https://nodei.co/npm/iobroker.cloudless-homeconnect.png?downloads=true)](https://nodei.co/npm/iobroker.cloudless-homeconnect/)
+![GitHub](https://img.shields.io/github/license/eifel-tech/iobroker.cloudless-homeconnect?style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/eifel-tech/iobroker.cloudless-homeconnect?logo=github&style=flat-square)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/eifel-tech/iobroker.cloudless-homeconnect?logo=github&style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/eifel-tech/iobroker.cloudless-homeconnect?logo=github&style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/eifel-tech/iobroker.cloudless-homeconnect?logo=github&style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/eifel-tech/iobroker.cloudless-homeconnect/test-and-release.yml?branch=master&logo=github&style=flat-square)
 
 **Tests:** ![Test and Release](https://github.com/eifel-tech/ioBroker.cloudless-homeconnect/workflows/Test%20and%20Release/badge.svg)
 
