@@ -121,19 +121,21 @@ class ConfigService {
 						const zips = {};
 
 						zip.getEntries().forEach((zipEntry) => {
-							this.#eventEmitter.emit("log", "info", "Found file: " + zipEntry.entryName);
-							const newFilePath = path.join(instanceDir, zipEntry.entryName);
-							this.#eventEmitter.emit("log", "debug", "Creating file: " + newFilePath);
-							if (zipEntry.entryName.includes("_FeatureMapping.xml")) {
-								zips.feature = zip.readAsText(zipEntry);
-								if (this.logLevel === "debug") {
-									fs.writeFileSync(newFilePath, zips.feature);
+							if (zipEntry.entryName.indexOf("..") == -1) {
+								this.#eventEmitter.emit("log", "info", "Found file: " + zipEntry.entryName);
+								const newFilePath = path.join(instanceDir, zipEntry.entryName);
+								this.#eventEmitter.emit("log", "debug", "Creating file: " + newFilePath);
+								if (zipEntry.entryName.includes("_FeatureMapping.xml")) {
+									zips.feature = zip.readAsText(zipEntry);
+									if (this.logLevel === "debug") {
+										fs.writeFileSync(newFilePath, zips.feature);
+									}
 								}
-							}
-							if (zipEntry.entryName.includes("_DeviceDescription.xml")) {
-								zips.description = zip.readAsText(zipEntry);
-								if (this.logLevel === "debug") {
-									fs.writeFileSync(newFilePath, zips.description);
+								if (zipEntry.entryName.includes("_DeviceDescription.xml")) {
+									zips.description = zip.readAsText(zipEntry);
+									if (this.logLevel === "debug") {
+										fs.writeFileSync(newFilePath, zips.description);
+									}
 								}
 							}
 						});
