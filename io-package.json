@@ -176,8 +176,8 @@
 		},
 		"authors": ["eifel-tech <hikaso@gmx.net>"],
 		"keywords": ["homeconnect", "BSH", "Bosch", "Siemens", "Neff", "ohne Cloud", "lokal"],
-		"license": "MIT",
 		"licenseInformation": {
+			"license": "MIT",
 			"type": "free"
 		},
 		"platform": "Javascript/Node.js",
@@ -207,6 +207,7 @@
 			}
 		]
 	},
+	"native": {},
 	"objects": [],
 	"instanceObjects": [
 		{
