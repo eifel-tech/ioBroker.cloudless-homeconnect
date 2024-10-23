@@ -132,15 +132,9 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 `Status` enthält die Übersicht über Zustände des Gerätes. Diese sind nur lesbar.
 
 ## Changelog
-
-### **WORK IN PROGRESS**
+### 1.2.4 (2024-10-23)
 
 -   (eifel-tech) Verhindern, dass Nachricht `undefined` gesendet wird
-
-### **TODOs**
-
--   Weitere Geräte hinzufügen, die über <ins>keinen</ins> freigeschalteten Port 443 verfügen.
--   Favoriten in Settings einstellen können
 
 ### 1.2.3
 
