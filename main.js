@@ -77,7 +77,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 			//Socketverbindung für alle Geräte in der Config, die überwacht werden sollen, herstellen
 			Object.values(this.configJson).forEach(async (device) => {
 				const observe = await this.getStateAsync(device.id + ".observe");
-				if (observe && observe.val) {
+				if ((observe && observe.val) || !observe) {
 					this.connectDevice(device.id);
 				}
 			});
@@ -108,7 +108,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 			if (this.devMap.has(devId)) {
 				this.clearInterval(this.devMap.get(devId).refreshInterval);
 			}
-			this.setStateChanged(devId + ".General.connected", false, true);
+			this.setDPConnected(devId, false);
 			this.log.debug("Closed connection to " + devId + "; reason: " + event);
 		});
 		this.eventEmitter.on("socketError", async (devId, e) => {
@@ -120,17 +120,17 @@ class CloudlessHomeconnect extends utils.Adapter {
 			const observe = await this.getStateAsync(devId + ".observe");
 			if (observe && observe.val) {
 				this.setStateChanged("info.connection", { val: false, ack: true });
-				this.setStateChanged(devId + ".General.connected", false, true);
+				this.setDPConnected(devId, false);
 			}
 		});
 		this.eventEmitter.on("socketOpen", (devId) => {
 			this.log.debug("Connection to device " + devId + " established.");
 			this.setStateChanged("info.connection", { val: true, ack: true });
-			this.setStateChanged(devId + ".General.connected", true, true);
+			this.setDPConnected(devId, true);
 		});
 		this.eventEmitter.on("recreateSocket", async (devId) => {
 			this.log.debug("Recreate Socket for device " + devId + " requested.");
-			this.setStateChanged(devId + ".General.connected", false, true);
+			this.setDPConnected(devId, false);
 			if (this.devMap.has(devId)) {
 				const device = this.devMap.get(devId);
 				this.clearInterval(device.refreshInterval);
@@ -140,6 +140,12 @@ class CloudlessHomeconnect extends utils.Adapter {
 				this.connectDevice(devId);
 			}
 		});
+	}
+
+	async setDPConnected(devId, isConnected) {
+		if (await this.objectExists(devId + ".General.connected")) {
+			this.setStateChanged(devId + ".General.connected", isConnected, true);
+		}
 	}
 
 	async createDatapoints() {

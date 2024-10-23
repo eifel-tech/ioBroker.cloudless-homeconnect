@@ -132,6 +132,16 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 `Status` enthält die Übersicht über Zustände des Gerätes. Diese sind nur lesbar.
 
 ## Changelog
+
+<!--
+  Placeholder for the next version (at the beginning of the line):
+  ### **WORK IN PROGRESS**
+-->
+
+### **WORK IN PROGRESS**
+
+-   (eifel-tech) Instanz bleibt beim ersten Start gelb
+
 ### 1.2.4 (2024-10-23)
 
 -   (eifel-tech) Verhindern, dass Nachricht `undefined` gesendet wird
