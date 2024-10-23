@@ -129,6 +129,10 @@ class Socket {
 	 * @param {object} msg
 	 */
 	#handleMessage(msg) {
+		if (msg == undefined) {
+			return;
+		}
+
 		if (this.isHttp) {
 			this.#eventEmitter.emit("log", "debug", "Encrypted message from " + this.#deviceID);
 			msg = this.#decrypt(Buffer.from(msg));
@@ -145,6 +149,9 @@ class Socket {
 	 * @param {object} msg
 	 */
 	send(msg) {
+		if (msg == undefined) {
+			return;
+		}
 		this.#eventEmitter.emit("log", "debug", this.#deviceID + ": " + JSON.stringify(msg));
 
 		const buf = JSON.stringify(msg);
