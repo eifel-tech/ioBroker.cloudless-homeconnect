@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.2.4",
+		"version": "1.2.5",
 		"news": {
+			"1.2.5": {
+				"en": "No connection at first start",
+				"de": "Keine Verbindung beim ersten Start",
+				"ru": "Нет связи на первом этапе",
+				"pt": "Nenhuma conexão no início",
+				"nl": "Geen verbinding bij eerste start",
+				"fr": "Pas de connexion au début",
+				"it": "Nessun collegamento all'inizio",
+				"es": "No hay conexión al principio",
+				"pl": "Brak połączenia przy pierwszym starcie",
+				"uk": "Без підключення при першому запуску",
+				"zh-cn": "启动时没有连接"
+			},
 			"1.2.4": {
 				"en": "Sending no undefined messages",
 				"de": "Keine Nachrichten senden, die undefined sind",
@@ -80,19 +93,6 @@
 				"pl": "Ustaw opcje programów spryskiwaczy oddzielnie",
 				"uk": "Варіанти набору програм спаратні",
 				"zh-cn": "设置洗衣机分离程序选项"
-			},
-			"1.1.1": {
-				"en": "Parsing configuration easier",
-				"de": "Parsing-Konfiguration einfacher",
-				"ru": "Удобная конфигурация",
-				"pt": "Parsing configuração mais fácil",
-				"nl": "Het ontleden van de configuratie makkelijker",
-				"fr": "Configuration d'analyse plus facile",
-				"it": "Configurazione Parsing più facile",
-				"es": "Configuración de pares más fácil",
-				"pl": "Łatwa konfiguracja partycji",
-				"uk": "Налаштування батьків легше",
-				"zh-cn": "更容易解析配置"
 			}
 		},
 		"titleLang": {

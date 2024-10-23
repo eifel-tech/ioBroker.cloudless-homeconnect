@@ -138,7 +138,7 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
   ### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 1.2.5 (2024-10-23)
 
 -   (eifel-tech) Instanz bleibt beim ersten Start gelb
 
