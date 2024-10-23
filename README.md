@@ -135,6 +135,8 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 
 ### **WORK IN PROGRESS**
 
+-   (eifel-tech) Verhindern, dass Nachricht `undefined` gesendet wird
+
 ### **TODOs**
 
 -   Weitere Geräte hinzufügen, die über <ins>keinen</ins> freigeschalteten Port 443 verfügen.
