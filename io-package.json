@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.2.6",
+		"version": "1.2.7",
 		"news": {
+			"1.2.7": {
+				"en": "Notes from adapter checker",
+				"de": "Hinweise von Adapter-Checker",
+				"ru": "Примечания к адаптеру",
+				"pt": "Notas do verificador do adaptador",
+				"nl": "Opmerkingen van adapterchecker",
+				"fr": "Notes de l'adaptateur checker",
+				"it": "Note dall'adattatore checker",
+				"es": "Notas del adaptador",
+				"pl": "Notatki z sprawdzania adaptera",
+				"uk": "Примітки з адаптера",
+				"zh-cn": "适配器检查器的注释"
+			},
 			"1.2.6": {
 				"en": "Added translations",
 				"de": "Übersetzungen hinzugefügt",
