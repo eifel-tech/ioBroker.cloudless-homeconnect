@@ -284,7 +284,13 @@ class CloudlessHomeconnect extends utils.Adapter {
 									const common = this.getCommonObj(option, optionUid);
 
 									await this.setObjectNotExistsAsync(
-										this.getDpByUid(dev, uid) + "." + option.name.split(".").slice(3).join("_"),
+										this.getDpByUid(dev, uid) +
+											"." +
+											option.name
+												.split(".")
+												.slice(3)
+												.join("_")
+												.replace(this.FORBIDDEN_CHARS, "_"),
 										{
 											type: "state",
 											common: common,
@@ -447,9 +453,9 @@ class CloudlessHomeconnect extends utils.Adapter {
 			return "";
 		}
 		if (withLeadingPoint) {
-			return "." + splittedKey[2];
+			return "." + splittedKey[2].replace(this.FORBIDDEN_CHARS, "_");
 		}
-		return splittedKey[2];
+		return splittedKey[2].replace(this.FORBIDDEN_CHARS, "_");
 	}
 
 	getSubfolderByDp(oid) {
@@ -458,7 +464,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 
 	getDpByUid(device, uid) {
 		const name = device.features[uid].name;
-		const key = name.split(".").slice(3).join("_");
+		const key = name.split(".").slice(3).join("_").replace(this.FORBIDDEN_CHARS, "_");
 		const subFolder = this.getSubfolderByName(name, true);
 		return device.id + subFolder + "." + key;
 	}

@@ -135,6 +135,11 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   (eifel-tech) Verbotene Zeichen verhindern
+
 ### 1.2.7 (2024-10-24)
 
 -   (eifel-tech) Hinweise vom Adapterchecker
