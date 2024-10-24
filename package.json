@@ -15,7 +15,8 @@
     "Siemens",
     "Neff",
     "ohne Cloud",
-    "lokal"
+    "lokal",
+    "ioBroker"
   ],
   "repository": {
     "type": "git",

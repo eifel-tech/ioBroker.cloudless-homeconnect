@@ -28,71 +28,6 @@
 				"pl": "Brak połączenia przy pierwszym starcie",
 				"uk": "Без підключення при першому запуску",
 				"zh-cn": "启动时没有连接"
-			},
-			"1.2.4": {
-				"en": "Sending no undefined messages",
-				"de": "Keine Nachrichten senden, die undefined sind",
-				"ru": "Отправка неопределенных сообщений",
-				"pt": "Enviar mensagens não definidas",
-				"nl": "Geen ongedefinieerde berichten versturen",
-				"fr": "Aucun message non défini",
-				"it": "Invio di messaggi non definiti",
-				"es": "No enviar mensajes no definidos",
-				"pl": "Wysyłanie nieokreślonych wiadomości",
-				"uk": "Відправлення не визначених повідомлень",
-				"zh-cn": "没有发送未定义信件"
-			},
-			"1.2.3": {
-				"en": "Added DP to show if connected to WebSocket",
-				"de": "DP hinzugefügt, um anzuzeigen, ob eine Socketverbindung besteht",
-				"ru": "Добавить DP, чтобы показать, подключен ли к WebSocket",
-				"pt": "Adicionado DP para mostrar se conectado ao WebSocket",
-				"nl": "Toegevoegd DP om te tonen of het verbonden is met WebSocket",
-				"fr": "Ajouté DP pour afficher si connecté à WebSocket",
-				"it": "Aggiunto DP per mostrare se collegato a WebSocket",
-				"es": "DP adicional para mostrar si está conectado a WebSocket",
-				"pl": "Dodano DP, aby pokazać, czy podłączone do WebSocket",
-				"uk": "Додано ДП, щоб показати, чи підключено до WebSocket",
-				"zh-cn": "如果连接到 WebSocket 则添加 DP 显示"
-			},
-			"1.2.2": {
-				"en": "Using persistent WebSocket",
-				"de": "Verwendung einer persistenten Websocketverbindung",
-				"ru": "Использование постоянного WebSocket",
-				"pt": "Usando persistente WebSocket",
-				"nl": "Het gebruik van persistente WebSocket",
-				"fr": "Utilisation persistante de WebSocket",
-				"it": "Utilizzo di WebSocket persistente",
-				"es": "Utilizando WebSocket persistente",
-				"pl": "Utrzymanie WebSocket",
-				"uk": "Використання стійких WebSocket",
-				"zh-cn": "使用持久的 WebSocket"
-			},
-			"1.2.1": {
-				"en": "Errorhandling at socket connection",
-				"de": "Fehlerbehandlung bei Socketverbindung",
-				"ru": "Ошибка при подключении к сокету",
-				"pt": "Erro na conexão de soquete",
-				"nl": "Fout bij het verwerken van socketaansluiting",
-				"fr": "Gestion des erreurs à la connexion de socket",
-				"it": "Gestione degli errori alla connessione dell'orbita",
-				"es": "Manipulación de errores en la conexión de toma",
-				"pl": "Obróbka błędów przy podłączeniu gniazda",
-				"uk": "Помилка для підключення розетки",
-				"zh-cn": "套接字连接时处理错误"
-			},
-			"1.2.0": {
-				"en": "Ability to observe only individual devices",
-				"de": "Möglichkeit, nur einzelne Geräte zu beobachten",
-				"ru": "Способность наблюдать только отдельные устройства",
-				"pt": "Capacidade de observar apenas dispositivos individuais",
-				"nl": "Mogelijkheid om alleen individuele apparaten te observeren",
-				"fr": "Capacité d'observer uniquement les appareils individuels",
-				"it": "Capacità di osservare solo singoli dispositivi",
-				"es": "Capacidad de observar sólo dispositivos individuales",
-				"pl": "Możliwość obserwowania tylko pojedynczych urządzeń",
-				"uk": "Можливість спостерігати тільки індивідуальні пристрої",
-				"zh-cn": "只观察单个设备的能力"
 			}
 		},
 		"titleLang": {
@@ -128,7 +63,6 @@
 			"type": "free"
 		},
 		"platform": "Javascript/Node.js",
-		"main": "main.js",
 		"icon": "cloudless-homeconnect.png",
 		"enabled": true,
 		"extIcon": "https://raw.githubusercontent.com/eifel-tech/ioBroker.cloudless-homeconnect/main/admin/cloudless-homeconnect.png",
