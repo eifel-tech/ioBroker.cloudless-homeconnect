@@ -1,5 +1,6 @@
 {
-	"cloudless-homeconnect adapter settings": "Ustawienia adaptera dla cloudless-homeconnect",
-	"option1": "opcja 1",
-	"option2": "Opcja 2"
+	"App_Email": "Aplikacja e- mail",
+	"App_Email_help": "Wpisz e-mail używany w aplikacji Homecontentable",
+	"App_Password": "Hasło aplikacji",
+	"App_Password_help": "Podaj hasło używane w aplikacji Homecontentable"
 }

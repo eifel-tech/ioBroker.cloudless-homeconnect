@@ -7,8 +7,8 @@
 			"md": 6,
 			"lg": 6,
 			"type": "text",
-			"label": "App Email",
-			"help": "Die in der Homeconnect App verwendete Email eingeben",
+			"label": "App_Email",
+			"help": "App_Email_help",
 			"newLine": true
 		},
 		"password": {
@@ -16,8 +16,8 @@
 			"md": 6,
 			"lg": 6,
 			"type": "password",
-			"label": "App Password",
-			"help": "Das in der Homeconnect App verwendete Passwort eingeben",
+			"label": "App_Password",
+			"help": "App_Password_help",
 			"newLine": true
 		}
 	}

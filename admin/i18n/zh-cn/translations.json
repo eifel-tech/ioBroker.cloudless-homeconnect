@@ -1,5 +1,6 @@
 {
-	"cloudless-homeconnect adapter settings": "cloudless-homeconnect的适配器设置",
-	"option1": "选项1",
-	"option2": "选项2"
+	"App_Email": "应用电子邮件",
+	"App_Email_help": "输入 Homeconnect app 中使用的电子邮件",
+	"App_Password": "应用程序密码",
+	"App_Password_help": "输入 Homeconnect app 中使用的密码"
 }
