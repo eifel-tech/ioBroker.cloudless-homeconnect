@@ -136,6 +136,10 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
   ### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+
+-   (eifel-tech) Hinweise vom Adapterchecker
+
 ### 1.2.6 (2024-10-24)
 
 -   (eifel-tech) Übersetzungen hinzugefügt
