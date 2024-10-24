@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.2.5",
+		"version": "1.2.6",
 		"news": {
+			"1.2.6": {
+				"en": "Added translations",
+				"de": "Übersetzungen hinzugefügt",
+				"ru": "Добавленные переводы",
+				"pt": "Adicionadas traduções",
+				"nl": "Toegevoegde vertalingen",
+				"fr": "Traductions ajoutées",
+				"it": "Traduzioni aggiuntive",
+				"es": "Traducciones adicionales",
+				"pl": "Dodano tłumaczenia",
+				"uk": "Додано переклади",
+				"zh-cn": "添加翻译"
+			},
 			"1.2.5": {
 				"en": "No connection at first start",
 				"de": "Keine Verbindung beim ersten Start",
@@ -80,19 +93,6 @@
 				"pl": "Możliwość obserwowania tylko pojedynczych urządzeń",
 				"uk": "Можливість спостерігати тільки індивідуальні пристрої",
 				"zh-cn": "只观察单个设备的能力"
-			},
-			"1.1.2": {
-				"en": "Set options of programs of washer separatly",
-				"de": "Separates Setzen von Optionen der Programme von Waschmaschinen",
-				"ru": "Набор вариантов программ сепаратно",
-				"pt": "Definir opções de programas de lavadora separadamente",
-				"nl": "Opties van programma's van wasmachine separaat instellen",
-				"fr": "Définir les options de programmes de laveuse séparément",
-				"it": "Impostare le opzioni di programmi di lavanda separatly",
-				"es": "Establecer opciones de programas de lavadora separadamente",
-				"pl": "Ustaw opcje programów spryskiwaczy oddzielnie",
-				"uk": "Варіанти набору програм спаратні",
-				"zh-cn": "设置洗衣机分离程序选项"
 			}
 		},
 		"titleLang": {
