@@ -3,18 +3,22 @@
 	"type": "panel",
 	"items": {
 		"username": {
+			"xs": 12,
 			"sm": 12,
 			"md": 6,
-			"lg": 6,
+			"lg": 4,
+			"xl": 4,
 			"type": "text",
 			"label": "App_Email",
 			"help": "App_Email_help",
 			"newLine": true
 		},
 		"password": {
+			"xs": 12,
 			"sm": 12,
 			"md": 6,
-			"lg": 6,
+			"lg": 4,
+			"xl": 4,
 			"type": "password",
 			"label": "App_Password",
 			"help": "App_Password_help",

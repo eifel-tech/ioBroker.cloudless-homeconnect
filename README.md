@@ -139,6 +139,7 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 ### **WORK IN PROGRESS**
 
 -   (eifel-tech) Verbotene Zeichen verhindern
+-   (eifel-tech) Mehr Auflösungen in Instanzeinstellungen berücksichtigt
 
 ### 1.2.7 (2024-10-24)
 
