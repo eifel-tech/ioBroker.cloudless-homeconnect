@@ -42,6 +42,8 @@ In der Adapter-Config muss der Homeconnect App Benutzername und Passwort eingetr
 
 Im Datenpunkt `info.config` wird die geparste Konfiguration gespeichert. Diese sollte nicht verändert werden. Wenn Geräte im Netzwerk hinzukommen oder wegfallen, müssen diese über die Homeconnect-App registriert werden und der Inhalt des o.a. Datenpunktes gelöscht werden. Der Adapter startet daraufhin neu, verbindet sich mit dem konfigurierten Account und liest die Konfiguration neu ein. Danach erfolgt die Kommunikation mit den Geräten wieder rein lokal.
 
+Kommt es im Laufe der Zeit zu Verbindungsfehlern wird eine Neuverbindung zum Gerät versucht. Dieses geschieht standardmäßig 15 mal, kann aber bei der Instanz eingestellt werden. Soll der Versuch nie abgebrochen werden, also immer wieder versucht werden, eine Verbindung herzustellen, muss eine `0` eingestellt werden.
+
 ## Datenpunkte
 
 Hier werden die wichtigsten Datenpunkte beschrieben. Im Namen ist die UID hinterlegt, wie sie das jeweilige Gerät kennt und verwendet. Wird ein Wert verändert, der für das Gerät in dem Moment unplausibel ist, wird eine Log-Eintrag im Debug-Modus geschrieben. Dies kann vorkommen, wenn z.B. `AbortProgram` verändert wird, obwohl gerade kein Programm aktiv ist. Die Struktur ist z.B. wie folgt aufgebaut:
@@ -89,7 +91,7 @@ Hier werden die wichtigsten Datenpunkte beschrieben. Im Namen ist die UID hinter
 
 ### info.connection
 
-Dieser Datenpunkt wird `false`, wenn die Verbindung zu **mindestens** einem Gerät nicht hergestellt werden kann, also bei einem Socketerror. Dadurch wird auch in der Instanzübersicht der Adapter "gelb". Es wird automatisch 15 mal eine Neuverbindung mit maximal 5 Minuten Wartezeit zum Gerät versucht. Danach müsste der Adapter manuell neugestartet werden, um wieder eine Verbindung aufzubauen. Warum das Gerät nicht verbunden werden kann und um welches Gerät es sich handelt, steht in warn-Einträgen im Log. Hier muss dann "von Hand" geschaut werden, wie das Problem zu beheben ist. Der Datenpunkt wird nur für Geräte gesetzt, die sich in der Überwachung des Adapters befinden (siehe `observe`).
+Dieser Datenpunkt wird `false`, wenn die Verbindung zu **mindestens** einem Gerät nicht hergestellt werden kann, also bei einem Socketerror. Dadurch wird auch in der Instanzübersicht der Adapter "gelb". Es wird automatisch 15 mal eine Neuverbindung mit maximal 5 Minuten Wartezeit zum Gerät versucht. Danach müsste der Adapter manuell neugestartet werden, um wieder eine Verbindung aufzubauen. Die Anzahl der Neuverbindungen kann aber in den Instanzeinstellungen geändert werden (siehe [Konfiguration](#konfiguration)) Warum das Gerät nicht verbunden werden kann und um welches Gerät es sich handelt, steht in warn-Einträgen im Log. Hier muss dann "von Hand" geschaut werden, wie das Problem zu beheben ist. Der Datenpunkt wird nur für Geräte gesetzt, die sich in der Überwachung des Adapters befinden (siehe [observe](#observe)).
 
 ### info.config
 
