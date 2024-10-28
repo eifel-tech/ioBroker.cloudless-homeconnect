@@ -34,7 +34,8 @@
 			"label": "maxRetries",
 			"help": "maxRetries_help",
 			"newLine": true,
-			"default": 14
+			"default": 14,
+			"min": 0
 		}
 	}
 }

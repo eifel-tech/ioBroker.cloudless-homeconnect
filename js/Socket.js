@@ -83,7 +83,7 @@ class Socket {
 			timeout: socketTimeout * 1000,
 			pingTimeout: socketTimeout * 4 * 1000,
 			// @ts-ignore
-			maxRetries: this.#adapterconfig.maxRetries < 0 ? 0 : this.#adapterconfig.maxRetries,
+			maxRetries: this.#adapterconfig.maxRetries,
 		};
 		let protocol = "ws";
 		if (!this.isHttp) {
