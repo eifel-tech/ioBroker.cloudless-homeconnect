@@ -13,6 +13,7 @@ const socketTimeout = 30;
 class Socket {
 	#connectionEstablished;
 	#eventEmitter;
+	#adapterconfig;
 	#deviceID;
 	#host;
 	#psk;
@@ -32,11 +33,13 @@ class Socket {
 	 * @param {string} key
 	 * @param {string} iv64
 	 * @param {*} eventEmitter
+	 * @param {ioBroker.AdapterConfig} adapterconfig
 	 */
 	// constructor(devId, host, key, iv64, eventEmitter, retries) {
-	constructor(devId, host, key, iv64, eventEmitter) {
+	constructor(devId, host, key, iv64, eventEmitter, adapterconfig) {
 		this.#connectionEstablished = false;
 		this.#eventEmitter = eventEmitter;
+		this.#adapterconfig = adapterconfig;
 
 		this.handleMessage = this.#handleMessage.bind(this);
 
@@ -79,7 +82,8 @@ class Socket {
 			origin: "",
 			timeout: socketTimeout * 1000,
 			pingTimeout: socketTimeout * 4 * 1000,
-			maxRetries: 14,
+			// @ts-ignore
+			maxRetries: this.#adapterconfig.maxRetries < 0 ? 0 : this.#adapterconfig.maxRetries,
 		};
 		let protocol = "ws";
 		if (!this.isHttp) {

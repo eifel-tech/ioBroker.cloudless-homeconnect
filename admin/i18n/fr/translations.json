@@ -2,5 +2,7 @@
 	"App_Email": "App Email",
 	"App_Email_help": "Entrez le courriel utilisé dans l'application Homeconnect",
 	"App_Password": "Mot de passe de l'application",
-	"App_Password_help": "Saisissez le mot de passe utilisé dans l'application Homeconnect"
+	"App_Password_help": "Saisissez le mot de passe utilisé dans l'application Homeconnect",
+	"maxRetries": "Nombre de tentatives de connexion",
+	"maxRetries_help": "Entrez la fréquence à laquelle l'adaptateur doit tenter de se reconnecter à un appareil en cas d'erreur de communication. S'il est 0, il continue d'essayer continuellement."
 }

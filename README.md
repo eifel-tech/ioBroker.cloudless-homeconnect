@@ -140,6 +140,7 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
 
 -   (eifel-tech) Verbotene Zeichen verhindern
 -   (eifel-tech) Mehr Auflösungen in Instanzeinstellungen berücksichtigt
+-   (eifel-tech) Anzahl Verbindungsversuche konfigurierbar
 
 ### 1.2.7 (2024-10-24)
 

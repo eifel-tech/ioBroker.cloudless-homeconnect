@@ -430,7 +430,14 @@ class CloudlessHomeconnect extends utils.Adapter {
 			.filter((val) => val.id === deviceID)
 			.forEach((device) => {
 				//Socketverbindung zu den Geräten herstellen
-				const socket = new Socket(device.id, device.host, device.key, device.iv, this.eventEmitter);
+				const socket = new Socket(
+					device.id,
+					device.host,
+					device.key,
+					device.iv,
+					this.eventEmitter,
+					this.config,
+				);
 				const dev = new Device(socket, device);
 
 				socket.connect();

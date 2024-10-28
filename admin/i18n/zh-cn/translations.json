@@ -2,5 +2,7 @@
 	"App_Email": "应用电子邮件",
 	"App_Email_help": "输入 Homeconnect app 中使用的电子邮件",
 	"App_Password": "应用程序密码",
-	"App_Password_help": "输入 Homeconnect app 中使用的密码"
+	"App_Password_help": "输入 Homeconnect app 中使用的密码",
+	"maxRetries": "连接尝试次数",
+	"maxRetries_help": "输入适配器在通信错误时要尝试重新连接到设备的频率 。 如果它是0, 它不断尝试."
 }

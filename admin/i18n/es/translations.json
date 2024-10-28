@@ -2,5 +2,7 @@
 	"App_Email": "App Email",
 	"App_Email_help": "Introduzca el correo electrónico utilizado en la aplicación Homeconnect",
 	"App_Password": "App password",
-	"App_Password_help": "Introduzca la contraseña utilizada en la aplicación Homeconnect"
+	"App_Password_help": "Introduzca la contraseña utilizada en la aplicación Homeconnect",
+	"maxRetries": "Número de intentos de conexión",
+	"maxRetries_help": "Ingrese con qué frecuencia el adaptador debe intentar reconectarse a un dispositivo en caso de error de comunicación. Si es 0, sigue intentando continuamente."
 }

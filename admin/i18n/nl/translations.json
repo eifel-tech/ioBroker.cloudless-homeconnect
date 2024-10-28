@@ -2,5 +2,7 @@
 	"App_Email": "E-mail app",
 	"App_Email_help": "Voer de e-mail in die gebruikt wordt in de Homeconnect-app",
 	"App_Password": "App-wachtwoord",
-	"App_Password_help": "Voer het wachtwoord in de Homeconnect-app in"
+	"App_Password_help": "Voer het wachtwoord in de Homeconnect-app in",
+	"maxRetries": "Aantal verbindingspogingen",
+	"maxRetries_help": "Voer in hoe vaak de adapter moet proberen om opnieuw verbinding te maken met een apparaat in het geval van een communicatiefout. Als het 0 is, blijft het continu proberen."
 }

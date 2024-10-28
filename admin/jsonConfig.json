@@ -23,6 +23,18 @@
 			"label": "App_Password",
 			"help": "App_Password_help",
 			"newLine": true
+		},
+		"maxRetries": {
+			"xs": 12,
+			"sm": 12,
+			"md": 6,
+			"lg": 4,
+			"xl": 4,
+			"type": "number",
+			"label": "maxRetries",
+			"help": "maxRetries_help",
+			"newLine": true,
+			"default": 14
 		}
 	}
 }

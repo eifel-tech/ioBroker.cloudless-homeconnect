@@ -2,5 +2,7 @@
 	"App_Email": "Aplikacja e- mail",
 	"App_Email_help": "Wpisz e-mail używany w aplikacji Homecontentable",
 	"App_Password": "Hasło aplikacji",
-	"App_Password_help": "Podaj hasło używane w aplikacji Homecontentable"
+	"App_Password_help": "Podaj hasło używane w aplikacji Homecontentable",
+	"maxRetries": "Liczba prób połączenia",
+	"maxRetries_help": "Podaj jak często adapter powinien próbować ponownie połączyć się z urządzeniem w przypadku błędu komunikacyjnego. Jeśli to jest 0, ciągle próbuje."
 }
