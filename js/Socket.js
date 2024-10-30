@@ -35,7 +35,6 @@ class Socket {
 	 * @param {*} eventEmitter
 	 * @param {ioBroker.AdapterConfig} adapterconfig
 	 */
-	// constructor(devId, host, key, iv64, eventEmitter, retries) {
 	constructor(devId, host, key, iv64, eventEmitter, adapterconfig) {
 		this.#connectionEstablished = false;
 		this.#eventEmitter = eventEmitter;
@@ -58,9 +57,7 @@ class Socket {
 			this.#enckey = util.hmac(this.#psk, Buffer.from("454E43", "hex"));
 			this.#mackey = util.hmac(this.#psk, Buffer.from("4D4143", "hex"));
 
-			// @ts-ignore
 			this.#aesEncrypt = util.aesCipherIv(this.#enckey, this.#iv);
-			// @ts-ignore
 			this.#aesDecrypt = util.aesDecipherIv(this.#enckey, this.#iv);
 
 			this.#last_rx_hmac = Buffer.alloc(16);
