@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.2.7",
+		"version": "1.2.8",
 		"news": {
+			"1.2.8": {
+				"en": "Bugfix for reading program options",
+				"de": "Bugfix zum Lesen von Programmoptionen",
+				"ru": "Исправление для выбора программы чтения",
+				"pt": "Bugfix para opções de programas de leitura",
+				"nl": "Bugfix voor het lezen van programma-opties",
+				"fr": "Bugfix pour les options de programme de lecture",
+				"it": "Bugfix per le opzioni di lettura del programma",
+				"es": "Bugfix para leer opciones del programa",
+				"pl": "Bugfix do odczytu opcji programu",
+				"uk": "Виправлення помилок для читання програм",
+				"zh-cn": "读取程序选项时的错误fix"
+			},
 			"1.2.7": {
 				"en": "Notes from adapter checker",
 				"de": "Hinweise von Adapter-Checker",

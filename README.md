@@ -137,8 +137,7 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.2.8 (2024-11-05)
 
 -   (eifel-tech) Verbotene Zeichen verhindern
 -   (eifel-tech) Mehr Auflösungen in Instanzeinstellungen berücksichtigt
