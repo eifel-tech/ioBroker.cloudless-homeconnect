@@ -256,7 +256,11 @@ class CloudlessHomeconnect extends utils.Adapter {
 					if (!(await this.objectExists(this.getDpByUid(dev, uid)))) {
 						const common = this.getCommonObj(feature, uid, subFolderName);
 
-						if (subFolderName.toLowerCase() === "program") {
+						if (
+							subFolderName.toLowerCase() === "program" &&
+							feature.available &&
+							feature.available === "true"
+						) {
 							common.read = false;
 							common.write = true;
 							common.role = "button";

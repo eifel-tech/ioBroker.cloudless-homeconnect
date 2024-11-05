@@ -22,6 +22,9 @@ function joinFeature(entries) {
 			};
 
 			const keys = Object.keys(el.$);
+			if (parsedFeatures[uid].name.includes(".Program.") && !keys.includes("execution")) {
+				keys.push("execution");
+			}
 
 			keys.filter((key) => key === "enumerationType").forEach(() => {
 				parsedFeatures[uid].states = parsedEnums[parseInt(el.$.enumerationType, 16)].values;
