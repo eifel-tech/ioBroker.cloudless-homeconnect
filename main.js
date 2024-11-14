@@ -93,6 +93,9 @@ class CloudlessHomeconnect extends utils.Adapter {
 			} else if (type === "error") {
 				if (e) {
 					msg += ": " + e;
+					if (e instanceof Error && e.stack) {
+						this.log.debug(e.stack);
+					}
 				}
 				this.log.error(msg);
 			} else if (type === "warn") {
@@ -256,11 +259,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 					if (!(await this.objectExists(this.getDpByUid(dev, uid)))) {
 						const common = this.getCommonObj(feature, uid, subFolderName);
 
-						if (
-							subFolderName.toLowerCase() === "program" &&
-							feature.available &&
-							feature.available === "true"
-						) {
+						if (subFolderName.toLowerCase() === "program") {
 							common.read = false;
 							common.write = true;
 							common.role = "button";

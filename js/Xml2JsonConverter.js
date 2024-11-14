@@ -41,12 +41,14 @@ function joinFeature(entries) {
 
 			//Programs
 			keys.filter((key) => key === "execution").forEach(() => {
-				const optionUIDs = Object.values(el.option)
-					.filter((option) => option.$.access.toLowerCase().includes("write"))
-					.map((option) => {
-						return parseInt(option.$.refUID, 16);
-					});
-				parsedFeatures[uid].options = optionUIDs;
+				if (el.option) {
+					const optionUIDs = Object.values(el.option)
+						.filter((option) => option.$.access.toLowerCase().includes("write"))
+						.map((option) => {
+							return parseInt(option.$.refUID, 16);
+						});
+					parsedFeatures[uid].options = optionUIDs;
+				}
 			});
 
 			keys.filter((key) => key !== "uid").forEach((key) => {
