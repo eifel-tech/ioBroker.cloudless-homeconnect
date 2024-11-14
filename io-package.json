@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.2.8",
+		"version": "1.2.9",
 		"news": {
+			"1.2.9": {
+				"en": "Error by parsing programs",
+				"de": "Fehler beim Parsen von programs",
+				"ru": "Ошибка в разбивке по программам",
+				"pt": "Erro ao analisar programas",
+				"nl": "Fout bij het ontleden van programma's",
+				"fr": "Erreur en analysant les programmes",
+				"it": "Errore tramite programmi di parsing",
+				"es": "Error al analizar programas",
+				"pl": "Błąd poprzez parsowanie programów",
+				"uk": "Помилка за програмами",
+				"zh-cn": "分析程序出错"
+			},
 			"1.2.8": {
 				"en": "Bugfix for reading program options",
 				"de": "Bugfix zum Lesen von Programmoptionen",
