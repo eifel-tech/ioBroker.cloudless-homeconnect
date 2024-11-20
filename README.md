@@ -137,6 +137,11 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   (eifel-tech) Behandeln von fehlenden Enums beim Parsen (Issue #148)
+
 ### 1.2.9 (2024-11-14)
 
 -   (eifel-tech) Bugfix beim Einlesen von Programmoptionen (Issue #143)
