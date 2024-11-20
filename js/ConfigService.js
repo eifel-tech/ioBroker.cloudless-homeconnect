@@ -146,6 +146,7 @@ class ConfigService {
 								zips.feature,
 								zips.description,
 								types.data,
+								this.#eventEmitter,
 							);
 							config.description = machine.description;
 							config.features = machine.features;

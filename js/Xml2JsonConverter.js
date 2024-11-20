@@ -4,6 +4,8 @@
  * easier parsing later
  */
 const cheerio = require("cheerio");
+
+let eventEmitter;
 let parsedEnums = {};
 let allFeatures = {};
 let parsedFeatures = {};
@@ -26,9 +28,14 @@ function joinFeature(entries) {
 				keys.push("execution");
 			}
 
-			keys.filter((key) => key === "enumerationType").forEach(() => {
-				parsedFeatures[uid].states = parsedEnums[parseInt(el.$.enumerationType, 16)].values;
-			});
+			try {
+				keys.filter((key) => key === "enumerationType").forEach(() => {
+					parsedFeatures[uid].states = parsedEnums[parseInt(el.$.enumerationType, 16)].values;
+				});
+			} catch (err) {
+				//Missing enum -> it doesn't matter, so do nothing
+				eventEmitter.emit("log", "debug", "Missing enum " + el.$.enumerationType, err);
+			}
 
 			keys.filter((key) => key === "refCID").forEach(() => {
 				const obj = parsedTypes[parseInt(el.$.refCID, 16)];
@@ -192,7 +199,9 @@ function getPrograms($) {
 	return ret;
 }
 
-async function xml2json(featuresXml, descriptionXml, typesXml) {
+async function xml2json(featuresXml, descriptionXml, typesXml, events) {
+	eventEmitter = events;
+
 	parsedEnums = {};
 	allFeatures = {};
 	parsedFeatures = {};
