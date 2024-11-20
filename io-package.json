@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.2.9",
+		"version": "1.2.10",
 		"news": {
+			"1.2.10": {
+				"en": "Handle missing enums",
+				"de": "Behandeln von fehlenden Enums",
+				"ru": "Пропавшие муравьи",
+				"pt": "Lidar com enums perdidos",
+				"nl": "Ontbrekende enums hanteren",
+				"fr": "Poignées manquantes",
+				"it": "Maniglia enum mancanti",
+				"es": "Handle missing enums",
+				"pl": "Obsługa brakujących enumów",
+				"uk": "Рукоятки відсутні",
+				"zh-cn": "处理缺失的语句"
+			},
 			"1.2.9": {
 				"en": "Error by parsing programs",
 				"de": "Fehler beim Parsen von programs",
