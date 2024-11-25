@@ -332,7 +332,6 @@ class CloudlessHomeconnect extends utils.Adapter {
 				common.unit = feature.unit;
 			}
 			common.def = feature.default ? parseInt(feature.default) : 0;
-			common.min = common.def;
 			if (feature.min) {
 				common.min = parseInt(feature.min);
 				common.def = common.min;

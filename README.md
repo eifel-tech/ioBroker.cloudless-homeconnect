@@ -137,6 +137,12 @@ Hier können allgemeine Einstellungen des Geräts vorgenommen werden. Beispielsw
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   (eifel-tech) Dependency updates
+-   (eifel-tech) common.min wird nur gesetzt, wenn es auch in der Konfig vorhanden ist (Issue #149)
+
 ### 1.2.10 (2024-11-20)
 
 -   (eifel-tech) Behandeln von fehlenden Enums beim Parsen (Issue #148)
