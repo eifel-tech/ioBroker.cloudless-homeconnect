@@ -331,7 +331,12 @@ class CloudlessHomeconnect extends utils.Adapter {
 			if (feature.unit) {
 				common.unit = feature.unit;
 			}
-			common.def = feature.default ? parseInt(feature.default) : 0;
+			common.def = 0;
+			if (feature.default) {
+				common.def = parseInt(feature.default);
+			} else if (feature.initValue) {
+				common.def = parseInt(feature.initValue);
+			}
 			if (feature.min) {
 				common.min = parseInt(feature.min);
 				common.def = common.min;
@@ -344,7 +349,12 @@ class CloudlessHomeconnect extends utils.Adapter {
 				common.states = feature.states;
 			}
 		} else if (typeStr === "boolean") {
-			common.def = feature.default ? feature.default === "true" : false;
+			common.def = false;
+			if (feature.default) {
+				common.def = feature.default === "true";
+			} else if (feature.initValue) {
+				common.def = feature.initValue === "true";
+			}
 		} else {
 			common.def = "";
 		}
