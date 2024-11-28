@@ -1,4 +1,4 @@
-![Logo](admin/cloudless-homeconnect.png)
+![Logo](../../admin/cloudless-homeconnect-880x800.png)
 
 # ioBroker.cloudless-homeconnect
 
