@@ -339,7 +339,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 			}
 			if (feature.min) {
 				common.min = parseInt(feature.min);
-				common.def = common.min;
+				common.def = common.def > common.min ? common.min : common.def;
 			}
 			if (feature.max) {
 				common.max = parseInt(feature.max);
