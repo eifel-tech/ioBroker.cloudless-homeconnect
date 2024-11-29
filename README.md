@@ -13,7 +13,7 @@
 ![GitHub issues](https://img.shields.io/github/issues/eifel-tech/iobroker.cloudless-homeconnect?logo=github&style=flat-square)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/eifel-tech/iobroker.cloudless-homeconnect/test-and-release.yml?branch=master&logo=github&style=flat-square)
 
-Adapter für Homeconnect-Geräte ohne Cloud-Kommunikation
+Adapter for Homeconnect devices without cloud communication
 
 ## Documentation
 
