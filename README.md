@@ -32,7 +32,7 @@ Adapter for Homeconnect devices without cloud communication
 
 -   (eifel-tech) Dependency updates
 -   (eifel-tech) common.min is only set if it is also present in the config (Issue #149)
--   (eifel-tech) Password in admin will be stored encrypted natively
+-   (eifel-tech) Breaking change: Password in admin will be stored encrypted natively
     > [!CAUTION]
     > You have to reenter your password in admin config!
 
