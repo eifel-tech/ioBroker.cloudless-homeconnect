@@ -27,11 +27,12 @@ Adapter for Homeconnect devices without cloud communication
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+
 ### 1.3.0 (2024-12-02)
 
 -   (eifel-tech) Dependency updates
 -   (eifel-tech) common.min is only set if it is also present in the config (Issue #149)
--   (eifel-tech) Breaking change: Password in admin will be stored encrypted natively
+-   (eifel-tech) Password in admin will be stored encrypted natively
     > [!CAUTION]
     > You have to reenter your password in admin config!
 
