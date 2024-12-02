@@ -115,7 +115,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 			this.log.debug("Closed connection to " + devId + "; reason: " + event);
 		});
 		this.eventEmitter.on("socketError", async (devId, e) => {
-			this.log.warn("Connection interrupted for device " + devId + ": " + e);
+			this.log.debug("Connection interrupted for device " + devId + ": " + e);
 			if (this.devMap.has(devId)) {
 				this.clearInterval(this.devMap.get(devId).refreshInterval);
 			}
