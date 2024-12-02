@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.2.10",
+		"version": "1.3.0",
 		"news": {
+			"1.3.0": {
+				"en": "Password in admin will be stored encrypted natively",
+				"de": "Passwort in admin wird native verschlüsselt gespeichert",
+				"ru": "Пароль в admin будет храниться зашифрованным в основном",
+				"pt": "Senha no admin será armazenado criptografado nativamente",
+				"nl": "Wachtwoord in admin wordt native versleuteld opgeslagen",
+				"fr": "Mot de passe dans admin sera stocké crypté nativement",
+				"it": "La password in admin sarà memorizzata crittografata nativamente",
+				"es": "Contraseña en administración se almacenará encriptada nativamente",
+				"pl": "Hasło w admin będzie przechowywane zaszyfrowane naiwnie",
+				"uk": "Пароль в адміні буде зберігатися зашифрованими",
+				"zh-cn": "管理员密码会被加密 "
+			},
 			"1.2.10": {
 				"en": "Handle missing enums",
 				"de": "Behandeln von fehlenden Enums",
