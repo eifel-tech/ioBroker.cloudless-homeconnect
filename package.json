@@ -28,7 +28,7 @@
   "dependencies": {
     "@iobroker/adapter-core": "^3.2.3",
     "adm-zip": "^0.5.16",
-    "axios": "^1.7.7",
+    "axios": "^1.7.9",
     "cheerio": "^1.0.0",
     "http-cookie-agent": "^6.0.6",
     "tough-cookie": "^5.0.0",
