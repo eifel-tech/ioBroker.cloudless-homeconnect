@@ -27,8 +27,7 @@ Adapter for Homeconnect devices without cloud communication
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.4.0 (2025-01-15)
 
 - (eifel-tech) Dependency updates
 - (eifel-tech) Changed login process for getting device information by homeconnect (Issue #170)
