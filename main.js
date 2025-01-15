@@ -30,7 +30,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 		this.eventEmitter = new events.EventEmitter();
 
 		this.startingErrors = 0;
-		this.configJson = [];
+		this.configJson = undefined;
 		this.devMap = new Map();
 		this.configService = new ConfigService(this.eventEmitter, utils.getAbsoluteInstanceDataDir(this));
 	}
@@ -53,13 +53,19 @@ class CloudlessHomeconnect extends utils.Adapter {
 
 			this.configService.logLevel = this.log.level;
 			this.configService.config = this.config;
+			this.configService.iob = this;
 			const loadedConfig = await this.configService.loadConfig();
-			this.setState("info.config", JSON.stringify(loadedConfig), true);
+			if (loadedConfig) {
+				if (loadedConfig["waitForProfileZip"]) {
+					return;
+				}
+				this.setState("info.config", JSON.stringify(loadedConfig), true);
+			}
 
 			this.configJson = loadedConfig;
 		}
 
-		if (this.configJson.length == 0) {
+		if (!this.configJson) {
 			if (configJsonObj && util.isConfigJson(configJsonObj.val)) {
 				// @ts-ignore
 				this.configJson = JSON.parse(configJsonObj.val);
@@ -71,6 +77,10 @@ class CloudlessHomeconnect extends utils.Adapter {
 			}
 		}
 
+		await this.startWithConfig();
+	}
+
+	async startWithConfig() {
 		await this.createDatapoints();
 
 		if (this.startingErrors === 0) {
@@ -205,7 +215,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 				native: {},
 			});
 
-			["name", "id", "enumber", "mac", "serialnumber"].forEach(async (key) => {
+			["name", "id", "mac", "serialnumber"].forEach(async (key) => {
 				await this.setObjectNotExistsAsync(id + ".General." + key, {
 					type: "state",
 					common: {

@@ -20,6 +20,29 @@ Im lokalen Netz muss Port 443 am Gerät freigeschaltet sein.
 
 Es kann vorkommen, dass das Gerät nach Laden der Konfiguration nicht angesprochen werden kann. Dann liegt im lokalen Netz kein DNS-Eintrag für die Domain des Geräts vor. Außer diesen im Netzwerk einzurichten, kann im Datenpunkt `info.config` bei `host` einfach die lokale IP des Gerätes eingetragen werden.
 
+## Erste Schritte
+
+Normalerweise werden nach der [Adapterkonfiguration](#konfiguration) beim Adapterstart von Homeconnect-Servern Profile der registrierten Geräte abgerufen. Dieser Loginprozess wurde auf manchen Servern so verändert, dass ein automatisches Downloaden der Profile nicht mehr funktioniert und ein manuelles Downloaden nötig wird. Dazu wird das externes Tool **[Homeconnect Profile Downloader](https://github.com/bruestel/homeconnect-profile-downloader/tags)** empfohlen.
+
+Wenn also ein automatisches Abrufen nicht möglich ist, erscheint im ioBroker-Log eine **Warnung**, **_erscheint keine, und der Adapter startet normal, ist kein weiteres Handeln nötig, und die nächsten Schritte können ignoriert werden!_**
+
+```
+warn: Login not successful. Please put the zip from homeconnect-profile-downloader as described in docs manually into path <<Pfad zum Ablageort heruntergeladener Geräteprofile>> and restart adapter. See https://github.com/bruestel/homeconnect-profile-downloader also.
+```
+
+Wird die Warnung ausgegeben, muss lokal der **Homeconnect Profile Downloader** installiert werden. Dazu dem Link folgen, die neueste Version für sein Betriebssystem herunterladen und [installieren](https://github.com/bruestel/homeconnect-profile-downloader?tab=readme-ov-file#run-it):
+![Versionen von Homeconnect Profile Downloader](../profile_git.png)
+
+Anschließend die installierte Anwednung starten und auf der Startseite die Region wählen:
+![Startseite von Homeconnect Profile Downloader](../profile_start.png)
+
+Mit dem Klick auf `FETCH APPLIANCE PROFILE DATA` wird zur Login-Seite von Homeconnect weitergeleitet, bei der man sich mit den Zugangsdaten aus der Homeconnect-App anmelden muss:
+![Login bei Homeconnect](../profile_login.png)
+
+Wenn dies erfolgreich war, erscheint eine Übersicht von zip-Dateien für jedes über die Homeconnect-App registrierte Gerät. Die zip-Dateien müssen nun heruntergeladen und **unverändert** in den Ordner verschoben werden, der in der Warnung im Log von ioBroker angezeigt wird.
+
+Anschließend muss der Adapter neu gestartet werden. Die Konfiguration für den Adapter wird nun aus diesen Dateien erstellt.
+
 ## Konfiguration
 
 In der Adapter-Config muss der Homeconnect App Benutzername und Passwort eingetragen werden.
