@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.4.0",
+		"version": "1.4.1",
 		"news": {
+			"1.4.1": {
+				"en": "Creating instance directory if absent",
+				"de": "Instanzverzeichnis erstellen, wenn nicht vorhanden",
+				"ru": "Создание каталога экземпляра при отсутствии",
+				"pt": "Criar diretório de instância se ausente",
+				"nl": "Map van instantie aanmaken indien afwezig",
+				"fr": "Création d'un répertoire d'instance en cas d'absence",
+				"it": "Creazione di directory delle istanze se assente",
+				"es": "Crear directorio de instancia si ausente",
+				"pl": "Tworzenie katalogu instancji, jeśli brak",
+				"uk": "Створення каталогу екземплярів, якщо немає",
+				"zh-cn": "缺少实例目录时创建实例目录"
+			},
 			"1.4.0": {
 				"en": "Changed login process for getting device information by homeconnect (Issue #170)",
 				"de": "Geänderter Login-Prozess durch homeconnect (Issue #170)",
@@ -80,19 +93,6 @@
 				"pl": "Notatki z sprawdzania adaptera",
 				"uk": "Примітки з адаптера",
 				"zh-cn": "适配器检查器的注释"
-			},
-			"1.2.6": {
-				"en": "Added translations",
-				"de": "Übersetzungen hinzugefügt",
-				"ru": "Добавленные переводы",
-				"pt": "Adicionadas traduções",
-				"nl": "Toegevoegde vertalingen",
-				"fr": "Traductions ajoutées",
-				"it": "Traduzioni aggiuntive",
-				"es": "Traducciones adicionales",
-				"pl": "Dodano tłumaczenia",
-				"uk": "Додано переклади",
-				"zh-cn": "添加翻译"
 			}
 		},
 		"titleLang": {

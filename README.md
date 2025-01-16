@@ -27,8 +27,7 @@ Adapter for Homeconnect devices without cloud communication
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.4.1 (2025-01-16)
 
 - (eifel-tech) Creating instance directory if absent
 
