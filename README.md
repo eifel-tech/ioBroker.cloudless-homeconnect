@@ -27,8 +27,7 @@ Adapter for Homeconnect devices without cloud communication
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.4.2 (2025-02-13)
 
 - (eifel-tech) Error message after sending to /ro/selectedProgram on hood devices (Issue #193)
 
