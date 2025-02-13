@@ -651,7 +651,9 @@ class CloudlessHomeconnect extends utils.Adapter {
 					//Programme haben u.U. Optionen, die auch übertragen werden müssen
 					data.program = uid;
 
-					device.send("/ro/selectedProgram", 1, "POST", data);
+					if (device.type !== "Hood") {
+						device.send("/ro/selectedProgram", 1, "POST", data);
+					}
 
 					const options = await this.getStatesAsync(oid.substring(0, oid.lastIndexOf(".")) + ".*");
 					data.options = await Promise.all(
