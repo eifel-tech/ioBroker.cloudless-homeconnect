@@ -651,7 +651,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 					//Programme haben u.U. Optionen, die auch übertragen werden müssen
 					data.program = uid;
 
-					if (device.type !== "Hood") {
+					if (device.isSendSelectedProgram) {
 						device.send("/ro/selectedProgram", 1, "POST", data);
 					}
 
@@ -669,7 +669,7 @@ class CloudlessHomeconnect extends utils.Adapter {
 							}),
 					);
 					//Bei Waschmaschine müssen die Optionen der Programme einzeln und nicht in Verbindung mit activeProgram gesetzt werden.
-					if (device.type === "Washer") {
+					if (device.isSendOptionsSeperately) {
 						data.options.forEach((option) => {
 							device.send("/ro/values", 1, "POST", option);
 						});
