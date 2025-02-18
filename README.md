@@ -27,8 +27,7 @@ Adapter for Homeconnect devices without cloud communication
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.4.3 (2025-02-18)
 
 - (eifel-tech) Handling to start program for dishwasher SN53ES02CE (Issue #194)
 

@@ -1,11 +1,24 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.4.2",
+		"version": "1.4.3",
 		"news": {
+			"1.4.3": {
+				"en": "Handling to start program for dishwasher SN53ES02CE (Issue #194)",
+				"de": "Starten eines Programms bei Geschirrspüler SN53ES02CE (Issue #194)",
+				"ru": "Обработка для запуска программы для посудомоечной машины SN53ES02CE #194",
+				"pt": "Manuseamento para iniciar o programa de máquina de lavar louça SN53ES02CE (Issue #194)",
+				"nl": "Handling to start programma voor vaatwasser SN53ES02CE (Issue #194)",
+				"fr": "Manipulation pour démarrer le programme pour lave-vaisselle SN53ES02CE (Numéro 194)",
+				"it": "Gestione per avviare il programma per lavastoviglie SN53ES02CE (Issue #194)",
+				"es": "Manejo para iniciar el programa de lavavajillas SN53ES02CE (Isue #194)",
+				"pl": "Postępowanie z uruchomieniem programu dla zmywarki SN53ES02CE (Wydanie # 194)",
+				"uk": "Порада для запуску програми посудомийної машини SN53ES02CE (Issue #194)",
+				"zh-cn": "处理启动洗碗机程序 SN53ES02CE (问题194)"
+			},
 			"1.4.2": {
 				"en": "Error message after sending to /ro/selectedProgram on hood devices (Issue #193)",
-				"de": "Fehlermeldung nach dem Senden an /ro/selectedProgram bei Dustabzugshauben (Issue #193)",
+				"de": "Fehlermeldung nach dem Senden an /ro/selectedProgram bei Dunstabzugshauben (Issue #193)",
 				"ru": "Сообщение об ошибке после отправки на /ro/selectProgram на устройствах капот (Исход #193)",
 				"pt": "Mensagem de erro após o envio para /ro/selectedProgram em dispositivos de capuz (Issue #193)",
 				"nl": "Foutmelding na het verzenden naar /ro/selectedProgram op motorkapapparaten (Issue #193)",
@@ -80,19 +93,6 @@
 				"pl": "Błąd poprzez parsowanie programów",
 				"uk": "Помилка за програмами",
 				"zh-cn": "分析程序出错"
-			},
-			"1.2.8": {
-				"en": "Bugfix for reading program options",
-				"de": "Bugfix zum Lesen von Programmoptionen",
-				"ru": "Исправление для выбора программы чтения",
-				"pt": "Bugfix para opções de programas de leitura",
-				"nl": "Bugfix voor het lezen van programma-opties",
-				"fr": "Bugfix pour les options de programme de lecture",
-				"it": "Bugfix per le opzioni di lettura del programma",
-				"es": "Bugfix para leer opciones del programa",
-				"pl": "Bugfix do odczytu opcji programu",
-				"uk": "Виправлення помилок для читання програм",
-				"zh-cn": "读取程序选项时的错误fix"
 			}
 		},
 		"titleLang": {
