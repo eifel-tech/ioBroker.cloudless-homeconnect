@@ -30,7 +30,7 @@ Adapter for Homeconnect devices without cloud communication
 
 ### **WORK IN PROGRESS**
 
-- (eifel-tech) Admin-Version >= 6.17.14
+- (eifel-tech) Admin-Version >= 7.4.10
 
 ### 1.4.3 (2025-02-18)
 
