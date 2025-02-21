@@ -31,6 +31,7 @@ Adapter for Homeconnect devices without cloud communication
 ### **WORK IN PROGRESS**
 
 - (eifel-tech) Admin-Version >= 7.4.10
+- (eifel-tech) Handling to start program for dishwasher S255HVX15E (Issue #201)
 
 ### 1.4.3 (2025-02-18)
 
