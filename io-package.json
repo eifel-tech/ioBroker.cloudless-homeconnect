@@ -153,13 +153,15 @@
 		},
 		"globalDependencies": [
 			{
-				"admin": ">=6.0.0"
+				"admin": ">=6.17.14"
 			}
 		]
 	},
 	"encryptedNative": ["password"],
 	"protectedNative": ["password"],
-	"native": {},
+	"native": {
+		"password": ""
+	},
 	"objects": [],
 	"instanceObjects": [
 		{
