@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.4.3",
+		"version": "1.5.0",
 		"news": {
+			"1.5.0": {
+				"en": "Handling to start program for dishwasher S255HVX15E (Issue #201)",
+				"de": "Handhabung zum Startprogramm für Geschirrspüler S255HVX15E (Issue #201)",
+				"ru": "Обработка для запуска программы посудомоечной машины S255HVX15E (выпуск No201)",
+				"pt": "Manuseamento para iniciar o programa para máquina de lavar louça S255HVX15E (Issue #201)",
+				"nl": "Handling to start programma voor vaatwasser S255HVX15E (Issue #201)",
+				"fr": "Manipulation du programme de démarrage pour lave-vaisselle S255HVX15E (Numéro #201)",
+				"it": "Gestione per avviare il programma per lavastoviglie S255HVX15E (Issue #201)",
+				"es": "Manejo para iniciar el programa para lavavajillas S255HVX15E (Isue #201)",
+				"pl": "Obsługa programu do zmywarki S255HVX15E (wydanie # 201)",
+				"uk": "Інструкція по запуску програми для посудомийної машини S255HVX15E (Issue #201)",
+				"zh-cn": "处理启动洗碗机程序 S255HVX15E(问题201)"
+			},
 			"1.4.3": {
 				"en": "Handling to start program for dishwasher SN53ES02CE (Issue #194)",
 				"de": "Starten eines Programms bei Geschirrspüler SN53ES02CE (Issue #194)",
@@ -80,19 +93,6 @@
 				"pl": "Obsługa brakujących enumów",
 				"uk": "Рукоятки відсутні",
 				"zh-cn": "处理缺失的语句"
-			},
-			"1.2.9": {
-				"en": "Error by parsing programs",
-				"de": "Fehler beim Parsen von programs",
-				"ru": "Ошибка в разбивке по программам",
-				"pt": "Erro ao analisar programas",
-				"nl": "Fout bij het ontleden van programma's",
-				"fr": "Erreur en analysant les programmes",
-				"it": "Errore tramite programmi di parsing",
-				"es": "Error al analizar programas",
-				"pl": "Błąd poprzez parsowanie programów",
-				"uk": "Помилка за програмами",
-				"zh-cn": "分析程序出错"
 			}
 		},
 		"titleLang": {
