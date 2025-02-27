@@ -30,7 +30,7 @@ Adapter for Homeconnect devices without cloud communication
 
 ### **WORK IN PROGRESS**
 
-- (eifel-tech) Datapoint to send progrm options seperately (Issue #208)
+- (eifel-tech) Datapoint to send program options seperately (Issue #208)
 
 > [!CAUTION]
 >
