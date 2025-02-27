@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.5.0",
+		"version": "1.6.0",
 		"news": {
+			"1.6.0": {
+				"en": "Datapoint to send program options seperately (Issue #208)",
+				"de": "Datapoint, um Programmoptionen seperat zu senden (Issue #208)",
+				"ru": "Datapoint для отправки опций программы отдельно (выпуск #208)",
+				"pt": "Datapoint para enviar opções de programa seperadamente (Issue #208)",
+				"nl": "Datapoint om programma-opties afzonderlijk te versturen (Issue #208)",
+				"fr": "Datapoint pour envoyer séparément les options du programme (Numéro #208)",
+				"it": "Datapoint per inviare seperately opzioni di programma (Issue #208)",
+				"es": "Datapoint to send program options seperately (Issue #208)",
+				"pl": "Datapoint do wysyłania opcji programu seperately (wydanie # 208)",
+				"uk": "Відправлення параметрів програми (Issue #208)",
+				"zh-cn": "自动发送程序选项的数据点( 问题 # 208)"
+			},
 			"1.5.0": {
 				"en": "Handling to start program for dishwasher S255HVX15E (Issue #201)",
 				"de": "Handhabung zum Startprogramm für Geschirrspüler S255HVX15E (Issue #201)",
@@ -80,19 +93,6 @@
 				"pl": "Hasło w admin będzie przechowywane zaszyfrowane naiwnie",
 				"uk": "Пароль в адміні буде зберігатися зашифрованими",
 				"zh-cn": "管理员密码会被加密 "
-			},
-			"1.2.10": {
-				"en": "Handle missing enums",
-				"de": "Behandeln von fehlenden Enums",
-				"ru": "Пропавшие муравьи",
-				"pt": "Lidar com enums perdidos",
-				"nl": "Ontbrekende enums hanteren",
-				"fr": "Poignées manquantes",
-				"it": "Maniglia enum mancanti",
-				"es": "Handle missing enums",
-				"pl": "Obsługa brakujących enumów",
-				"uk": "Рукоятки відсутні",
-				"zh-cn": "处理缺失的语句"
 			}
 		},
 		"titleLang": {
