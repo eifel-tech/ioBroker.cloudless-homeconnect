@@ -193,6 +193,20 @@ class CloudlessHomeconnect extends utils.Adapter {
 				native: {},
 			});
 
+			//DP zum Einstellen ob Programmoptionen beim Start einzeln zum Gerät gesendet werden sollen
+			await this.setObjectNotExistsAsync(id + ".sendOptionsSeparately", {
+				type: "state",
+				common: {
+					type: "boolean",
+					role: "switch",
+					name: "Send program options seperately to device at starting a program ",
+					write: true,
+					read: true,
+					def: false,
+				},
+				native: {},
+			});
+
 			//Generelles
 			await this.setObjectNotExistsAsync(id + ".General", {
 				type: "channel",
@@ -668,8 +682,9 @@ class CloudlessHomeconnect extends utils.Adapter {
 								};
 							}),
 					);
-					//Bei Waschmaschine müssen die Optionen der Programme einzeln und nicht in Verbindung mit activeProgram gesetzt werden.
-					if (device.isSendOptionsSeperately) {
+					//Bei manchen Geräten müssen die Optionen der Programme einzeln und nicht in Verbindung mit activeProgram gesetzt werden.
+					const isSendOptionsSeperately = await this.getStateAsync(devId + ".sendOptionsSeparately");
+					if (isSendOptionsSeperately && isSendOptionsSeperately.val) {
 						data.options.forEach((option) => {
 							device.send("/ro/values", 1, "POST", option);
 						});

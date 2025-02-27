@@ -94,6 +94,7 @@ Hier werden die wichtigsten Datenpunkte beschrieben. Im Namen ist die UID hinter
 │       |       └── ...
 |       └── ActiveProgram
 |       └── SelectedProgram
+|       └── sendOptionsSeperately
 ```
 
 ### info.connection
@@ -111,6 +112,14 @@ Die Datenpunkte enthalten als Wert die UID des Programms, das gerade läuft. `Ac
 ### observe
 
 Mit dem Datenpunkt `observe` können bei Änderung auf `false` Geräte von der Überwachung des Adapters ausgeschlossen werden. So kann bspw. im Fehlerfall eingestellt werdne, dass nur ein Gerät vom Adapter beachtet wird und kein anderes "dazwischen funkt".
+
+### sendOptionsSeperately
+
+Normalerweise werden zum Starten eines Programms die nötigen Optionen als Ganzes an das Gerät gesendet. Bei manchen Geräten wrid aber erwartet, dass diese Optionen nicht als Block sondern einzeln übertragen werden.
+
+> [!NOTE]
+>
+> Funktioniert das Starten eines Programms also nicht wie gewünscht bzw. steht im Debug-Log sowas wie `resource":"/ro/activeProgram","version":1,"action":"RESPONSE","code":400}`, kann dieser Datenpunkt auf `true` geändert werden, bevor erneut versucht werden kann, ein Programm zu starten.
 
 ### Command
 

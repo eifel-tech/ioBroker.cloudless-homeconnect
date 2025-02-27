@@ -94,6 +94,7 @@ The most important data points are described here. The UID that the respective d
 │       |       └── ...
 |       └── ActiveProgram
 |       └── SelectedProgram
+|       └── sendOptionsSeperately
 ```
 
 ### info.connection
@@ -111,6 +112,14 @@ The data points contain the UID of the program that is currently running as a va
 ### observe
 
 With the data point `observe`, devices can be excluded from monitoring the adapter when changed to `false`. For example, in the event of an error, it can be set that only one device is taken into account by the adapter and no other device "intermediates".
+
+### sendOptionsSeperately
+
+Normally, to start a program, the necessary options are sent to the device as a whole. However, on some devices it is expected that these options are not transmitted as a block but individually.
+
+> [!NOTE]
+>
+> If starting a program doesn't work as desired or if the debug log says something like `resource":"/ro/activeProgram","version":1,"action":"RESPONSE","code":400}`, this data point can be changed to `true` before trying to start a program again.
 
 ### Command
 
