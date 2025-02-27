@@ -31,9 +31,10 @@ Adapter for Homeconnect devices without cloud communication
 ### **WORK IN PROGRESS**
 
 - (eifel-tech) Datapoint to send progrm options seperately (Issue #208)
-    > [!CAUTION]
-    >
-    > See [english](./docs/en/README.md#sendoptionsseperately) or [german docu](./docs/de/README.md#sendoptionsseperately)
+
+> [!CAUTION]
+>
+> See [english](./docs/en/README.md#sendoptionsseperately) or [german docu](./docs/de/README.md#sendoptionsseperately)
 
 ### 1.5.0 (2025-02-24)
 
@@ -62,9 +63,10 @@ Adapter for Homeconnect devices without cloud communication
 - (eifel-tech) Dependency updates
 - (eifel-tech) common.min is only set if it is also present in the config (Issue #149)
 - (eifel-tech) Password in admin will be stored encrypted natively
-    > [!CAUTION]
-    >
-    > You have to reenter your password in admin config!
+
+> [!CAUTION]
+>
+> You have to reenter your password in admin config!
 
 ### 1.2.10 (2024-11-20)
 
