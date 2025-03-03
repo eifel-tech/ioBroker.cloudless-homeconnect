@@ -31,7 +31,7 @@
     "axios": "^1.7.9",
     "cheerio": "^1.0.0",
     "http-cookie-agent": "^6.0.8",
-    "tough-cookie": "^5.1.1",
+    "tough-cookie": "^5.1.2",
     "ws": "^8.18.0"
   },
   "devDependencies": {
