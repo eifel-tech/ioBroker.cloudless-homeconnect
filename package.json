@@ -32,7 +32,7 @@
     "cheerio": "^1.0.0",
     "http-cookie-agent": "^6.0.8",
     "tough-cookie": "^5.1.2",
-    "ws": "^8.18.0"
+    "ws": "^8.18.1"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.8.0",
