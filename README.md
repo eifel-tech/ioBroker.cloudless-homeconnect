@@ -27,6 +27,7 @@ Adapter for Homeconnect devices without cloud communication
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+
 ### 1.6.0 (2025-02-27)
 
 - (eifel-tech) Datapoint to send program options seperately (Issue #208)
@@ -112,8 +113,10 @@ Adapter for Homeconnect devices without cloud communication
 ### 1.2.0
 
 - (eifel-tech) Ability to exclude individual devices from control (Issue #117)
-    > [!CAUTION]
-    > The configuration had to be expanded for this, so the contents of the `info.config` data point have to be deleted and the adapter has to be restarted. Also delete the `General` object tree.
+
+> [!CAUTION]
+>
+> The configuration had to be expanded for this, so the contents of the `info.config` data point have to be deleted and the adapter has to be restarted. Also delete the `General` object tree.
 
 ### 1.1.2
 
