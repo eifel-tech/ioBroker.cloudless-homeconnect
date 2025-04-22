@@ -4,5 +4,6 @@
 	"App_Password": "应用程序密码",
 	"App_Password_help": "输入 Homeconnect app 中使用的密码",
 	"maxRetries": "连接尝试次数",
-	"maxRetries_help": "输入适配器在通信错误时要尝试重新连接到设备的频率 。 如果它是0, 它不断尝试."
+	"maxRetries_help": "输入适配器在通信错误时要尝试重新连接到设备的频率 。 如果它是0, 它不断尝试.",
+	"communicationError": "将通信错误输出为调试日志"
 }

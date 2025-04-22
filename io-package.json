@@ -144,7 +144,7 @@
 		},
 		"dependencies": [
 			{
-				"js-controller": ">=5.0.19"
+				"js-controller": ">=6.0.11"
 			}
 		],
 		"docs": {
@@ -160,7 +160,8 @@
 	"encryptedNative": ["password"],
 	"protectedNative": ["password"],
 	"native": {
-		"password": ""
+		"password": "",
+		"communicationError": false
 	},
 	"objects": [],
 	"instanceObjects": [

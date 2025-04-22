@@ -4,5 +4,6 @@
 	"App_Password": "App Passwort",
 	"App_Password_help": "Geben Sie das in der Homeconnect App verwendete Passwort ein",
 	"maxRetries": "Anzahl Verbindungsversuche",
-	"maxRetries_help": "Geben Sie ein, wie oft der Adapter den Neuaufbau zu einem Gerät bei einem Kommunikationsfehler versuchen soll. Bei 0 wird immer weiter probiert."
+	"maxRetries_help": "Geben Sie ein, wie oft der Adapter den Neuaufbau zu einem Gerät bei einem Kommunikationsfehler versuchen soll. Bei 0 wird immer weiter probiert.",
+	"communicationError": "Kommunikationsfehler als Debug-Log ausgeben"
 }

@@ -4,5 +4,6 @@
 	"App_Password": "Password dell'app",
 	"App_Password_help": "Inserisci la password utilizzata nell'app Homeconnect",
 	"maxRetries": "Numero di tentativi di connessione",
-	"maxRetries_help": "Inserisci quanto spesso l'adattatore dovrebbe tentare di riconnettersi a un dispositivo in caso di errore di comunicazione. Se è 0, continua a provare continuamente."
+	"maxRetries_help": "Inserisci quanto spesso l'adattatore dovrebbe tentare di riconnettersi a un dispositivo in caso di errore di comunicazione. Se è 0, continua a provare continuamente.",
+	"communicationError": "Errori di comunicazione in uscita come registro di debug"
 }

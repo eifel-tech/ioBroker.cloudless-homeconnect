@@ -4,5 +4,6 @@
 	"App_Password": "Senha do aplicativo",
 	"App_Password_help": "Digite a senha usada no aplicativo Homeconnect",
 	"maxRetries": "Número de tentativas de conexão",
-	"maxRetries_help": "Digite com que frequência o adaptador deve tentar se conectar a um dispositivo no caso de um erro de comunicação. Se for 0, ele continua tentando continuamente."
+	"maxRetries_help": "Digite com que frequência o adaptador deve tentar se conectar a um dispositivo no caso de um erro de comunicação. Se for 0, ele continua tentando continuamente.",
+	"communicationError": "Erros de comunicação de saída como log de depuração"
 }

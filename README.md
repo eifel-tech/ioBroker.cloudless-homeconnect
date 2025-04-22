@@ -28,6 +28,10 @@ Adapter for Homeconnect devices without cloud communication
   ### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+
+- (eifel-tech) Possibility to log communication errors as debug (Issue #242)
+
 ### 1.6.0 (2025-02-27)
 
 - (eifel-tech) Datapoint to send program options seperately (Issue #208)

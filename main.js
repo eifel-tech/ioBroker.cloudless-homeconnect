@@ -414,7 +414,8 @@ class CloudlessHomeconnect extends utils.Adapter {
 								values.resource,
 						);
 					} else {
-						this.log.error("Communication error " + values.error + " at service " + values.resource);
+						const msg = "Communication error " + values.error + " at service " + values.resource;
+						this.config.communicationError ? this.log.debug(msg) : this.log.error(msg);
 					}
 					return;
 				}
