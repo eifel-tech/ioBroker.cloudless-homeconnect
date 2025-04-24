@@ -23,7 +23,7 @@
     "url": "https://github.com/eifel-tech/ioBroker.cloudless-homeconnect.git"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.2.3",
@@ -43,7 +43,7 @@
     "@eslint/js": "^9.25.1",
     "@iobroker/adapter-dev": "^1.4.0",
     "@iobroker/testing": "^5.0.4",
-    "@tsconfig/node18": "^18.2.4",
+    "@tsconfig/node20": "^20.1.5",
     "@types/chai": "^4.3.11",
     "@types/chai-as-promised": "^7.1.8",
     "@types/mocha": "^10.0.10",

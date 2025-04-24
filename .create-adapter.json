@@ -14,7 +14,7 @@
 	"dataSource": "push",
 	"connectionIndicator": "no",
 	"language": "JavaScript",
-	"nodeVersion": "18",
+	"nodeVersion": "20",
 	"adminUi": "json",
 	"tools": ["ESLint", "type checking", "Prettier"],
 	"releaseScript": "yes",

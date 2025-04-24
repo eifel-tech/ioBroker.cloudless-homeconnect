@@ -12,7 +12,7 @@ The basic idea for this adapter comes from https://github.com/osresearch/hcpy. T
 
 ## Prerequisites before installation
 
-At least Node.js **version 18** must be installed.
+At least Node.js **version 20** must be installed.
 
 In contrast to using the official API, <ins>no</ins> ClientID is required for the adapter, only the username and password that were used in the Homeconnect app. Devices must be registered once via the Homeconnect app.
 
