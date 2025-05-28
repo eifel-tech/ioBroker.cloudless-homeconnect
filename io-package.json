@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.6.1",
+		"version": "1.6.2",
 		"news": {
+			"1.6.2": {
+				"en": "Dependency updates and node-version >= 20",
+				"de": "Abhängigkeitsaktualisierungen und Node-Version >= 20",
+				"ru": "Обновления зависимостей и версия узла >= 20",
+				"pt": "Atualizações de dependência e node-versão >= 20",
+				"nl": "Description 20",
+				"fr": "Mises à jour sur la dépendance et la version des nœuds >= 20",
+				"it": "Aggiornamenti di dipendenza e nodo-versione >= 20",
+				"es": "Actualizaciones de dependencia y nodo-versión >= 20",
+				"pl": "Aktualizacje zależności i wersja node- > = 20",
+				"uk": "Залежність оновлення та налаштування вузлів >= 20 хв",
+				"zh-cn": "依赖性更新和节点转换 20 (简体中文)"
+			},
 			"1.6.1": {
 				"en": "Possibility to log communication errors as debug (Issue #242)",
 				"de": "Möglichkeit, Kommunikationsfehler als Debug zu protokollieren (Issue #242)",
@@ -80,19 +93,6 @@
 				"pl": "Tworzenie katalogu instancji, jeśli brak",
 				"uk": "Створення каталогу екземплярів, якщо немає",
 				"zh-cn": "缺少实例目录时创建实例目录"
-			},
-			"1.4.0": {
-				"en": "Changed login process for getting device information by homeconnect (Issue #170)",
-				"de": "Geänderter Login-Prozess durch homeconnect (Issue #170)",
-				"ru": "Изменение процесса входа для получения информации о устройстве по домашнему подключению (Исход #170)",
-				"pt": "Processo de login alterado para obter informações do dispositivo por homeconnect (Issue #170)",
-				"nl": "Gewijzigd inlogproces voor het verkrijgen van apparaatinformatie door homeconnect (Issue #170)",
-				"fr": "Processus de connexion modifié pour obtenir des informations sur l'appareil par homeconnect (Numéro #170)",
-				"it": "Cambiato processo di login per ottenere informazioni sui dispositivi tramite homeconnect (Essue #170)",
-				"es": "Cambio de proceso de inicio de sesión para obtener información del dispositivo por homeconnect (Isue #170)",
-				"pl": "Zmieniony proces logowania do uzyskiwania informacji o urządzeniu przez homeconnections (wydanie # 170)",
-				"uk": "Змінений процес входу для отримання інформації про пристрій за допомогою домашнього підключення (Issue #170)",
-				"zh-cn": "更改通过家用连接获取设备信息的登录程序( 问题 # 170)"
 			}
 		},
 		"titleLang": {
