@@ -29,7 +29,7 @@
     "@iobroker/adapter-core": "^3.2.3",
     "adm-zip": "^0.5.16",
     "axios": "^1.11.0",
-    "cheerio": "^1.1.1",
+    "cheerio": "^1.1.2",
     "http-cookie-agent": "^7.0.2",
     "tough-cookie": "^5.1.2",
     "ws": "^8.18.3"
