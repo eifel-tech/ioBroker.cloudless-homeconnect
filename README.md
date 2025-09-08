@@ -27,6 +27,11 @@ Adapter for Homeconnect devices without cloud communication
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+- (eifel-tech) Show readable Options too (Issue #333)
+
 ### 1.6.2 (2025-05-28)
 
 - (eifel-tech) Dependency updates and node-version >= 20
