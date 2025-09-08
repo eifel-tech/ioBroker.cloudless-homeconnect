@@ -30,7 +30,7 @@ Adapter for Homeconnect devices without cloud communication
 
 ### **WORK IN PROGRESS**
 
-- (eifel-tech) Show readable Options too (Issue #333)
+- (eifel-tech) Try to replace access=none in some options (Issue #333)
 
 ### 1.6.2 (2025-05-28)
 
