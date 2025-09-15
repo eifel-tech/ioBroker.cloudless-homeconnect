@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.6.2",
+		"version": "1.6.3",
 		"news": {
+			"1.6.3": {
+				"en": "Try to replace access=none in some options (Issue #333)",
+				"de": "Versuche, access=none in einigen Optionen durch einen anderen Wert zu ersetzen (Issue #333)",
+				"ru": "Попробуйте заменить access=none в некоторых опциях (Issue #333)",
+				"pt": "Tente substituir access=none em algumas opções (Issue #333)",
+				"nl": "Probeer access=none te vervangen in sommige opties (Issue #333)",
+				"fr": "Essayez de remplacer access=none dans certaines options (Problème #333)",
+				"it": "Prova a sostituire access=none in alcune opzioni (Issue #333)",
+				"es": "Intenta reemplazar access=none en algunas opciones (Issue #333)",
+				"pl": "Spróbuj zamienić access=none na kilku opcjach (Issue #333)",
+				"uk": "Спробуйте замінити access=none на деяких параметрах (Проблема #333)",
+				"zh-cn": "尝试将某些选项中的access=none替换为其他值 (问题＃333)"
+			},
 			"1.6.2": {
 				"en": "Dependency updates and node-version >= 20",
 				"de": "Abhängigkeitsaktualisierungen und Node-Version >= 20",
@@ -80,19 +93,6 @@
 				"pl": "Komunikat o błędzie po wysłaniu do / ro / selectedProgram na urządzeniach z kapturem (wydanie # 193)",
 				"uk": "Помилка повідомлення після відправки на /ro/selectedProgram на витяжних пристроях (Issue #193)",
 				"zh-cn": "发送到 /ro/ 选中的套装设备( 问题 # 193) 后的错误消息"
-			},
-			"1.4.1": {
-				"en": "Creating instance directory if absent",
-				"de": "Instanzverzeichnis erstellen, wenn nicht vorhanden",
-				"ru": "Создание каталога экземпляра при отсутствии",
-				"pt": "Criar diretório de instância se ausente",
-				"nl": "Map van instantie aanmaken indien afwezig",
-				"fr": "Création d'un répertoire d'instance en cas d'absence",
-				"it": "Creazione di directory delle istanze se assente",
-				"es": "Crear directorio de instancia si ausente",
-				"pl": "Tworzenie katalogu instancji, jeśli brak",
-				"uk": "Створення каталогу екземплярів, якщо немає",
-				"zh-cn": "缺少实例目录时创建实例目录"
 			}
 		},
 		"titleLang": {
