@@ -17,18 +17,18 @@ jobs:
       PR_URL: ${{github.event.pull_request.html_url}}
     steps:
      - name: Checkout
-        uses: actions/checkout@v4
-        with:
+       uses: actions/checkout@v4
+       with:
           fetch-depth: 0
-      - name: SetUp auto-merge
-        id: auto-merge
-        uses: dependabot/fetch-metadata@v2.2.0
-        with:
+     - name: SetUp auto-merge
+       id: auto-merge
+       uses: dependabot/fetch-metadata@v2.2.0
+       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Wait 5 minutes for other checks to complete
-        run: sleep 300
-      - name: Check if all workflows have passed
-        run: |
+     - name: Wait 5 minutes for other checks to complete
+       run: sleep 300
+     - name: Check if all workflows have passed
+       run: |
           MAX_RETRIES=6
           RETRY_INTERVAL=300  # Specify 5 minutes in seconds
           ATTEMPT=0
@@ -67,5 +67,5 @@ jobs:
           done
           echo "Failed to merge the PR after $MAX_RETRIES attempts due to failing status checks."
           exit 1
-      - name: Auto-merge for Dependabot PRs
-        run: gh pr merge --auto --merge "$PR_URL"
+     - name: Auto-merge for Dependabot PRs
+       run: gh pr merge --auto --merge "$PR_URL"
