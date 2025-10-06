@@ -25,8 +25,8 @@ jobs:
        uses: dependabot/fetch-metadata@v2.2.0
        with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-     - name: Wait 5 minutes for other checks to complete
-       run: sleep 300
+     - name: Wait 30 minutes for other checks to complete
+       run: sleep 1800
      - name: Check if all workflows have passed
        run: |
           MAX_RETRIES=6
