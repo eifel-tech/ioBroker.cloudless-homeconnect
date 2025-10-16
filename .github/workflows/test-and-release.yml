@@ -61,6 +61,7 @@ jobs:
         runs-on: ubuntu-latest
         permissions:
             contents: write
+            id-token: write
 
         steps:
             - name: Checkout code
@@ -90,6 +91,10 @@ jobs:
             - name: Publish package to npm
               shell: bash
               run: |
-                  npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
-                  npm whoami
+                  # npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
+                  # npm whoami
+                  echo "using trusted installer ..."
+                  # ensure that newest npm is installed - otherwise trusted installer does not work
+                  npm install -g npm@latest
+                  npm -v
                   npm publish ${{ steps.extract_release.outputs.TAG }}
