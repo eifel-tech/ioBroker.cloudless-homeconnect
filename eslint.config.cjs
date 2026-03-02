@@ -37,6 +37,7 @@ module.exports = [
 			],
 
 			"no-console": "off",
+			"no-useless-assignment": "off",
 
 			"no-unused-vars": [
 				"error",
