@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.6.3",
+		"version": "1.6.4",
 		"news": {
+			"1.6.4": {
+				"en": "Dependency updates and required Admin-Version >= 7.6.20",
+				"de": "Abhängigkeitsaktualisierungen und erforderliche Admin-Version >= .6.20",
+				"ru": "Обновления зависимостей и требуемая админ-версия 7.6.20",
+				"pt": "Atualizações de dependência e necessidade de Admin-Version >= 7.6.20",
+				"nl": "Afhankelijkheidsupdates en vereiste Admin-Version 7.6.20",
+				"fr": "Mise à jour de la dépendance et besoin Admin-Version >= 7.6.20",
+				"it": "Aggiornamenti della dipendenza e richiesta 7.6.20",
+				"es": "Actualizaciones de dependencia y necesaria Admin-Version 7.6.20",
+				"pl": "Aktualizacje zależności i wymagana wersja administracyjna > = 7.6.20",
+				"uk": "Залежність оновлень та обов’язкові Admin-Version >= 7.6.20 р",
+				"zh-cn": "依赖性更新和需要的管理员 7.6.20 (中文(简体) )"
+			},
 			"1.6.3": {
 				"en": "Try to replace access=none in some options (Issue #333)",
 				"de": "Versuche, access=none in einigen Optionen durch einen anderen Wert zu ersetzen (Issue #333)",
@@ -80,19 +93,6 @@
 				"pl": "Postępowanie z uruchomieniem programu dla zmywarki SN53ES02CE (Wydanie # 194)",
 				"uk": "Порада для запуску програми посудомийної машини SN53ES02CE (Issue #194)",
 				"zh-cn": "处理启动洗碗机程序 SN53ES02CE (问题194)"
-			},
-			"1.4.2": {
-				"en": "Error message after sending to /ro/selectedProgram on hood devices (Issue #193)",
-				"de": "Fehlermeldung nach dem Senden an /ro/selectedProgram bei Dunstabzugshauben (Issue #193)",
-				"ru": "Сообщение об ошибке после отправки на /ro/selectProgram на устройствах капот (Исход #193)",
-				"pt": "Mensagem de erro após o envio para /ro/selectedProgram em dispositivos de capuz (Issue #193)",
-				"nl": "Foutmelding na het verzenden naar /ro/selectedProgram op motorkapapparaten (Issue #193)",
-				"fr": "Message d'erreur après l'envoi à /ro/sélectionnéProgramme sur les appareils à hotte (Numéro #193)",
-				"it": "Messaggio di errore dopo l'invio a /ro/selettoProgramma su dispositivi di cappuccio (Issue #193)",
-				"es": "Mensaje de error después de enviar a /ro/selectedProgram on hood devices (Issue #193)",
-				"pl": "Komunikat o błędzie po wysłaniu do / ro / selectedProgram na urządzeniach z kapturem (wydanie # 193)",
-				"uk": "Помилка повідомлення після відправки на /ro/selectedProgram на витяжних пристроях (Issue #193)",
-				"zh-cn": "发送到 /ro/ 选中的套装设备( 问题 # 193) 后的错误消息"
 			}
 		},
 		"titleLang": {
