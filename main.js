@@ -8,7 +8,7 @@ const Device = require("./lib/Device.js");
 const ConfigService = require("./lib/ConfigService.js");
 const util = require("./lib/util.js");
 
-const events = require("events");
+const events = require("node:events");
 
 /**
  * Implementation of Homeconnect-Adapter with only local network communication.
