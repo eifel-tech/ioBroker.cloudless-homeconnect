@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
      - name: SetUp auto-merge
        id: auto-merge
-       uses: dependabot/fetch-metadata@v3.0.0
+       uses: dependabot/fetch-metadata@v3.1.0
        with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
      - name: Wait 5 minutes for other checks to complete
