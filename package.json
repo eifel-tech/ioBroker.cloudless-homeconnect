@@ -23,7 +23,7 @@
     "url": "https://github.com/eifel-tech/ioBroker.cloudless-homeconnect.git"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">= 22"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.3.2",
