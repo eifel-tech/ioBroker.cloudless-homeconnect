@@ -30,7 +30,7 @@
     "adm-zip": "^0.5.17",
     "axios": "^1.16.0",
     "cheerio": "^1.2.0",
-    "http-cookie-agent": "^7.0.3",
+    "http-cookie-agent": "^8.0.0",
     "tough-cookie": "^6.0.1",
     "ws": "^8.20.0"
   },
