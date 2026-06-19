@@ -264,9 +264,9 @@ class CloudlessHomeconnect extends utils.Adapter {
 				const subFolderName = this.getSubfolderByName(feature.name);
 
 				if (
-					//Nur Optionen beachten, die nur lesbar sind
-					(subFolderName.toLowerCase() === "option" && feature.access === "read") ||
-					(["program", "command", "setting", "status", "event"].includes(subFolderName.toLowerCase()) &&
+					(["option", "program", "command", "setting", "status", "event"].includes(
+						subFolderName.toLowerCase(),
+					) &&
 						//Kein Programm "SubsequentMode", weil diese für das Fortsetzen eines bereits beendeten Programms vorgesehen sind
 						!feature.name.includes("SubsequentMode")) ||
 					feature.name.endsWith("Program")
@@ -282,6 +282,10 @@ class CloudlessHomeconnect extends utils.Adapter {
 					if (!(await this.objectExists(this.getDpByUid(dev, uid)))) {
 						const common = this.getCommonObj(feature, uid);
 
+						//DPs im Option-Ordner sollen nur lesbar sein, auch wenn sie access=readwrite haben. Beschreibbar sind sie unter den jeweiligen Programmen
+						if (subFolderName.toLowerCase() === "option") {
+							common.write = false;
+						}
 						if (subFolderName.toLowerCase() === "program") {
 							common.read = false;
 							common.write = true;
@@ -436,9 +440,9 @@ class CloudlessHomeconnect extends utils.Adapter {
 
 				const oid = this.getDpByUid(device, uid);
 				//Optionen werden nicht aktualisiert
-				if (this.getSubfolderByDp(oid).toLowerCase() === "option" && device.features[uid].access !== "read") {
-					return;
-				}
+				//if (this.getSubfolderByDp(oid).toLowerCase() === "option" && device.features[uid].access !== "read") {
+				//	return;
+				//}
 
 				//Objekt holen, um richtigen Typ zu ermitteln
 				const obj = await this.getObjectAsync(oid);
