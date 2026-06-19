@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.6.4",
+		"version": "1.7.0",
 		"news": {
+			"1.7.0": {
+				"en": "Don't ignore readwrite-options anymore (Issue #505)",
+				"de": "Optionen mit readwrite werden nicht mehr ignoriert (Issue #505)",
+				"ru": "Больше не игнорируйте параметры чтения/записи (Проблема #505)",
+				"pt": "Não ignore mais as opções de leitura e gravação (Problema nº 505)",
+				"nl": "Negeer de lees-schrijfopties niet langer (Probleem #505)",
+				"fr": "Ne négligez plus les options de lecture/écriture (Problème n° 505)",
+				"it": "Non ignorare più le opzioni di lettura/scrittura (Problema n. 505)",
+				"es": "Ya no ignores las opciones de lectura y escritura (Problema n.° 505)",
+				"pl": "Nie ignoruj już opcji odczytu i zapisu (problem nr 505)",
+				"uk": "Більше не ігноруйте опції readwrite (Проблема №505)",
+				"zh-cn": "不要再忽略读写选项（问题 #505）"
+			},
 			"1.6.4": {
 				"en": "Dependency updates and required Admin-Version >= 7.6.20",
 				"de": "Abhängigkeitsaktualisierungen und erforderliche Admin-Version >= .6.20",
@@ -80,19 +93,6 @@
 				"pl": "Obsługa programu do zmywarki S255HVX15E (wydanie # 201)",
 				"uk": "Інструкція по запуску програми для посудомийної машини S255HVX15E (Issue #201)",
 				"zh-cn": "处理启动洗碗机程序 S255HVX15E(问题201)"
-			},
-			"1.4.3": {
-				"en": "Handling to start program for dishwasher SN53ES02CE (Issue #194)",
-				"de": "Starten eines Programms bei Geschirrspüler SN53ES02CE (Issue #194)",
-				"ru": "Обработка для запуска программы для посудомоечной машины SN53ES02CE #194",
-				"pt": "Manuseamento para iniciar o programa de máquina de lavar louça SN53ES02CE (Issue #194)",
-				"nl": "Handling to start programma voor vaatwasser SN53ES02CE (Issue #194)",
-				"fr": "Manipulation pour démarrer le programme pour lave-vaisselle SN53ES02CE (Numéro 194)",
-				"it": "Gestione per avviare il programma per lavastoviglie SN53ES02CE (Issue #194)",
-				"es": "Manejo para iniciar el programa de lavavajillas SN53ES02CE (Isue #194)",
-				"pl": "Postępowanie z uruchomieniem programu dla zmywarki SN53ES02CE (Wydanie # 194)",
-				"uk": "Порада для запуску програми посудомийної машини SN53ES02CE (Issue #194)",
-				"zh-cn": "处理启动洗碗机程序 SN53ES02CE (问题194)"
 			}
 		},
 		"titleLang": {
