@@ -27,8 +27,7 @@ Adapter for Homeconnect devices without cloud communication
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.7.1 (2026-10-08)
 
 - (eifel-tech) Optimizing heartbeat (Issue #566)
 
@@ -47,10 +46,6 @@ Adapter for Homeconnect devices without cloud communication
 ### 1.6.2 (2025-05-28)
 
 - (eifel-tech) Dependency updates and node-version >= 20
-
-### 1.6.1 (2025-04-22)
-
-- (eifel-tech) Possibility to log communication errors as debug (Issue #242)
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 

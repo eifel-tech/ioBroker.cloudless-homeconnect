@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.7.0",
+		"version": "1.7.1",
 		"news": {
+			"1.7.1": {
+				"en": "Optimizing heartbeat (Issue #566)",
+				"de": "Heartbeat optimieren (Ausgabe #566)",
+				"ru": "Оптимизация сердцебиения (выпуск #566)",
+				"pt": "Otimizando a pulsação (Edição #566)",
+				"nl": "Hartslag optimaliseren (Kwestie #566)",
+				"fr": "Optimiser le pouls (numéro #566)",
+				"it": "Ottimizzare il battito (#566)",
+				"es": "Optimizar los latidos (número #566)",
+				"pl": "Optymalizacja bicia serca (Problem #566)",
+				"uk": "Оптимізація серцебиття (Випуск #566)",
+				"zh-cn": "优化心跳（问题 #566）"
+			},
 			"1.7.0": {
 				"en": "Don't ignore readwrite-options anymore (Issue #505)",
 				"de": "Optionen mit readwrite werden nicht mehr ignoriert (Issue #505)",
@@ -80,19 +93,6 @@
 				"pl": "Datapoint do wysyłania opcji programu seperately (wydanie # 208)",
 				"uk": "Відправлення параметрів програми (Issue #208)",
 				"zh-cn": "自动发送程序选项的数据点( 问题 # 208)"
-			},
-			"1.5.0": {
-				"en": "Handling to start program for dishwasher S255HVX15E (Issue #201)",
-				"de": "Handhabung zum Startprogramm für Geschirrspüler S255HVX15E (Issue #201)",
-				"ru": "Обработка для запуска программы посудомоечной машины S255HVX15E (выпуск No201)",
-				"pt": "Manuseamento para iniciar o programa para máquina de lavar louça S255HVX15E (Issue #201)",
-				"nl": "Handling to start programma voor vaatwasser S255HVX15E (Issue #201)",
-				"fr": "Manipulation du programme de démarrage pour lave-vaisselle S255HVX15E (Numéro #201)",
-				"it": "Gestione per avviare il programma per lavastoviglie S255HVX15E (Issue #201)",
-				"es": "Manejo para iniciar el programa para lavavajillas S255HVX15E (Isue #201)",
-				"pl": "Obsługa programu do zmywarki S255HVX15E (wydanie # 201)",
-				"uk": "Інструкція по запуску програми для посудомийної машини S255HVX15E (Issue #201)",
-				"zh-cn": "处理启动洗碗机程序 S255HVX15E(问题201)"
 			}
 		},
 		"titleLang": {
