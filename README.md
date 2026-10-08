@@ -28,6 +28,10 @@ Adapter for Homeconnect devices without cloud communication
   ### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+
+- (eifel-tech) Optimizing heartbeat (Issue #566)
+
 ### 1.7.0 (2026-06-19)
 
 - (eifel-tech) Don't ignore readwrite-options anymore (Issue #505)
