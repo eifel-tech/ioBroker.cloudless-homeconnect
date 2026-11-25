@@ -646,6 +646,17 @@ class CloudlessHomeconnect extends utils.Adapter {
 				return;
 			}
 
+			// Programm wählen (ohne zu starten): Die Maschine erwartet dafür /ro/selectedProgram mit der Programmnummer, nicht /ro/values
+			if (oid.endsWith(".SelectedProgram")) {
+				const programUid = parseInt(state.val, 10);
+				if (!isNaN(programUid)) {
+					device.send("/ro/selectedProgram", 1, "POST", { program: programUid, options: [] });
+				} else {
+					this.log.warn("SelectedProgram: Programmnummer erwartet, erhalten: " + state.val);
+				}
+				return;
+			}
+
 			if (uid) {
 				let resource = "/ro/values";
 				const data = {};
