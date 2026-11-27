@@ -1,4 +1,8 @@
 # Older changes
+## 1.6.2 (2025-05-28)
+
+- (eifel-tech) Dependency updates and node-version >= 20
+
 ## 1.6.1 (2025-04-22)
 
 - (eifel-tech) Possibility to log communication errors as debug (Issue #242)

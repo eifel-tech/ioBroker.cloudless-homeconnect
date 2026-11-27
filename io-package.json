@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "cloudless-homeconnect",
-		"version": "1.7.1",
+		"version": "1.7.2",
 		"news": {
+			"1.7.2": {
+				"en": "Flag for selecting program without starting it",
+				"de": "Flag für Programmwahl ohne Start",
+				"ru": "Флаг выбора программы без ее запуска",
+				"pt": "Sinalize a seleção do programa sem iniciá-lo",
+				"nl": "Vlag om een programma te selecteren zonder het te starten",
+				"fr": "Drapeau pour sélectionner un programme sans le démarrer",
+				"it": "Flag per scegliere il programma senza avviarlo",
+				"es": "Indicador para seleccionar un programa sin iniciarlo",
+				"pl": "Flaga wyboru programu bez uruchamiania",
+				"uk": "Прапор для вибору програми без її запуску",
+				"zh-cn": "标记在不启动程序的情况下选择程序"
+			},
 			"1.7.1": {
 				"en": "Optimizing heartbeat (Issue #566)",
 				"de": "Heartbeat optimieren (Ausgabe #566)",
@@ -80,19 +93,6 @@
 				"pl": "Możliwość logowania błędów komunikacyjnych jako debug (wydanie # 242)",
 				"uk": "Можливість вводити помилки зв'язку як дебюг (Issue #242)",
 				"zh-cn": "有可能将通信错误记录为调试( 问题 # 242)"
-			},
-			"1.6.0": {
-				"en": "Datapoint to send program options seperately (Issue #208)",
-				"de": "Datapoint, um Programmoptionen seperat zu senden (Issue #208)",
-				"ru": "Datapoint для отправки опций программы отдельно (выпуск #208)",
-				"pt": "Datapoint para enviar opções de programa seperadamente (Issue #208)",
-				"nl": "Datapoint om programma-opties afzonderlijk te versturen (Issue #208)",
-				"fr": "Datapoint pour envoyer séparément les options du programme (Numéro #208)",
-				"it": "Datapoint per inviare seperately opzioni di programma (Issue #208)",
-				"es": "Datapoint enviará las opciones del programa por separado (Problema n.° 208)",
-				"pl": "Datapoint do wysyłania opcji programu seperately (wydanie # 208)",
-				"uk": "Відправлення параметрів програми (Issue #208)",
-				"zh-cn": "自动发送程序选项的数据点( 问题 # 208)"
 			}
 		},
 		"titleLang": {

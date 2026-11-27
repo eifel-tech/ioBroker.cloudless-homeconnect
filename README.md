@@ -27,8 +27,7 @@ Adapter for Homeconnect devices without cloud communication
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.7.2 (2026-11-27)
 
 - (eifel-tech) Flag for selecting program without starting it
 
@@ -47,10 +46,6 @@ Adapter for Homeconnect devices without cloud communication
 ### 1.6.3 (2025-09-15)
 
 - (eifel-tech) Try to replace access=none in some options (Issue #333)
-
-### 1.6.2 (2025-05-28)
-
-- (eifel-tech) Dependency updates and node-version >= 20
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 
