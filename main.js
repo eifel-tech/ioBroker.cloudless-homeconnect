@@ -206,6 +206,20 @@ class CloudlessHomeconnect extends utils.Adapter {
 				native: {},
 			});
 
+			//DP zum Einstellen, ob für das Gerät nur das Auswählen von Programmen möglich sein soll, ohne dass diese direkt gestartet werden.
+			await this.setObjectNotExistsAsync(id + ".sendSelectedProgramWithoutStart", {
+				type: "state",
+				common: {
+					type: "boolean",
+					role: "switch",
+					name: "Send selected program without starting it",
+					write: true,
+					read: true,
+					def: false,
+				},
+				native: {},
+			});
+
 			//Generelles
 			await this.setObjectNotExistsAsync(id + ".General", {
 				type: "channel",
@@ -532,6 +546,10 @@ class CloudlessHomeconnect extends utils.Adapter {
 		});
 	}
 
+	sendSelectProgram(device, data) {
+		device.send("/ro/selectedProgram", 1, "POST", data);
+	}
+
 	/**
 	 *
 	 * @param {ioBroker.Object|null|undefined} powerStateObj
@@ -665,8 +683,17 @@ class CloudlessHomeconnect extends utils.Adapter {
 					//Programme haben u.U. Optionen, die auch übertragen werden müssen
 					data.program = uid;
 
+					const isOnlySendSelectedProgram = await this.getStateAsync(
+						devId + ".sendSelectedProgramWithoutStart",
+					);
+					if (isOnlySendSelectedProgram && isOnlySendSelectedProgram.val) {
+						data.options = [];
+						this.sendSelectProgram(device, data);
+						return;
+					}
+
 					if (device.isSendSelectedProgram) {
-						device.send("/ro/selectedProgram", 1, "POST", data);
+						this.sendSelectProgram(device, data);
 					}
 
 					const options = await this.getStatesAsync(oid.substring(0, oid.lastIndexOf(".")) + ".*");
